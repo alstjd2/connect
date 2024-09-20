@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.svy.dao.SvyAnsListMapper">
+	<resultMap id="svyAnsList" type="kr.or.ddit.vo.SvyAnsListVO">
+	    <id column="SVY_NO" jdbcType="NUMERIC" property="svyNo" />
+	    <id column="SVY_ANS_NO" jdbcType="NUMERIC" property="svyAnsNo" />
+	    <id column="CLS_NO" jdbcType="NUMERIC" property="clsNo" />
+	    <association property="svyAns" javaType="kr.or.ddit.vo.SvyAnsVO" autoMapping="true"/>
+	    <association property="cls" javaType="kr.or.ddit.vo.ClsVO" autoMapping="true"/>
+	 </resultMap>
+
+	<select id="selectSvyAnsTotalList" resultMap="svyAnsList">
+	SELECT 
+		SVY_NO
+		, SVY_ANS_NO
+		, CLS_NO
+    FROM SVY_ANS_LIST
+	</select>
+	
+
+	
+	<insert id="insertSvyAnsList" parameterType="kr.or.ddit.vo.SvyAnsListVO" >
+	<selectKey order="BEFORE" resultType="int" keyProperty="svyNo">
+		SELECT SVYANSLIST_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO SVY_ANS_LIST 
+		(
+			SVY_NO
+			, SVY_ANS_NO
+			, CLS_NO
+	      )
+	    values (#{svyNo,jdbcType=NUMERIC}
+		    , #{svyAnsNo,jdbcType=NUMERIC}
+		    , #{clsNo,jdbcType=NUMERIC}
+	      )
+	</insert>
+	
+	<update id="updateSvyAnsList" parameterType="kr.or.ddit.vo.SvyAnsListVO">
+		UPDATE SVY_ANS_LIST
+			SET SVY_NO = #{svyNo,jdbcType=NUMERIC}
+			, SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+			, CLS_NO = #{clsNo,jdbcType=NUMERIC}
+		 WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		      and SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+		      and CLS_NO = #{clsNo,jdbcType=NUMERIC} 	
+		
+	</update>
+
+	<delete id="deleteSvyAnsList">
+		DELETE	 FROM 
+		 SVY_ANS_LIST
+	    WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+	      and SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+	      and CLS_NO = #{clsNo,jdbcType=NUMERIC}
+	</delete>
+	
+</mapper>

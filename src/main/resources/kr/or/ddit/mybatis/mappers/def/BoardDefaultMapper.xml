@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.BoardDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.BoardDefaultVO">
+    <id column="BOARD_NO" jdbcType="NUMERIC" property="boardNo" />
+    <id column="MEM_NO" jdbcType="NUMERIC" property="memNo" />
+    <result column="BOARD_TITLE" jdbcType="VARCHAR" property="boardTitle" />
+    <result column="BOARD_CONTENT" jdbcType="VARCHAR" property="boardContent" />
+    <result column="BOARD_ATTACHFILE" jdbcType="NUMERIC" property="boardAttachfile" />
+    <result column="BOARD_DATE" jdbcType="TIMESTAMP" property="boardDate" />
+    <result column="BOARD_DELYN" jdbcType="VARCHAR" property="boardDelyn" />
+    <result column="BOARD_TYPE" jdbcType="VARCHAR" property="boardType" />
+    <result column="BOARD_GUIDE_TYPE" jdbcType="VARCHAR" property="boardGuideType" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from BOARD
+    where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+      and MEM_NO = #{memNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.BoardDefaultVO">
+    insert into BOARD (BOARD_NO, MEM_NO, BOARD_TITLE, 
+      BOARD_CONTENT, BOARD_ATTACHFILE, BOARD_DATE, 
+      BOARD_DELYN, BOARD_TYPE, BOARD_GUIDE_TYPE
+      )
+    values (#{boardNo,jdbcType=NUMERIC}, #{memNo,jdbcType=NUMERIC}, #{boardTitle,jdbcType=VARCHAR}, 
+      #{boardContent,jdbcType=VARCHAR}, #{boardAttachfile,jdbcType=NUMERIC}, #{boardDate,jdbcType=TIMESTAMP}, 
+      #{boardDelyn,jdbcType=VARCHAR}, #{boardType,jdbcType=VARCHAR}, #{boardGuideType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.BoardDefaultVO">
+    update BOARD
+    set BOARD_TITLE = #{boardTitle,jdbcType=VARCHAR},
+      BOARD_CONTENT = #{boardContent,jdbcType=VARCHAR},
+      BOARD_ATTACHFILE = #{boardAttachfile,jdbcType=NUMERIC},
+      BOARD_DATE = #{boardDate,jdbcType=TIMESTAMP},
+      BOARD_DELYN = #{boardDelyn,jdbcType=VARCHAR},
+      BOARD_TYPE = #{boardType,jdbcType=VARCHAR},
+      BOARD_GUIDE_TYPE = #{boardGuideType,jdbcType=VARCHAR}
+    where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+      and MEM_NO = #{memNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select BOARD_NO, MEM_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_ATTACHFILE, BOARD_DATE, 
+    BOARD_DELYN, BOARD_TYPE, BOARD_GUIDE_TYPE
+    from BOARD
+    where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+      and MEM_NO = #{memNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select BOARD_NO, MEM_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_ATTACHFILE, BOARD_DATE, 
+    BOARD_DELYN, BOARD_TYPE, BOARD_GUIDE_TYPE
+    from BOARD
+  </select>
+</mapper>

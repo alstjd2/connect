@@ -1,0 +1,518 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jkanban/jkanban.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/fullcalendar/fullcalendar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/typography.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-addr.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-chat.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-calendar.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-kanban.css" />
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="assets\img\branding\symbol.png" alt="symbol">
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            connect
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-user'></i>
+                            <div class="text-truncate" data-i18n="개인정보">개인정보</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="myInfo-modify.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="정보수정">정보수정</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="휴가관리">휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태현황">근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="부서 근태">부서 근태</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="department-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 휴가관리">부서 휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="department-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 근태현황">부서 근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-spreadsheet'></i>
+                            <div class="text-truncate" data-i18n="문서결재">문서결재</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div class="  text-truncate" data-i18n="결재문서">결재문서</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="대기">대기</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="예정">예정</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="처리">처리</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="완료">완료</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="전체">전체</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-new.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서생성">문서생성</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-ref.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="참조문서">참조문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-receive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="수신문서">수신문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-storage.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="임시보관">임시보관</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="addressBook.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bxs-user-detail'></i>
+                            <div class="text-truncate" data-i18n="주소록">주소록</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="mail.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-envelope'></i>
+                            <div class="text-truncate" data-i18n="메일">메일</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="message.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-chat'></i>
+                            <div class="text-truncate" data-i18n="메시지">메시지</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="board.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-clipboard'></i>
+                            <div class="text-truncate" data-i18n="게시판">게시판</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-calendar-check'></i>
+                            <div class="text-truncate" data-i18n="일정관리">일정관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더">캘린더</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="일정">일정</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="survey.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-message-square-check'></i>
+                            <div class="text-truncate" data-i18n="설문">설문</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="webCam.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx bx-camera-home'></i>
+                            <div class="text-truncate" data-i18n="화상회의">화상회의</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="drive.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-cloud-upload'></i>
+                            <div class="text-truncate" data-i18n="드라이브">드라이브</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="bell.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-bell'></i>
+                            <div class="text-truncate" data-i18n="알림">알림설정</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-md"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <i class="bx bx-md"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-start dropdown-styles">
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                                            <span><i class="bx bx-sun bx-md me-3"></i>Light</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                                            <span><i class="bx bx-moon bx-md me-3"></i>Dark</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                                            <span><i class="bx bx-desktop bx-md me-3"></i>System</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">John Doe</h6>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"> <i
+                                                class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <span class="d-flex align-items-center align-middle">
+                                                <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i><span
+                                                    class="flex-grow-1 align-middle ms-1">Billing Plan</span>
+                                                <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="app-kanban">
+                        <div class="card">
+                            <h5 class="card-header">화상회의선택</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    
+                                    
+
+                                    <div class="card text-center mb-4">
+                                        <div class="card-header">
+                                            <div class="nav-align-top">
+                                                <ul class="nav nav-pills justify-content-center" role="tablist">
+                                                    <li class="nav-item col col-md-4" role="presentation">
+                                                        <div class="col-md mb-md-0 mb-5 active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-within-card-active" aria-controls="navs-pills-within-card-active" aria-selected="true">
+                                                            <div class="form-check custom-option custom-option-icon checked">
+                                                                <label class="form-check-label custom-option-content" for="customRadioIcon2">
+                                                                    <span class="custom-option-body">
+                                                                        <i class='bx bx-video-plus'></i>
+                                                                        <span class="custom-option-title"> 회의생성 </span>
+                                                                        <small> HOST </small>
+                                                                    </span>
+                                                                    <input name="customOptionRadioIcon" class="form-check-input" checked="" type="radio" value="" id="customRadioIcon2">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="nav-item col col-md-4" role="presentation">
+                                                        <div class="col-md"  role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-within-card-link" aria-controls="navs-pills-within-card-link" aria-selected="false" tabindex="-1">
+                                                            <div class="form-check custom-option custom-option-icon">
+                                                                <label class="form-check-label custom-option-content"
+                                                                    for="customRadioIcon3">
+                                                                    <span class="custom-option-body">
+                                                                        <i class='bx bx-log-in-circle'></i>
+                                                                        <span class="custom-option-title"> 회의입장 </span>
+                                                                        <small>CLIENT</small>
+                                                                    </span>
+                                                                    <input name="customOptionRadioIcon" class="form-check-input" type="radio" value="" id="customRadioIcon3">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="tab-content py-10">
+                                                <div class="tab-pane fade show py-10 active" id="navs-pills-within-card-active" role="tabpanel">
+                                                    <div class="d-flex align-items-center justify-content-center ">
+                                                        <form class="w-px-400 border rounded p-3 p-md-5">
+                                                            <h3 class="mb-6">회의생성</h3>
+                                        
+                                                            <div class="mb-6 text-start">
+                                                                <label class="form-label" for="form-alignment-username">회의ID</label>
+                                                                <input type="text" id="form-alignment-username" class="form-control" placeholder="john.doe">
+                                                            </div>
+                                        
+                                                            <div class="mb-6 text-start form-password-toggle">
+                                                                <label class="form-label" for="form-alignment-password">회의Password</label>
+                                                                <div class="input-group input-group-merge">
+                                                                <input type="password" id="form-alignment-password" class="form-control" placeholder="············" aria-describedby="form-alignment-password2">
+                                                                <span class="input-group-text cursor-pointer" id="form-alignment-password2"><i class="bx bx-hide"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-grid gap-2">
+                                                                <button type="submit" class="btn btn-primary">Login</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade py-10" id="navs-pills-within-card-link" role="tabpanel">
+                                                    <div class="d-flex align-items-center justify-content-center ">
+                                                        <form class="w-px-400 border rounded p-3 p-md-5">
+                                                            <h3 class="mb-6">회의입장</h3>
+                                        
+                                                            <div class="mb-6 text-start">
+                                                                <label class="form-label" for="form-alignment-username">회의ID</label>
+                                                                <input type="text" id="form-alignment-username" class="form-control" placeholder="john.doe">
+                                                            </div>
+                                        
+                                                            <div class="mb-6 text-start form-password-toggle">
+                                                                <label class="form-label" for="form-alignment-password">회의Password</label>
+                                                                <div class="input-group input-group-merge">
+                                                                <input type="password" id="form-alignment-password" class="form-control" placeholder="············" aria-describedby="form-alignment-password2">
+                                                                <span class="input-group-text cursor-pointer" id="form-alignment-password2"><i class="bx bx-hide"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-grid gap-2">
+                                                                <button type="submit" class="btn btn-primary">Login</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--/ Content -->
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+    <script defer src="assets/js/app-kanban.js"></script>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/jkanban/jkanban.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/fullcalendar/fullcalendar.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/locale/ko.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+    <script src="assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

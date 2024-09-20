@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.company.dao.CompanyMapper">
+<!--   <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.CompanyDefaultVO"> -->
+<!--     <id column="COM_NO" jdbcType="NUMERIC" property="comNo" /> -->
+<!--     <result column="MEM_NO" jdbcType="NUMERIC" property="memNo" /> -->
+<!--     <result column="COM_NM" jdbcType="VARCHAR" property="comNm" /> -->
+<!--     <result column="COM_BSNM" jdbcType="VARCHAR" property="comBsnm" /> -->
+<!--     <result column="COM_BSNO" jdbcType="VARCHAR" property="comBsno" /> -->
+<!--     <result column="COM_ADR" jdbcType="VARCHAR" property="comAdr" /> -->
+<!--     <result column="COM_TEL" jdbcType="VARCHAR" property="comTel" /> -->
+<!--     <result column="COM_CLOGO" jdbcType="NUMERIC" property="comClogo" /> -->
+<!--     <result column="COM_WLOGO" jdbcType="NUMERIC" property="comWlogo" /> -->
+<!--     <result column="COM_FAVICON" jdbcType="NUMERIC" property="comFavicon" /> -->
+<!--     <result column="COM_OG" jdbcType="NUMERIC" property="comOg" /> -->
+<!--     <result column="COM_CORNO" jdbcType="NUMERIC" property="comCorno" /> -->
+<!--     <result column="COM_GU" jdbcType="VARCHAR" property="comGu" /> -->
+<!--     <result column="COM_SAPR" jdbcType="NUMERIC" property="comSapr" /> -->
+<!--   </resultMap> -->
+
+
+
+<resultMap type="CompanyVO" id="companymap" autoMapping="true">
+		<id property="comNo" column="COM_NO" />
+		<association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+        	<collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" />
+        </association>
+</resultMap>
+
+	<resultMap id="companyWithProfileMap" type="CompanyVO" autoMapping="true">
+	  <id property="comNo" column="COM_NO" />
+	  <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+	</resultMap>
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	  <result column="COM_CLOGO_STRE_FILE_NM"  property="comClogoStrefileNm" />
+    <result column="COM_FAVICON_STRE_FILE_NM" property="comFaviconStreFileNm" />
+	</resultMap>
+
+
+<resultMap id="companyInfoMap" type="CompanyVO" autoMapping="true">
+    <id property="comNo" column="COM_NO" />
+    <result property="comNm" column="COM_NM" />
+    <result property="COMPANY_NO" column="COMPANY_NO" />
+    <result property="COMPANY_NO" column="COMPANY_NO" />
+    <result column="COM_NM" jdbcType="VARCHAR" property="comNm" />
+    <result column="COM_CLOGO" jdbcType="NUMERIC" property="comClogo" />
+    <result column="COM_WLOGO" jdbcType="NUMERIC" property="comWlogo" />
+    <result column="COM_FAVICON" jdbcType="NUMERIC" property="comFavicon" />
+    <result column="COM_OG" jdbcType="NUMERIC" property="comOg" />
+    <result column="COM_CORNO" jdbcType="NUMERIC" property="comCorno" />
+
+
+    <!-- AtchFile Association -->
+    <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+</resultMap>
+
+
+
+  <update id="deleteCompany" parameterType="int">
+    UPDATE COMPANY SET COM_DELYN = 'Y'
+    WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <insert id="insertCompany" parameterType="CompanyVO">
+    INSERT INTO COMPANY (
+    COM_NO
+    , MEM_NO
+    , COM_NM
+    , COM_BSNM
+    , COM_BSNO
+    , COM_ADR
+    , COM_TEL
+    , COM_CLOGO
+    , COM_WLOGO
+    , COM_FAVICON
+    , COM_OG
+    , COM_CORNO
+    , COM_GU
+    , COM_SAPR
+    , COM_DELYN
+    , COM_DATE
+	) VALUES (
+	(SELECT MAX(COM_NO)+1
+	 FROM COMPANY)
+	, #{memNo, jdbcType=NUMERIC}
+	, #{comNm, jdbcType=VARCHAR}
+	, #{comBsnm, jdbcType=VARCHAR}
+	, #{comBsno, jdbcType=VARCHAR}
+	, #{comAdr, jdbcType=VARCHAR}
+	, #{comTel, jdbcType=VARCHAR}
+	, #{comClogo, jdbcType=NUMERIC}
+	, #{comWlogo, jdbcType=NUMERIC}
+	, #{comFavicon, jdbcType=NUMERIC}
+	, #{comOg, jdbcType=NUMERIC}
+	, #{comCorno, jdbcType=NUMERIC}
+	, #{comGu, jdbcType=VARCHAR}
+	, #{comSapr, jdbcType=NUMERIC}
+	, 'N'
+	, SYSDATE
+	)
+  </insert>
+
+  <update id="updateCompany" parameterType="CompanyVO">
+    UPDATE
+    	COMPANY
+    SET
+		COM_NM = #{comNm,jdbcType=VARCHAR}
+		, COM_BSNM = #{comBsnm,jdbcType=VARCHAR}
+		, COM_BSNO = #{comBsno,jdbcType=VARCHAR}
+		, COM_ADR = #{comAdr,jdbcType=VARCHAR}
+		, COM_TEL = #{comTel,jdbcType=VARCHAR}
+		, COM_CLOGO = #{comClogo,jdbcType=NUMERIC}
+		, COM_WLOGO = #{comWlogo,jdbcType=NUMERIC}
+		, COM_FAVICON = #{comFavicon,jdbcType=NUMERIC}
+		, COM_OG = #{comOg,jdbcType=NUMERIC}
+		, COM_CORNO = #{comCorno,jdbcType=NUMERIC}
+		, COM_GU = #{comGu,jdbcType=VARCHAR}
+		, COM_SAPR = #{comSapr,jdbcType=NUMERIC}
+    WHERE
+    	COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateCompanyInfo" parameterType="CompanyVO">
+    UPDATE
+    	COMPANY
+    SET
+		COM_NM = #{comNm,jdbcType=VARCHAR}
+		, COM_BSNM = #{comBsnm,jdbcType=VARCHAR}
+		, COM_BSNO = #{comBsno,jdbcType=VARCHAR}
+		, COM_ADR = #{comAdr,jdbcType=VARCHAR}
+		, COM_TEL = #{comTel,jdbcType=VARCHAR}
+    WHERE
+    	COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateCompanyBrand" parameterType="CompanyVO">
+		UPDATE COMPANY
+	    SET
+	    <if test="comClogo != null and comClogo != 0">
+	        COM_CLOGO = #{comClogo,jdbcType=NUMERIC},
+	    </if>
+	    <if test="comFavicon != null and comFavicon != 0">
+	        COM_FAVICON = #{comFavicon,jdbcType=NUMERIC},
+	    </if>
+	        COM_CORNO = #{comCorno,jdbcType=NUMERIC}
+	    WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateCompanyLayout" parameterType="CompanyVO">
+		UPDATE COMPANY
+	    SET
+	        COM_OG = #{comOg,jdbcType=NUMERIC}
+	    WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateCompanyTheme" parameterType="CompanyVO">
+		UPDATE COMPANY
+	    SET
+	        COM_WLOGO = #{comWlogo,jdbcType=NUMERIC}
+	    WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+
+  <select id="selectCompany" parameterType="int" resultType="CompanyVO">
+    SELECT
+	  COM_NO
+	  , MEM_NO
+	  , COM_NM
+	  , COM_BSNM
+	  , COM_BSNO
+	  , COM_ADR
+	  , COM_TEL
+	  , COM_CLOGO
+	  , COM_WLOGO
+	  , COM_FAVICON
+	  , COM_OG
+	  , COM_CORNO
+	  , COM_GU
+	  , COM_SAPR
+	  , COM_DELYN
+	  , COM_DATE
+	FROM
+	    COMPANY
+	WHERE
+		COM_NO = #{comNo} AND COM_DELYN = 'N'
+  </select>
+
+
+
+
+  <select id="selectCompanyInfo" parameterType="int" resultMap="companyInfoMap">
+
+		SELECT
+    C.COM_NO,
+    C.COM_NM,
+    C.COM_BSNM,
+	C.COM_BSNO,
+	C.COM_ADR,
+	C.COM_TEL,
+    C.COM_CLOGO,
+    C.COM_WLOGO,
+    C.COM_FAVICON,
+    C.COM_OG,
+    C.COM_CORNO,
+    C.COM_GU,
+    C.COM_SAPR,
+    C.COM_DELYN,
+    C.COM_DATE,
+    AF_CLOGO.ATCH_FILE_ID AS COM_CLOGO_ID,
+    AF_CLOGO.CREATE_DT AS COM_CLOGO_CREATE_DT,
+    AF_CLOGO.USE_AT AS COM_CLOGO_USE_AT,
+    AFD_CLOGO.FILE_SN AS COM_CLOGO_FILE_SN,
+    AFD_CLOGO.FILE_STRE_COURS AS COM_CLOGO_FILE_STRE_COURS,
+    AFD_CLOGO.STRE_FILE_NM AS COM_CLOGO_STRE_FILE_NM,
+    AFD_CLOGO.ORIGNL_FILE_NM AS COM_CLOGO_ORIGNL_FILE_NM,
+    AFD_CLOGO.FILE_EXTSN AS COM_CLOGO_FILE_EXTSN,
+    AFD_CLOGO.FILE_MIME AS COM_CLOGO_FILE_MIME,
+    AFD_CLOGO.FILE_SIZE AS COM_CLOGO_FILE_SIZE,
+    AFD_CLOGO.FILE_FANCYSIZE AS COM_CLOGO_FILE_FANCYSIZE,
+    AFD_CLOGO.FILE_CN AS COM_CLOGO_FILE_CN,
+    AFD_CLOGO.FILE_DWNCNT AS COM_CLOGO_FILE_DWNCNT,
+    AF_FAVICON.ATCH_FILE_ID AS COM_FAVICON_ID,
+    AF_FAVICON.CREATE_DT AS COM_FAVICON_CREATE_DT,
+    AF_FAVICON.USE_AT AS COM_FAVICON_USE_AT,
+    AFD_FAVICON.FILE_SN AS COM_FAVICON_FILE_SN,
+    AFD_FAVICON.FILE_STRE_COURS AS COM_FAVICON_FILE_STRE_COURS,
+    AFD_FAVICON.STRE_FILE_NM AS COM_FAVICON_STRE_FILE_NM,
+    AFD_FAVICON.ORIGNL_FILE_NM AS COM_FAVICON_ORIGNL_FILE_NM,
+    AFD_FAVICON.FILE_EXTSN AS COM_FAVICON_FILE_EXTSN,
+    AFD_FAVICON.FILE_MIME AS COM_FAVICON_FILE_MIME,
+    AFD_FAVICON.FILE_SIZE AS COM_FAVICON_FILE_SIZE,
+    AFD_FAVICON.FILE_FANCYSIZE AS COM_FAVICON_FILE_FANCYSIZE,
+    AFD_FAVICON.FILE_CN AS COM_FAVICON_FILE_CN,
+    AFD_FAVICON.FILE_DWNCNT AS COM_FAVICON_FILE_DWNCNT
+FROM
+    COMPANY C
+LEFT JOIN
+    ATCH_FILE AF_CLOGO ON C.COM_CLOGO = AF_CLOGO.ATCH_FILE_ID
+LEFT JOIN
+    ATCH_FILE_DETAIL AFD_CLOGO ON AF_CLOGO.ATCH_FILE_ID = AFD_CLOGO.ATCH_FILE_ID
+LEFT JOIN
+    ATCH_FILE AF_FAVICON ON C.COM_FAVICON = AF_FAVICON.ATCH_FILE_ID
+LEFT JOIN
+    ATCH_FILE_DETAIL AFD_FAVICON ON AF_FAVICON.ATCH_FILE_ID = AFD_FAVICON.ATCH_FILE_ID
+WHERE
+    C.COM_NO = #{comNo} AND C.COM_DELYN = 'N'
+
+</select>
+
+
+  <select id="selectCompanyList" resultType="CompanyVO">
+    SELECT
+	  COM_NO
+	  , MEM_NO
+	  , COM_NM
+	  , COM_BSNM
+	  , COM_BSNO
+	  , COM_ADR
+	  , COM_TEL
+	  , COM_CLOGO
+	  , COM_WLOGO
+	  , COM_FAVICON
+	  , COM_OG
+	  , COM_CORNO
+	  , COM_GU
+	  , COM_SAPR
+	  , COM_DELYN
+	FROM
+	    COMPANY
+  </select>
+
+  <select id="selectRoomList" resultType="CompanyVO">
+	  SELECT
+	    COM_NM
+	    , ROOM_NO
+	    , ROOM_NM
+	    , ROOM_LOC
+	    , ROOM_EMPMAX
+	FROM COMPANY LEFT OUTER JOIN ROOM ON  (COMPANY.COM_NO = ROOM.COM_NO)
+	WHERE COM_NM = {comNM};
+
+  </select>
+
+	<select id="selectCntCom" resultType="CompanyVO">
+		SELECT
+			 COUNT(COM_DELYN) CNT_COM
+		FROM
+			COMPANY
+		GROUP BY
+			COM_DELYN
+	</select>
+
+	<select id="selectCntUseCom" resultType="CompanyVO">
+		SELECT
+			 COUNT(COM_DELYN) CNT_COM
+		FROM
+			COMPANY
+		WHERE COM_DELYN LIKE 'N' OR COM_DELYN LIKE 'n'
+		GROUP BY
+			COM_DELYN
+	</select>
+
+	<select id="selectComNo" resultType="int">
+		SELECT COM_NO
+		FROM COMPANY
+		WHERE MEM_NO = #{empNo}
+	</select>
+
+</mapper>

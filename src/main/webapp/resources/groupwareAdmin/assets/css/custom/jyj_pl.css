@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+
+.dcmPage .table th {
+    background-color: rgb(219, 222, 224) !important;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    border-color: rgb(197, 201, 205);
+}
+.dcmPage .table :is(th,td) {
+    word-break: keep-all;
+}
+
+
+.swal2-modal {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.swal2-modal.swal2-popup .swal2-icon{
+	margin-top:10px;
+}
+:where(.light-style, .dark-style ) .swal2-modal.swal2-popup .swal2-title {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 900;
+    margin-bottom: 0;
+    margin-top:0;
+}
+
+.act-arrow {
+    transform: rotate(180deg);
+    right: 20%;
+    top: 20px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+a:hover .act-arrow {
+    right: 20px;
+    opacity: 1;
+}
+
+#app-addr{
+	height: 83vh !important;
+    overflow-y: auto;
+}
+#app-addr > .row{
+	flex-wrap: nowrap !important;
+    height: 100%;
+}
+
+#app-addr.layout-act{
+	overflow-y: hidden;
+}
+
+.card-datatable .rounded-pill.btn-sm{
+	padding: 1px 4px;
+}
+
+.surber div.dataTables_wrapper .dataTables_filter#example_filter,
+.surber div.dataTables_wrapper .dataTables_filter#example_filter *{
+	margin:0;
+	height: 100%;
+}
+
+/* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999999;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.preloader-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.preloader-icon {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    padding: 0px;
+}
+
+.preloader-icon span {
+    position: absolute;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background: #16a6df;
+    -webkit-animation: preloader-fx 1.6s linear infinite;
+    animation: preloader-fx 1.6s linear infinite;
+}
+
+.preloader-icon span:last-child {
+    animation-delay: -0.8s;
+    -webkit-animation-delay: -0.8s;
+}
+
+@keyframes preloader-fx {
+    0% {
+        -webkit-transform: scale(0, 0);
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes preloader-fx {
+    0% {
+        -webkit-transform: scale(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        -webkit-transform: scale(1, 1);
+        opacity: 0;
+    }
+}

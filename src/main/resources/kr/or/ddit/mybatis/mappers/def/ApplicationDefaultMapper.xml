@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ApplicationDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ApplicationDefaultVO">
+    <id column="APP_NO" jdbcType="NUMERIC" property="appNo" />
+    <id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <id column="VACI_NO" jdbcType="NUMERIC" property="vaciNo" />
+    <result column="APP_STRDATE" jdbcType="TIMESTAMP" property="appStrdate" />
+    <result column="APP_ENDDATE" jdbcType="TIMESTAMP" property="appEnddate" />
+    <result column="APP_TEMEMP" jdbcType="NUMERIC" property="appTememp" />
+    <result column="APP_DETAIL" jdbcType="VARCHAR" property="appDetail" />
+    <result column="APP_DEP" jdbcType="VARCHAR" property="appDep" />
+    <result column="APP_DATE" jdbcType="TIMESTAMP" property="appDate" />
+    <result column="APP_ROVEMP" jdbcType="NUMERIC" property="appRovemp" />
+    <result column="APP_STATE" jdbcType="VARCHAR" property="appState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from APPLICATION
+    where APP_NO = #{appNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ApplicationDefaultVO">
+    insert into APPLICATION (APP_NO, EMP_NO, VACI_NO, 
+      APP_STRDATE, APP_ENDDATE, APP_TEMEMP, 
+      APP_DETAIL, APP_DEP, APP_DATE, 
+      APP_ROVEMP, APP_STATE)
+    values (#{appNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{vaciNo,jdbcType=NUMERIC}, 
+      #{appStrdate,jdbcType=TIMESTAMP}, #{appEnddate,jdbcType=TIMESTAMP}, #{appTememp,jdbcType=NUMERIC}, 
+      #{appDetail,jdbcType=VARCHAR}, #{appDep,jdbcType=VARCHAR}, #{appDate,jdbcType=TIMESTAMP}, 
+      #{appRovemp,jdbcType=NUMERIC}, #{appState,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ApplicationDefaultVO">
+    update APPLICATION
+    set APP_STRDATE = #{appStrdate,jdbcType=TIMESTAMP},
+      APP_ENDDATE = #{appEnddate,jdbcType=TIMESTAMP},
+      APP_TEMEMP = #{appTememp,jdbcType=NUMERIC},
+      APP_DETAIL = #{appDetail,jdbcType=VARCHAR},
+      APP_DEP = #{appDep,jdbcType=VARCHAR},
+      APP_DATE = #{appDate,jdbcType=TIMESTAMP},
+      APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC},
+      APP_STATE = #{appState,jdbcType=VARCHAR}
+    where APP_NO = #{appNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select APP_NO, EMP_NO, VACI_NO, APP_STRDATE, APP_ENDDATE, APP_TEMEMP, APP_DETAIL, 
+    APP_DEP, APP_DATE, APP_ROVEMP, APP_STATE
+    from APPLICATION
+    where APP_NO = #{appNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select APP_NO, EMP_NO, VACI_NO, APP_STRDATE, APP_ENDDATE, APP_TEMEMP, APP_DETAIL, 
+    APP_DEP, APP_DATE, APP_ROVEMP, APP_STATE
+    from APPLICATION
+  </select>
+</mapper>

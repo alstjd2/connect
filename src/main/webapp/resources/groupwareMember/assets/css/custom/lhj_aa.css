@@ -1,0 +1,4 @@
+@charset "UTF-8";
+
+span{word-break: keep-all;}
+.app-addr-sidebar-right .sidebar-header h5~span{ text-align: center;}

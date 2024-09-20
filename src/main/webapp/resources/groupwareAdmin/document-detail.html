@@ -1,0 +1,692 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" type="text/css" href="assets/vendor/css/rtl/theme-semi-dark.css">
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+
+
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo fs-2 fw-bold">
+                            A
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            Admin
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="company.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-buildings'></i>
+                            <div class="text-truncate" data-i18n="기업관리">기업관리</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="인사관리">인사관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="personnel-organization.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="조직관리">조직관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-employee.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="직원관리">직원관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-certificate.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="증명서관리">증명서관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-transfer-alt'></i>
+                            <div class="text-truncate" data-i18n="근태관리">근태관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="attendance-time.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태 시간 현황">근태 시간 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 일정 조회">부재 일정 조회</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-application.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 신청 현황">부재 신청 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-category.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 항목 관리">부재 항목 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-file'></i>
+                            <div class="text-truncate" data-i18n="문서관리">문서관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="document-number.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서 번호 관리">문서 번호 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-list.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="전체 문서함">전체 문서함</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-customize'></i>
+                            <div class="text-truncate" data-i18n="서비스관리">서비스관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="mail.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메일 관리">메일 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="message.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">메시지 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더 관리">캘린더 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="board.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 관리">게시판 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="survey.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="설문 관리">설문 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="drive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 관리">드라이브 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-doughnut-chart'></i>
+                            <div class="text-truncate" data-i18n="사용통계">사용통계</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 사용용량">드라이브 사용용량</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">구성원 증감 추세</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="보낸 메일 수">보낸 메일 수</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 사용현황">게시판 사용현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="회의 진행 통계">회의 진행 통계</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row invoice-preview">
+                            <!-- Invoice -->
+                            <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-6">
+                                <div class="card invoice-preview-card p-sm-12 p-6">
+                                    <h3 class="text-center fw-bold pt-10 pb-5">휴가 신청서</h3>
+                                    <div class="row justify-content-between mb-3 g-2">
+                                        <div class="col-lg-3">
+                                            <table class="table">
+                                                <tr class="table-light">
+                                                    <th rowspan="2">수신자</th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        대기
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <table class="table">
+                                                <tr class="table-light">
+                                                    <th rowspan="2">결재선</th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <b>과장</b> <span>이승진</span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        대기
+                                                    </td>
+                                                    <td class="text-center">
+                                                        
+                                                    </td>
+                                                    <td class="text-center">
+                                                        
+                                                    </td>
+                                                    <td class="text-center">
+                                                        
+                                                    </td>
+                                                    <td class="text-center">
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-0 py-1">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-md-12 col-sm-7 col-12 ">
+                                                <table class="w-100 table">
+                                                    <tbody class="border-top">
+                                                        <tr class="border-bottom py-3 ">
+                                                            <td class="px-4 fw-bold text-center table-light" rowspan="2" style="width: 120px;">
+                                                                기간
+                                                            </td>
+                                                            <td >2024-07-18</td>
+                                                        </tr>
+                                                        <tr class="border-bottom py-3">
+                                                            <td >2024-07-22</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-xl-6 col-md-12 col-sm-7 col-12 ">
+                                                <table class="w-100 table">
+                                                    <tbody class="border-top">
+                                                        <tr class="border-bottom py-3">
+                                                            <td class="px-4 fw-bold text-center table-light w-120p">사원명</td>
+                                                            <td >이한별</td>
+                                                        </tr>
+                                                        <tr class="border-bottom py-3">
+                                                            <td class="px-4 fw-bold text-center table-light w-120p">소속/직책</td>
+                                                            <td >개발1팀/대리</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-0 py-1">
+                                        <table class="w-100 table content">
+                                            <tbody class="border-top">
+                                                <tr class="border-bottom py-3">
+                                                    <td  class="px-4 fw-bold text-center table-light w-120p">
+                                                        사원명
+                                                    </td>
+                                                    <td >개인사유로 인한 휴가 신청</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-body px-0 py-1">
+                                        <table class="w-100 table">
+                                            <tbody class="border-top">
+                                                <tr class="border-bottom py-3">
+                                                    <td class="px-4 fw-bold text-center table-light w-120p">업무대행자</td>
+                                                    <td >오병준</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table m-0 table-borderless">
+                                            <tbody>
+                                            <tr>
+                                                <td class="align-top pe-6 ps-0 py-6 text-body">
+                                                    <p class=" p-0 m-0">위와 같이 휴가를 신청합니다.</p>
+                                                </td>
+                                                <td class="px-0 py-6 w-px-100">
+                                                    <p class="mb-2">신청일자 :</p>
+                                                    <p class="mb-2">신청자 :</p>
+                                                </td>
+                                                <td class="text-end ps-0 py-6 w-px-120 fw-medium text-heading">
+                                                    <p class="fw-medium mb-2">2024-07-16</p>
+                                                    <p class="fw-medium mb-2">
+                                                        이한별 
+                                                        <span class="stamp">
+                                                            (인)
+                                                            <img src="assets/img/stamp/sample-1.png" alt="이한별 도장">
+                                                        </span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div class="card-body invoice-preview-header rounded">
+                                        <div class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column align-items-xl-start align-items-md-start align-items-sm-center align-items-start">
+                                            <div>
+                                                <div class="d-flex svg-illustration mb-6 gap-2 align-items-center">
+                                                    <span class="app-brand-logo demo">
+                                                        <img src="assets\img\branding\symbol.png" alt="symbol">
+                                                    </span>
+                                                    <span class="app-brand-text demo fw-bold ms-50 lh-1">connect</span>
+                                                </div>
+                                                <p class="mb-0">
+                                                    <span class="pe-2">대표이사 </span>
+                                                    <b>이민호</b>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <span class="pe-2">사업자등록번호 </span>
+                                                    <b>365-123-45678</b>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <span class="pe-2">주소</span> 
+                                                    <b>대전광역시 중구 계룡로 846 3층</b>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <span class="pe-2">전화번호</span>
+                                                    <b>042-222-8202</b>
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-6">
+                                                    <span class="pe-2">
+                                                        문서번호
+                                                    </span>
+                                                    <span>md-ddit-000001</span>
+                                                </h6>
+                                                <div>
+                                                    <span class="pe-2">
+                                                        최종결재자
+                                                    </span>
+                                                    <b>
+                                                        이승진 
+                                                        <span class="stamp">
+                                                            (인)
+                                                            <img src="assets/img/stamp/sample-2.png" alt="이승진 도장">
+                                                        </span>
+                                                    </b>
+                                                </div>
+                                                <div>
+                                                    <span class="pe-2">
+                                                        소속/직책
+                                                    </span>
+                                                    <b>
+                                                        개발부/과장
+                                                    </b>
+                                                </div>
+                                                <div>
+                                                    <span class="pe-2">
+                                                        최종결재일자
+                                                    </span>
+                                                    <b>
+                                                        2024-07-16
+                                                    </b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="mt-0 mb-6" />
+                                    <div class="card-body p-0">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="fw-medium text-heading">경고:</span>
+                                                <span>
+                                                    해당문서는 <b>커넥트</b>에서 내부적으로 작성된 문서로 외부에 노출되지 않도록 주의 부탁드립니다.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Invoice -->
+            
+                            <!-- Invoice Actions -->
+                            <div class="col-xl-3 col-md-4 col-12 invoice-actions">
+                            <div class="card">
+                                <nav class="card-body">
+                                    <ul class="px-0 mx-0 ">
+                                        <li class="fw-bold fs-5 px-0 mx-0 list-unstyled ">결재인원</li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0 mb-4 ">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-dark">결재 1</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark" text-capitalized="">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="comment px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled">
+                                            정확하게 내용을 기재해주세요.
+                                        </li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-dark">결재 2</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark" text-capitalized="">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="comment px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled">
+                                            정확하게 내용을 기재해주세요.
+                                        </li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0 ">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-dark">결재 3</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark" text-capitalized="">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="comment px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled">
+                                            정확하게 내용을 기재해주세요.
+                                        </li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0 ">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-dark">결재 4</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark" text-capitalized="">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="comment px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled">
+                                            정확하게 내용을 기재해주세요.
+                                        </li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0 ">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-dark">결재 5</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark" text-capitalized="">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="comment px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled">
+                                            정확하게 내용을 기재해주세요.
+                                        </li>
+                                    </ul>
+                                    <ul class="px-0 mx-0 ">
+                                        <li class="fw-bold fs-5 px-0 mx-0 list-unstyled ">수신자</li>
+                                    </ul>
+                                    <ul class="d-flex align-items-center px-0 mb-4 border-bottom pb-4">
+                                        <li class="list-unstyled me-2">
+                                            <span class="badge bg-label-primary">수신자</span>
+                                        </li>
+                                        <li class="d-flex align-items-center list-unstyled " >
+                                            <div class="d-flex align-items-center avatar-group mb-0">
+                                                <b class="m-0 pe-2">과장</b>
+                                                <span>이승진</span>
+                                            </div>
+                                        </li>
+                                        <li class="ms-auto list-unstyled ">
+                                            <span class="badge bg-label-dark">대기</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="px-0 mx-0 ">
+                                        <li class="fw-bold fs-5 px-0 mx-0 list-unstyled">참조인원</li>
+                                    </ul>
+                                    <ul class="d-flex flex-wrap align-items-center px-0 mb-4 border-bottom pb-4 gap-2">
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                        <li class="list-unstyled">
+                                            <span class="badge bg-label-secondary">과장 \ 이승진</span>
+                                        </li>
+                                    </ul>
+                                    <a class="btn btn-primary w-100" target="_blank" href="./document-print.html">
+                                        <i class='bx bx-printer bx-sm me-2'></i>
+                                        Print
+                                    </a>
+                                </nav>
+                            </div>
+                            </div>
+                            <!-- /Invoice Actions -->
+                        </div>
+                        <div class="modal fade " id="empMethods" tabindex="-1" aria-modal="true" role="dialog">
+                            <div class="modal-dialog modal-md modal-simple modal-enable-otp modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fw-bold fs-4" id="empMethodsLabel">상세 정보</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                            <div class="d-flex gap-4 align-items-center">
+                                                <h6 class="m-0">American Express</h6>
+                                            </div>
+                                            <p class="m-0 d-none d-sm-block">Credit Card</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+    <script defer src="assets/js/document-list.js"></script>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/autosize/autosize.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.EmployeeDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.EmployeeDefaultVO">
+    <id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <id column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="EMP_PROFILE" jdbcType="NUMERIC" property="empProfile" />
+    <result column="EMP_NM" jdbcType="VARCHAR" property="empNm" />
+    <result column="EMP_AFF" jdbcType="VARCHAR" property="empAff" />
+    <result column="EMP_DEP" jdbcType="NUMERIC" property="empDep" />
+    <result column="EMP_POS" jdbcType="NUMERIC" property="empPos" />
+    <result column="EMP_ONEPOS" jdbcType="NUMERIC" property="empOnepos" />
+    <result column="EMP_COMTEL" jdbcType="VARCHAR" property="empComtel" />
+    <result column="EMP_TEL" jdbcType="VARCHAR" property="empTel" />
+    <result column="EMP_COMMAIL" jdbcType="VARCHAR" property="empCommail" />
+    <result column="EMP_MAIL" jdbcType="VARCHAR" property="empMail" />
+    <result column="EMP_BIR" jdbcType="VARCHAR" property="empBir" />
+    <result column="EMP_JOINDATE" jdbcType="VARCHAR" property="empJoindate" />
+    <result column="EMP_YEAR" jdbcType="NUMERIC" property="empYear" />
+    <result column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+    <result column="EMP_GENDER" jdbcType="VARCHAR" property="empGender" />
+    <result column="EMP_PW" jdbcType="VARCHAR" property="empPw" />
+    <result column="EMP_TYPE" jdbcType="VARCHAR" property="empType" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from EMPLOYEE
+    where EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.EmployeeDefaultVO">
+    insert into EMPLOYEE (EMP_NO, COM_NO, EMP_PROFILE, 
+      EMP_NM, EMP_AFF, EMP_DEP, 
+      EMP_POS, EMP_ONEPOS, EMP_COMTEL, 
+      EMP_TEL, EMP_COMMAIL, EMP_MAIL, 
+      EMP_BIR, EMP_JOINDATE, EMP_YEAR, 
+      EMP_ID, EMP_GENDER, EMP_PW, 
+      EMP_TYPE)
+    values (#{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{empProfile,jdbcType=NUMERIC}, 
+      #{empNm,jdbcType=VARCHAR}, #{empAff,jdbcType=VARCHAR}, #{empDep,jdbcType=NUMERIC}, 
+      #{empPos,jdbcType=NUMERIC}, #{empOnepos,jdbcType=NUMERIC}, #{empComtel,jdbcType=VARCHAR}, 
+      #{empTel,jdbcType=VARCHAR}, #{empCommail,jdbcType=VARCHAR}, #{empMail,jdbcType=VARCHAR}, 
+      #{empBir,jdbcType=VARCHAR}, #{empJoindate,jdbcType=VARCHAR}, #{empYear,jdbcType=NUMERIC}, 
+      #{empId,jdbcType=VARCHAR}, #{empGender,jdbcType=VARCHAR}, #{empPw,jdbcType=VARCHAR}, 
+      #{empType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.EmployeeDefaultVO">
+    update EMPLOYEE
+    set EMP_PROFILE = #{empProfile,jdbcType=NUMERIC},
+      EMP_NM = #{empNm,jdbcType=VARCHAR},
+      EMP_AFF = #{empAff,jdbcType=VARCHAR},
+      EMP_DEP = #{empDep,jdbcType=NUMERIC},
+      EMP_POS = #{empPos,jdbcType=NUMERIC},
+      EMP_ONEPOS = #{empOnepos,jdbcType=NUMERIC},
+      EMP_COMTEL = #{empComtel,jdbcType=VARCHAR},
+      EMP_TEL = #{empTel,jdbcType=VARCHAR},
+      EMP_COMMAIL = #{empCommail,jdbcType=VARCHAR},
+      EMP_MAIL = #{empMail,jdbcType=VARCHAR},
+      EMP_BIR = #{empBir,jdbcType=VARCHAR},
+      EMP_JOINDATE = #{empJoindate,jdbcType=VARCHAR},
+      EMP_YEAR = #{empYear,jdbcType=NUMERIC},
+      EMP_ID = #{empId,jdbcType=VARCHAR},
+      EMP_GENDER = #{empGender,jdbcType=VARCHAR},
+      EMP_PW = #{empPw,jdbcType=VARCHAR},
+      EMP_TYPE = #{empType,jdbcType=VARCHAR}
+    where EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select EMP_NO, COM_NO, EMP_PROFILE, EMP_NM, EMP_AFF, EMP_DEP, EMP_POS, EMP_ONEPOS, 
+    EMP_COMTEL, EMP_TEL, EMP_COMMAIL, EMP_MAIL, EMP_BIR, EMP_JOINDATE, EMP_YEAR, EMP_ID, 
+    EMP_GENDER, EMP_PW, EMP_TYPE
+    from EMPLOYEE
+    where EMP_NO = #{empNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select EMP_NO, COM_NO, EMP_PROFILE, EMP_NM, EMP_AFF, EMP_DEP, EMP_POS, EMP_ONEPOS, 
+    EMP_COMTEL, EMP_TEL, EMP_COMMAIL, EMP_MAIL, EMP_BIR, EMP_JOINDATE, EMP_YEAR, EMP_ID, 
+    EMP_GENDER, EMP_PW, EMP_TYPE
+    from EMPLOYEE
+  </select>
+</mapper>

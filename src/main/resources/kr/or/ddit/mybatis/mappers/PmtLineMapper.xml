@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.pmtLine.dao.PmtLineMapper">
+  <resultMap id="PmtLineMapperVO" type="PmtLineVO">
+    <id column="PMT_LINE_NO" jdbcType="NUMERIC" property="pmtLineNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="PMT_LINE_ONE_ID" jdbcType="NUMERIC" property="pmtLineOneId" />
+    <result column="PMT_LINE_TWO_ID" jdbcType="NUMERIC" property="pmtLineTwoId" />
+    <result column="PMT_LINE_THREE_ID" jdbcType="NUMERIC" property="pmtLineThreeId" />
+    <result column="PMT_LINE_FOUR_ID" jdbcType="NUMERIC" property="pmtLineFourId" />
+    <result column="PMT_LINE_FIVE_ID" jdbcType="NUMERIC" property="pmtLineFiveId" />
+    <result column="PMT_LINE_YN" jdbcType="VARCHAR" property="pmtLineYn" />
+  </resultMap>
+  <delete id="deletePmtLine" >
+    delete from PMT_LINE
+    where PMT_LINE_NO = #{pmtLineNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertPmtLine" parameterType="PmtLineVO">
+    insert into PMT_LINE (PMT_LINE_NO, EMP_NO, COM_NO, 
+      PMT_LINE_ONE_ID, PMT_LINE_TWO_ID, PMT_LINE_THREE_ID, 
+      PMT_LINE_FOUR_ID, PMT_LINE_FIVE_ID, PMT_LINE_YN
+      )
+    values (#{pmtLineNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, 
+      #{pmtLineOneId,jdbcType=NUMERIC}, #{pmtLineTwoId,jdbcType=NUMERIC}, #{pmtLineThreeId,jdbcType=NUMERIC}, 
+      #{pmtLineFourId,jdbcType=NUMERIC}, #{pmtLineFiveId,jdbcType=NUMERIC}, #{pmtLineYn,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updatePmtLine" parameterType="PmtLineVO">
+    update PMT_LINE
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      PMT_LINE_ONE_ID = #{pmtLineOneId,jdbcType=NUMERIC},
+      PMT_LINE_TWO_ID = #{pmtLineTwoId,jdbcType=NUMERIC},
+      PMT_LINE_THREE_ID = #{pmtLineThreeId,jdbcType=NUMERIC},
+      PMT_LINE_FOUR_ID = #{pmtLineFourId,jdbcType=NUMERIC},
+      PMT_LINE_FIVE_ID = #{pmtLineFiveId,jdbcType=NUMERIC},
+      PMT_LINE_YN = #{pmtLineYn,jdbcType=VARCHAR}
+    where PMT_LINE_NO = #{pmtLineNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectPmtLineDetail" resultMap="PmtLineMapperVO">
+    select PMT_LINE_NO, EMP_NO, COM_NO, PMT_LINE_ONE_ID, PMT_LINE_TWO_ID, PMT_LINE_THREE_ID, 
+    PMT_LINE_FOUR_ID, PMT_LINE_FIVE_ID, PMT_LINE_YN
+    from PMT_LINE
+    where PMT_LINE_NO = #{pmtLineNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectPmtLineList" resultMap="PmtLineMapperVO">
+    select PMT_LINE_NO, EMP_NO, COM_NO, PMT_LINE_ONE_ID, PMT_LINE_TWO_ID, PMT_LINE_THREE_ID, 
+    PMT_LINE_FOUR_ID, PMT_LINE_FIVE_ID, PMT_LINE_YN
+    from PMT_LINE
+  </select>
+</mapper>

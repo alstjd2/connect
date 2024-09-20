@@ -1,0 +1,1401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.employee.dao.EmployeeMapper">
+
+	<resultMap type="EmployeeVO" id="employeemap" autoMapping="true">
+		<id property="empNo" column="EMP_NO" />
+		<association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+        	<collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" />
+        </association>
+	</resultMap>
+
+	<resultMap id="employeeWithProfileMap" type="EmployeeVO" autoMapping="true">
+	  <id property="empNo" column="EMP_NO" />
+	  <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+	</resultMap>
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	  <result column="COM_CLOGO_STRE_FILE_NM"  property="comClogoStrefileNm" />
+    	<result column="COM_FAVICON_STRE_FILE_NM" property="comFaviconStreFileNm" />
+	</resultMap>
+
+
+
+
+
+<resultMap id="employeeInfoMap" type="EmployeeVO" autoMapping="true">
+    <id property="empNo" column="EMP_NO" />
+    <result property="empProfile" column="EMP_PROFILE" />
+    <result property="empNm" column="EMP_NM" />
+    <result property="empAff" column="EMP_AFF" />
+    <result property="empDep" column="EMP_DEP" />
+    <result property="empPos" column="EMP_POS" />
+    <result property="empOnepos" column="EMP_ONEPOS" />
+    <result property="empComtel" column="EMP_COMTEL" />
+    <result property="empTel" column="EMP_TEL" />
+    <result property="empCommail" column="EMP_COMMAIL" />
+    <result property="empMail" column="EMP_MAIL" />
+    <result property="empBir" column="EMP_BIR" />
+    <result property="empJoindate" column="EMP_JOINDATE" />
+    <result property="empYear" column="EMP_YEAR" />
+    <result property="empId" column="EMP_ID" />
+    <result property="empGender" column="EMP_GENDER" />
+    <result property="empPw" column="EMP_PW" />
+    <result property="empType" column="EMP_TYPE" />
+    <result property="empDelyn" column="EMP_DELYN" />
+
+    <!-- Company Association -->
+    <association property="company" javaType="CompanyVO">
+        <id property="comNo" column="COM_NO" />
+        <result property="comNm" column="COM_NM" />
+        <result property="COMPANY_NO" column="COMPANY_NO" />
+
+        <!-- Organization List -->
+	    <collection property="organizationList" ofType="OrganizationVO">
+	        <id property="orgNo" column="ORG_NO" />
+	        <result property="orgDep" column="ORG_DEP" />
+	        <result property="orgUpdep" column="ORG_UPDEP" />
+	        <result property="orgLevel" column="ORG_LEVEL" />
+	        <result property="orgDf" column="ORG_DF" />
+	    </collection>
+
+	    <!-- Position List -->
+	    <collection property="positionList" ofType="PositionVO">
+	        <id property="posNo" column="POS_NO" />
+	        <result property="posNm" column="POS_NM" />
+	        <result property="ONEPOSNM" column="ONEPOSNM" />
+	    </collection>
+    </association>
+
+    <!-- AtchFile Association -->
+    <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+</resultMap>
+
+
+
+
+
+
+
+<resultMap id="employeeComListMap" type="EmployeeVO" autoMapping="true">
+    <id property="empNo" column="EMP_NO" />
+    <result property="empProfile" column="EMP_PROFILE" />
+    <result property="empNm" column="EMP_NM" />
+    <result property="empAff" column="EMP_AFF" />
+    <result property="empDep" column="EMP_DEP" />
+    <result property="empPos" column="EMP_POS" />
+    <result property="empOnepos" column="EMP_ONEPOS" />
+    <result property="empComtel" column="EMP_COMTEL" />
+    <result property="empTel" column="EMP_TEL" />
+    <result property="empCommail" column="EMP_COMMAIL" />
+    <result property="empMail" column="EMP_MAIL" />
+    <result property="empBir" column="EMP_BIR" />
+    <result property="empJoindate" column="EMP_JOINDATE" />
+    <result property="empYear" column="EMP_YEAR" />
+    <result property="empId" column="EMP_ID" />
+    <result property="empGender" column="EMP_GENDER" />
+    <result property="empPw" column="EMP_PW" />
+    <result property="empType" column="EMP_TYPE" />
+    <result property="empDelyn" column="EMP_DELYN" />
+
+
+    <!-- Company Association -->
+    <association property="company" javaType="CompanyVO">
+        <id property="comNo" column="COM_NO" />
+        <result property="comNm" column="COM_NM" />
+        <result property="comCorno" column="COM_CORNO" />
+        <result property="COMPANY_NO" column="COMPANY_NO" />
+        <result property="comClogo" column="COM_CLOGO" />
+        <result property="comWlogo" column="COM_WLOGO" />
+        <result property="comFavicon" column="COM_FAVICON" />
+        <result property="comOg" column="COM_OG" />
+
+        <!-- Organization List -->
+	    <collection property="organizationList" ofType="OrganizationVO">
+	        <id property="orgNo" column="ORG_NO" />
+	        <result property="orgDep" column="ORG_DEP" />
+	        <result property="orgUpdep" column="ORG_UPDEP" />
+	        <result property="orgLevel" column="ORG_LEVEL" />
+	        <result property="orgDf" column="ORG_DF" />
+	    </collection>
+
+	    <!-- Position List -->
+	    <collection property="positionList" ofType="PositionVO">
+	        <id property="posNo" column="POS_NO" />
+	        <result property="posNm" column="POS_NM" />
+	        <result property="ONEPOSNM" column="ONEPOSNM" />
+	    </collection>
+    </association>
+
+
+    <!-- AtchFile Association -->
+    <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+     <!-- BookMark List -->
+    <collection property="bookMarkList" ofType="BookMarkVO">
+        <result property="markNo" column="MARK_NO" />
+        <result property="empNo" column="EMP_NO" />
+        <result property="markTarget" column="MARK_TARGET" />
+    </collection>
+</resultMap>
+
+
+
+	<select id="selectEmployeeInfo" parameterType="int" resultMap="employeeInfoMap">
+
+	WITH EmployeeDetails AS (
+    SELECT
+        E.EMP_NO,
+        E.COM_NO,
+        E.EMP_PROFILE,
+        E.EMP_NM,
+        E.EMP_AFF,
+        E.EMP_DEP,
+        E.EMP_POS,
+        E.EMP_ONEPOS,
+        E.EMP_COMTEL,
+        E.EMP_TEL,
+        E.EMP_COMMAIL,
+        E.EMP_MAIL,
+        E.EMP_BIR,
+        E.EMP_JOINDATE,
+        E.EMP_YEAR,
+        E.EMP_ID,
+        E.EMP_GENDER,
+        E.EMP_PW,
+        E.EMP_TYPE,
+        E.EMP_DELYN,
+        E.EMP_ROLE,
+        E.EMP_STATE,
+        C.COM_NO AS COMPANY_NO,
+        C.COM_NM,
+        C.COM_CORNO,
+        C.COM_CLOGO,
+        C.COM_WLOGO,
+        C.COM_FAVICON,
+        C.COM_OG,
+        O.ORG_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        P.POS_NO,
+        P.POS_NM,
+        P2.POS_NM AS ONEPOSNM,
+        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+        AF.CREATE_DT,
+        AF.USE_AT,
+        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+        AFD.FILE_SN,
+        AFD.FILE_STRE_COURS,
+        AFD.STRE_FILE_NM,
+        AFD.ORIGNL_FILE_NM,
+        AFD.FILE_EXTSN,
+        AFD.FILE_MIME,
+        AFD.FILE_SIZE,
+        AFD.FILE_FANCYSIZE,
+        AFD.FILE_CN,
+        AFD.FILE_DWNCNT
+    FROM
+        EMPLOYEE E
+    LEFT JOIN
+        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+    LEFT JOIN
+        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+    LEFT JOIN
+        COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN
+        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    LEFT JOIN
+        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+    WHERE
+        E.EMP_NO = #{empNo} AND E.EMP_DELYN = 'N'
+)
+SELECT *
+FROM EmployeeDetails
+
+
+</select>
+<select id="selectTotalRecordCom" resultType="int" >
+		SELECT COUNT(E.EMP_NO)
+		FROM EMPLOYEE E
+		<where>
+		E.EMP_DELYN = 'N'
+        AND E.COM_NO = #{searchVO.comNo}
+        <include refid="searchFrag" />
+		</where>
+</select>
+<!-- 검색 조건 -->
+	<sql id="searchFrag">
+		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+		    	AND
+		    	<choose>
+		    		<when test="simpleCondition.searchType eq 'name'">INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0</when>
+		    		<otherwise>
+		    			(INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0)
+		    		</otherwise>
+		    	</choose>
+		    </if>
+   </sql>
+<select id="selectEmployeeComList" parameterType="kr.or.ddit.commons.paging.PaginationInfo"  resultMap="employeeComListMap">
+
+
+	 WITH EmployeeDetails AS (
+        SELECT
+            E.EMP_NO,
+            E.COM_NO,
+            E.EMP_PROFILE,
+            E.EMP_NM,
+            E.EMP_AFF,
+            E.EMP_DEP,
+            E.EMP_POS,
+            E.EMP_ONEPOS,
+            E.EMP_COMTEL,
+            E.EMP_TEL,
+            E.EMP_COMMAIL,
+            E.EMP_MAIL,
+            E.EMP_BIR,
+            E.EMP_JOINDATE,
+            E.EMP_YEAR,
+            E.EMP_ID,
+            E.EMP_GENDER,
+            E.EMP_PW,
+            E.EMP_TYPE,
+            E.EMP_DELYN,
+            E.EMP_ROLE,
+            E.EMP_STATE,
+            C.COM_NO AS COMPANY_NO,
+            C.COM_NM,
+            O.ORG_NO,
+            O.ORG_DEP,
+            O.ORG_UPDEP,
+            O.ORG_LEVEL,
+            O.ORG_DF,
+            O.ORG_ID,
+            P.POS_NO,
+            P.POS_NM,
+            P2.POS_NM AS ONEPOSNM,
+            AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+            AF.CREATE_DT,
+            AF.USE_AT,
+            AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+            AFD.FILE_SN,
+            AFD.FILE_STRE_COURS,
+            AFD.STRE_FILE_NM,
+            AFD.ORIGNL_FILE_NM,
+            AFD.FILE_EXTSN,
+            AFD.FILE_MIME,
+            AFD.FILE_SIZE,
+            AFD.FILE_FANCYSIZE,
+            AFD.FILE_CN,
+            AFD.FILE_DWNCNT,
+            B.MARK_NO,
+            B.MARK_TARGET
+        FROM
+            EMPLOYEE E
+        LEFT JOIN
+            ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+        LEFT JOIN
+            ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+        LEFT JOIN
+            COMPANY C ON E.COM_NO = C.COM_NO
+        LEFT JOIN
+            ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+        LEFT JOIN
+            POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+        LEFT JOIN
+            POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+        LEFT JOIN
+            BOOKMARK B ON E.EMP_NO = B.MARK_TARGET AND B.EMP_NO = #{searchVO.empNo}
+        WHERE
+            C.COM_NO = #{searchVO.comNo} AND E.EMP_DELYN = 'N'
+            <include refid="searchFrag" />
+)
+SELECT *
+FROM (
+    SELECT
+        EmployeeDetails.*,
+        ROW_NUMBER() OVER (
+        	ORDER BY
+            POS_NO ASC, EMP_NO ASC) AS rnum
+    FROM
+        EmployeeDetails
+)
+WHERE
+    rnum BETWEEN #{firstRecord} AND #{lastRecord}
+ORDER BY
+    rnum
+
+
+
+</select>
+
+<!-- <select id="selectTotalRecordCombyDept" resultType="int" > -->
+<!-- 		SELECT COUNT(E.EMP_NO) -->
+<!-- 	    FROM EMPLOYEE E -->
+<!-- 	    LEFT JOIN COMPANY C ON E.COM_NO = C.COM_NO -->
+<!-- 	    LEFT JOIN ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO -->
+<!-- 		<where> -->
+<!-- 		E.EMP_DELYN = 'N' -->
+<!--         AND E.COM_NO = #{searchVO.comNo} -->
+<!--             AND O.ORG_DEP = #{searchVO.orgDep} -->
+
+<!--         <include refid="searchFrag" /> -->
+<!-- 		</where> -->
+<!-- </select> -->
+<select id="selectTotalRecordCombyDept" resultType="int">
+    WITH DeptHierarchy (ORG_NO) AS (
+        SELECT ORG_NO
+        FROM ORGANIZATION
+        WHERE ORG_DEP = #{searchVO.orgDep}
+        AND COM_NO = #{searchVO.comNo}
+
+        UNION ALL
+
+        SELECT O.ORG_NO
+        FROM ORGANIZATION O
+        JOIN DeptHierarchy DH ON O.ORG_UPDEP = DH.ORG_NO
+    )
+    SELECT COUNT(E.EMP_NO)
+    FROM EMPLOYEE E
+    LEFT JOIN COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    WHERE E.EMP_DELYN = 'N'
+      AND E.COM_NO = #{searchVO.comNo}
+      AND O.ORG_NO IN (
+          SELECT ORG_NO
+          FROM ORGANIZATION
+          START WITH ORG_NO = (
+              SELECT ORG_NO
+              FROM ORGANIZATION
+              WHERE ORG_DEP = #{searchVO.orgDep}
+              AND COM_NO = #{searchVO.comNo}
+          )
+          CONNECT BY NOCYCLE PRIOR ORG_NO = ORG_UPDEP
+      )
+    <include refid="searchFrag" />
+</select>
+
+<!-- 부서일정을 위한 쿼리 -->
+<select id="selectEmpDepList" parameterType="int">
+		SELECT
+		    EMP_NO,
+		    COM_NO,
+		    EMP_PROFILE,
+		    EMP_NM,
+		    EMP_AFF,
+		    EMP_DEP,
+		    EMP_POS,
+		    EMP_COMTEL,
+		    EMP_TEL,
+		    EMP_COMMAIL,
+		    EMP_MAIL,
+		    EMP_BIR,
+		    EMP_JOINDATE,
+		    EMP_YEAR,
+		    EMP_ID,
+		    EMP_GENDER,
+		    EMP_PW,
+		    EMP_TYPE,
+		    EMP_DELYN,
+		    EMP_ROLE,
+		    EMP_STATE,
+		    EMP_ONEPOS
+		FROM
+		    EMPLOYEE
+		    WHERE EMP_DEP = #{empDep}
+</select>
+
+<select id="selectEmployeeComListByDept" parameterType="kr.or.ddit.commons.paging.PaginationInfo"  resultMap="employeeComListMap">
+
+	WITH OrgTree (ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_ID) AS (
+    SELECT
+        ORG_NO,
+        COM_NO,
+        ORG_DEP,
+        ORG_UPDEP,
+        ORG_LEVEL,
+        ORG_DF,
+        ORG_ID
+    FROM
+        ORGANIZATION
+    WHERE
+        ORG_DEP = #{searchVO.orgDep}
+        AND COM_NO = #{searchVO.comNo}
+
+    UNION ALL
+
+    SELECT
+        O.ORG_NO,
+        O.COM_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        O.ORG_ID
+    FROM
+        ORGANIZATION O
+    INNER JOIN
+        OrgTree OT ON OT.ORG_NO = O.ORG_UPDEP
+    WHERE
+        O.COM_NO = #{searchVO.comNo}
+),
+
+EmployeeDetails AS (
+    SELECT
+        E.EMP_NO,
+        E.COM_NO,
+        E.EMP_PROFILE,
+        E.EMP_NM,
+        E.EMP_AFF,
+        E.EMP_DEP,
+        E.EMP_POS,
+        E.EMP_ONEPOS,
+        E.EMP_COMTEL,
+        E.EMP_TEL,
+        E.EMP_COMMAIL,
+        E.EMP_MAIL,
+        E.EMP_BIR,
+        E.EMP_JOINDATE,
+        E.EMP_YEAR,
+        E.EMP_ID,
+        E.EMP_GENDER,
+        E.EMP_PW,
+        E.EMP_TYPE,
+        E.EMP_DELYN,
+        E.EMP_ROLE,
+        E.EMP_STATE,
+        C.COM_NO AS COMPANY_NO,
+        C.COM_NM,
+        O.ORG_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        O.ORG_ID,
+        P.POS_NO,
+        P.POS_NM,
+        P2.POS_NM AS ONEPOSNM,
+        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+        AF.CREATE_DT,
+        AF.USE_AT,
+        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+        AFD.FILE_SN,
+        AFD.FILE_STRE_COURS,
+        AFD.STRE_FILE_NM,
+        AFD.ORIGNL_FILE_NM,
+        AFD.FILE_EXTSN,
+        AFD.FILE_MIME,
+        AFD.FILE_SIZE,
+        AFD.FILE_FANCYSIZE,
+        AFD.FILE_CN,
+        AFD.FILE_DWNCNT,
+        B.MARK_NO,
+        B.MARK_TARGET
+    FROM
+        EMPLOYEE E
+    LEFT JOIN
+        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+    LEFT JOIN
+        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+    LEFT JOIN
+        COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN
+        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    LEFT JOIN
+        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        BOOKMARK B ON E.EMP_NO = B.MARK_TARGET AND B.EMP_NO = #{searchVO.empNo}
+    WHERE
+        C.COM_NO = #{searchVO.comNo}
+        AND E.EMP_DELYN = 'N'
+        AND E.EMP_DEP IN (SELECT ORG_NO FROM OrgTree)
+)
+
+SELECT *
+FROM (
+    SELECT
+        EmployeeDetails.*,
+        ROW_NUMBER() OVER (
+        	ORDER BY
+            POS_NO ASC, EMP_NO ASC) AS rnum
+    FROM
+        EmployeeDetails
+) subquery
+WHERE
+    rnum BETWEEN #{firstRecord} AND #{lastRecord}
+ORDER BY
+    rnum
+
+
+
+
+
+</select>
+
+ <select id="selectEmpDetailVac" parameterType="int">
+  	SELECT
+    	e.EMP_NO,
+    	e.EMP_NM,
+    	e.EMP_DEP,
+    	e.COM_NO,
+    	d.ORG_DEP AS empDepName,
+    	e.EMP_POS,
+    	p.POS_NM AS empPosName,
+    	e.EMP_ONEPOS,
+    	op.POS_NM AS empOneposName,
+    	e.EMP_COMMAIL,
+    	e.EMP_STATE
+	FROM
+	    EMPLOYEE e
+    	LEFT JOIN ORGANIZATION d ON e.EMP_DEP = d.ORG_NO
+    	LEFT JOIN POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110'
+    	LEFT JOIN POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120'
+	WHERE
+    	e.EMP_DELYN = 'N'
+        AND e.EMP_NO = #{empNo}
+
+
+  </select>
+
+<select id="selectEmpVacDepList" parameterType="map" resultMap="employeeComListMap">
+	 WITH OrgTree (ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_ID) AS (
+	    SELECT
+	        ORG_NO,
+	        COM_NO,
+	        ORG_DEP,
+	        ORG_UPDEP,
+	        ORG_LEVEL,
+	        ORG_DF,
+	        ORG_ID
+	    FROM
+	        ORGANIZATION
+	    WHERE
+	        ORG_DEP = #{orgDep, jdbcType=VARCHAR}
+        AND COM_NO =#{comNo, jdbcType=NUMERIC}
+
+	    UNION ALL
+
+	    SELECT
+	        O.ORG_NO,
+	        O.COM_NO,
+	        O.ORG_DEP,
+	        O.ORG_UPDEP,
+	        O.ORG_LEVEL,
+	        O.ORG_DF,
+	        O.ORG_ID
+	    FROM
+	        ORGANIZATION O
+	    INNER JOIN
+	        OrgTree OT ON OT.ORG_NO = O.ORG_UPDEP
+	    WHERE
+	        O.COM_NO = #{comNo, jdbcType=NUMERIC}
+	),
+
+	EmployeeDetails AS (
+	    SELECT
+	        E.EMP_NO,
+	        E.COM_NO,
+	        E.EMP_NM,
+	        E.EMP_DEP,
+	        E.EMP_POS,
+	        E.EMP_ONEPOS,
+	        E.EMP_COMTEL,
+	        E.EMP_TEL,
+	        E.EMP_COMMAIL,
+	        E.EMP_MAIL,
+	        E.EMP_BIR,
+	        E.EMP_JOINDATE,
+	        E.EMP_YEAR,
+	        E.EMP_ID,
+	        E.EMP_GENDER,
+	        E.EMP_TYPE,
+	        E.EMP_DELYN,
+	        E.EMP_ROLE,
+	        E.EMP_STATE,
+	        C.COM_NO AS COMPANY_NO,
+	        C.COM_NM,
+	        O.ORG_NO,
+	        O.ORG_DEP,
+	        O.ORG_UPDEP,
+	        O.ORG_LEVEL,
+	        O.ORG_DF,
+	        O.ORG_ID,
+	        P.POS_NO,
+	        P.POS_NM,
+	        P2.POS_NM AS ONEPOSNM
+
+	    FROM
+	        EMPLOYEE E
+
+	    LEFT JOIN
+	        COMPANY C ON E.COM_NO = C.COM_NO
+	    LEFT JOIN
+	        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+	    LEFT JOIN
+	        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+	    LEFT JOIN
+	        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P.COM_NO
+
+	    WHERE
+	        C.COM_NO = #{comNo, jdbcType=NUMERIC}
+	        AND E.EMP_DELYN = 'N'
+	        AND E.EMP_DEP IN (SELECT ORG_NO FROM OrgTree)
+	)
+
+	SELECT *
+	FROM (
+	    SELECT
+	        EmployeeDetails.*,
+	        ROW_NUMBER() OVER (
+	           ORDER BY
+	            POS_NO ASC) AS rnum
+	    FROM
+	        EmployeeDetails
+	) subquery
+
+
+
+</select>
+
+<select id="selectDfVacList" parameterType="int" resultMap="employeeInfoMap">
+
+SELECT DISTINCT EMP.EMP_NO
+	, EMP.EMP_NM
+	, ORGZ.ORG_DEP
+	, ORGZ.ORG_DF
+	, P.POS_NO
+	, P.POS_NM
+	, P2.POS_NM AS ONEPOSNM
+	FROM EMPLOYEE EMP INNER JOIN ORGANIZATION ORG ON EMP.COM_NO = ORG.COM_NO
+	                    INNER JOIN ORGANIZATION ORGZ ON EMP.EMP_NO = ORGZ.ORG_DF
+	                    LEFT JOIN
+		        COMPANY C ON EMP.COM_NO = C.COM_NO
+	                    LEFT JOIN
+		        POSITION P ON EMP.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+		    LEFT JOIN
+		        POSITION P2 ON EMP.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P.COM_NO
+	WHERE EMP.COM_NO = #{comNo, jdbcType=NUMERIC}
+	ORDER BY ORG_DF ASC
+
+
+</select>
+
+
+<select id="selectEmployeeComEmpList" parameterType="kr.or.ddit.commons.paging.PaginationInfo"  resultMap="employeeComListMap">
+
+	 WITH EmployeeDetails AS (
+    SELECT
+        E.EMP_NO,
+        E.COM_NO,
+        E.EMP_PROFILE,
+        E.EMP_NM,
+        E.EMP_AFF,
+        E.EMP_DEP,
+        E.EMP_POS,
+        E.EMP_ONEPOS,
+        E.EMP_COMTEL,
+        E.EMP_TEL,
+        E.EMP_COMMAIL,
+        E.EMP_MAIL,
+        E.EMP_BIR,
+        E.EMP_JOINDATE,
+        E.EMP_YEAR,
+        E.EMP_ID,
+        E.EMP_GENDER,
+        E.EMP_PW,
+        E.EMP_TYPE,
+        E.EMP_DELYN,
+        E.EMP_ROLE,
+        E.EMP_STATE,
+        C.COM_NO AS COMPANY_NO,
+        C.COM_NM,
+        O.ORG_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        O.ORG_ID,
+        P.POS_NO,
+        P.POS_NM,
+        P2.POS_NM AS ONEPOSNM,
+        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+        AF.CREATE_DT,
+        AF.USE_AT,
+        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+        AFD.FILE_SN,
+        AFD.FILE_STRE_COURS,
+        AFD.STRE_FILE_NM,
+        AFD.ORIGNL_FILE_NM,
+        AFD.FILE_EXTSN,
+        AFD.FILE_MIME,
+        AFD.FILE_SIZE,
+        AFD.FILE_FANCYSIZE,
+        AFD.FILE_CN,
+        AFD.FILE_DWNCNT
+    FROM
+        EMPLOYEE E
+    LEFT JOIN
+        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+    LEFT JOIN
+        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+    LEFT JOIN
+        COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN
+        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    LEFT JOIN
+        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+    WHERE
+        C.COM_NO = #{comNo} AND E.EMP_DELYN = 'N'
+)
+SELECT *
+FROM EmployeeDetails
+ORDER BY
+    ORG_UPDEP NULLS FIRST, ORG_ID, ORG_UPDEP, ORG_LEVEL, ORG_DF
+
+
+
+</select>
+
+
+
+  <update id="deleteEmployee" parameterType="int" >
+    UPDATE EMPLOYEE SET EMP_DELYN = 'Y'
+    WHERE EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+
+<!-- 	성훈 수정함 -->
+  <insert id="insertEmployee" parameterType="EmployeeVO">
+    INSERT INTO EMPLOYEE (
+    EMP_NO
+    , COM_NO
+    , EMP_PROFILE
+    , EMP_NM
+    , EMP_AFF
+    , EMP_DEP
+    , EMP_POS
+    , EMP_ONEPOS
+    , EMP_COMTEL
+    , EMP_TEL
+    , EMP_COMMAIL
+    , EMP_MAIL
+    , EMP_BIR
+    , EMP_JOINDATE
+    , EMP_YEAR
+    , EMP_ID
+    , EMP_GENDER
+    , EMP_PW
+    , EMP_TYPE
+    , EMP_DELYN
+    , EMP_STATE
+    , EMP_ROLE
+	) VALUES (
+	(SELECT MAX(EMP_NO)+1
+	 FROM EMPLOYEE)
+	, #{comNo, jdbcType=NUMERIC}
+	, #{empProfile, jdbcType=NUMERIC}
+	, #{empNm, jdbcType=VARCHAR}
+	, #{empAff, jdbcType=VARCHAR}
+	, #{empDep, jdbcType=NUMERIC}
+	, #{empPos, jdbcType=NUMERIC}
+	, #{empOnepos, jdbcType=NUMERIC}
+	, #{empComtel, jdbcType=VARCHAR}
+	, #{empTel, jdbcType=VARCHAR}
+	, CONCAT(#{empId}, '@ddit.or.kr')    <!-- 기업 이메일 자동생성 -->
+	, #{empMail, jdbcType=VARCHAR}
+	, #{empBir, jdbcType=VARCHAR}
+	, #{empJoindate, jdbcType=VARCHAR}
+	, #{empYear, jdbcType=NUMERIC}
+	, #{empId, jdbcType=VARCHAR}      <!-- 생성된 ID를 사용 -->
+	, #{empGender, jdbcType=VARCHAR}
+	, #{empPw, jdbcType=VARCHAR}
+	, #{empType, jdbcType=VARCHAR}
+	, 'N'
+	, #{empState, jdbcType=VARCHAR}
+	, #{empRole, jdbcType=VARCHAR}
+	)
+  </insert>
+
+  <update id="updateEmployee" parameterType="EmployeeVO">
+    UPDATE
+    	EMPLOYEE
+    SET
+		EMP_PROFILE=#{empProfile, jdbcType=NUMERIC}
+		, EMP_NM=#{empNm, jdbcType=VARCHAR}
+		, EMP_AFF=#{empAff, jdbcType=VARCHAR}
+		, EMP_DEP=#{empDep, jdbcType=NUMERIC}
+		, EMP_POS=#{empPos, jdbcType=NUMERIC}
+		, EMP_ONEPOS=#{empOnepos, jdbcType=NUMERIC}
+		, EMP_COMTEL=#{empComtel, jdbcType=VARCHAR}
+		, EMP_TEL=#{empTel, jdbcType=VARCHAR}
+		, EMP_COMMAIL=#{empCommail, jdbcType=VARCHAR}
+		, EMP_MAIL=#{empMail, jdbcType=VARCHAR}
+		, EMP_BIR=#{empBir, jdbcType=VARCHAR}
+		, EMP_JOINDATE=#{empJoindate, jdbcType=VARCHAR}
+		, EMP_YEAR=#{empYear, jdbcType=NUMERIC}
+		, EMP_ID=#{empId, jdbcType=VARCHAR}
+		, EMP_GENDER=#{empGender, jdbcType=VARCHAR}
+		, EMP_PW=#{empPw, jdbcType=VARCHAR}
+    WHERE
+    	EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateEmployeeInfo" parameterType="EmployeeVO">
+    UPDATE EMPLOYEE
+    SET
+		EMP_COMTEL=#{empComtel, jdbcType=VARCHAR}
+		, EMP_TEL=#{empTel, jdbcType=VARCHAR}
+		, EMP_MAIL=#{empMail, jdbcType=VARCHAR}
+		, EMP_BIR=#{empBir, jdbcType=VARCHAR}
+		<if test="empProfile neq null">
+		, EMP_PROFILE=#{empProfile, jdbcType=NUMERIC}
+		</if>
+    WHERE
+    	EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+
+  <update id="updateEmployeePW" parameterType="EmployeeVO">
+    UPDATE
+    	EMPLOYEE
+    SET
+		EMP_PW=#{empPw, jdbcType=VARCHAR}
+    WHERE
+    	EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+
+  <select id="selectEmployee" parameterType="int" resultType="EmployeeVO" >
+    SELECT
+	  EMP_NO
+	  , COM_NO
+	  , EMP_PROFILE
+	  , EMP_NM
+	  , EMP_AFF
+	  , EMP_DEP
+	  , EMP_POS
+	  , EMP_ONEPOS
+	  , EMP_COMTEL
+	  , EMP_TEL
+	  , EMP_COMMAIL
+	  , EMP_MAIL
+	  , EMP_BIR
+	  , EMP_JOINDATE
+	  , EMP_YEAR
+	  , EMP_ID
+	  , EMP_GENDER
+	  , EMP_PW
+	  , EMP_TYPE
+	  , EMP_DELYN
+	FROM
+	    EMPLOYEE
+	WHERE
+		EMP_NO = #{empNo} AND EMP_DELYN = 'N'
+  </select>
+
+  <select id="selectEmployeeList" resultType="EmployeeVO">
+    SELECT
+	  EMP_NO
+	  , COM_NO
+	  , EMP_PROFILE
+	  , EMP_NM
+	  , EMP_AFF
+	  , EMP_DEP
+	  , EMP_POS
+	  , EMP_ONEPOS
+	  , EMP_COMTEL
+	  , EMP_TEL
+	  , EMP_COMMAIL
+	  , EMP_MAIL
+	  , EMP_BIR
+	  , EMP_JOINDATE
+	  , EMP_YEAR
+	  , EMP_ID
+	  , EMP_GENDER
+	  , EMP_PW
+	  , EMP_TYPE
+	  , EMP_DELYN
+	  , EMP_STATE   <!-- 새로 추가 한 재직상태 칼럼 -->
+	FROM
+	    EMPLOYEE
+	WHERE
+        EMP_DELYN = 'N'
+  </select>
+
+  <!-- 새로 추가한 SQL 쿼리 추가 (성훈) -->
+<!-- 직원목록조회 (관리자용)-->
+  <select id="selectAllEmployees" resultType="EmployeeVO" >
+	SELECT
+    	e.EMP_NO,
+    	e.EMP_NM,
+    	e.EMP_DEP,
+    	e.COM_NO,
+    	d.ORG_DEP AS empDepName, <!--  부서명을 가져와서 empDepName으로 별칭을 지정 -->
+    	e.EMP_POS,
+    	p.POS_NM AS empPosName,  <!--  직급명을 가져와서 empPosName으로 별칭을 지정 -->
+    	e.EMP_ONEPOS,
+    	op.POS_NM AS empOneposName,  <!--  직책명을 가져와서 empOneposName으로 별칭을 지정 -->
+    	e.EMP_COMMAIL, <!-- 회사 메일 추가 -->
+    	e.EMP_STATE
+	FROM
+	    EMPLOYEE e
+    	LEFT JOIN ORGANIZATION d ON e.EMP_DEP = d.ORG_NO
+    	LEFT JOIN POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110' <!--  직급명을 가져오기 위한 JOIN -->
+    	LEFT JOIN POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120' <!--  직책명을 가져오기 위한 JOIN -->
+	WHERE
+    	e.EMP_DELYN = 'N'
+    	And e.COM_NO=#{comNo}    <!-- 기업번호 조건 추가 -->
+    	ORDER BY e.EMP_NO DESC
+  </select>
+
+
+<!-- 직급 직책 목록을 가져오는 쿼리 -->
+<select id="selectAllPositions" resultType="EmployeeVO">
+    SELECT
+        p.POS_NO AS empPos,
+        p.POS_NM AS empPosName,
+        p.POS_NO AS empOnepos,  <!-- 직책 추가 -->
+        p.POS_NM AS empOneposName  <!-- 직책명 추가 -->
+    FROM
+        POSITION p
+    WHERE
+        p.COM_NO = #{comNo}
+        AND p.POS_TYPE = #{posType}
+</select>
+
+
+
+<!-- 직원상세 조회 (관리자용) -->
+  <select id="selectEmployeeDetail" parameterType="int" resultType="EmployeeVO">
+    SELECT
+        e.EMP_NO,
+        e.EMP_NM,
+        e.EMP_POS,
+        e.EMP_ONEPOS,
+        e.EMP_DEP,
+        e.EMP_STATE,
+        e.EMP_COMTEL,
+        e.EMP_BIR,
+        e.EMP_JOINDATE,
+        e.EMP_MAIL,
+        e.EMP_TEL,
+        e.EMP_COMMAIL,
+        d.ORG_DEP AS empDepName,
+        p.POS_NM AS empPosName,
+        op.POS_NM AS empOneposName
+    FROM
+        EMPLOYEE e
+    LEFT JOIN ORGANIZATION d ON e.EMP_DEP = d.ORG_NO
+    LEFT JOIN POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110'
+    LEFT JOIN POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120'
+    WHERE
+        e.EMP_NO = #{empNo} AND e.EMP_DELYN = 'N'
+  </select>
+
+<!-- 직원 정보 수정 쿼리(관리자용) -->
+<update id="editEmployee" parameterType="EmployeeVO">
+    UPDATE EMPLOYEE
+    SET EMP_JOINDATE = #{empJoindate},
+        EMP_MAIL = #{empMail},
+        EMP_TEL = #{empTel},
+        EMP_BIR = #{empBir}
+    WHERE EMP_NO = #{empNo}
+</update>
+
+
+<select id="getNextEmpNo" resultType="int">
+	SELECT COALESCE(MAX(EMP_NO),0)+1
+	FROM EMPLOYEE
+
+</select>
+<!-- 직원 검색 (관리자용) -->
+<select id="searchEmployees" parameterType="map" resultType="EmployeeVO">
+	SELECT
+        EMP_NO, COM_NO, EMP_NM, EMP_DEP, EMP_POS, EMP_ONEPOS, EMP_COMTEL, EMP_TEL, EMP_COMMAIL, EMP_MAIL, EMP_BIR,
+        EMP_JOINDATE, EMP_YEAR, EMP_ID, EMP_GENDER, EMP_TYPE, EMP_DELYN, EMP_STATE
+    FROM
+        EMPLOYEE
+    WHERE
+    	EMP_DELYN = 'N'
+        <if test="empNm != null and empNm != ''">
+            AND EMP_NM LIKE CONCAT('%', #{empNm}, '%')
+        </if>
+        <if test="empDep != null">
+            AND EMP_DEP = #{empDep}
+        </if>
+        <if test="empPos != null">
+            AND EMP_POS = #{empPos}
+        </if>
+        <if test="empOnepos != null">
+            AND EMP_ONEPOS = #{empOnepos}
+        </if>
+        <if test="empState != null and empState != ''">
+				AND EMP_STATE = #{empState}
+		</if>
+
+</select>
+
+<!-- 직원 이름으로 직원 번호를 조회하는 쿼리 -->
+<select id="selectEmpNoByName" parameterType="string" resultType="int">
+    SELECT EMP_NO
+    FROM EMPLOYEE
+    WHERE EMP_NM = #{empNm}
+</select>
+
+<select id="selectEmployeeNameByEmpNo" parameterType="int" resultType="string">
+    SELECT EMP_NM
+    FROM EMPLOYEE
+    WHERE EMP_NO = #{empNo}
+</select>
+
+
+
+<update id="updateEmployeeState" parameterType="map">
+    UPDATE EMPLOYEE
+    SET EMP_STATE = #{empState}
+    WHERE EMP_NO = #{empNo}
+</update>
+
+
+
+<!-- 직원의 부서를 업데이트하는 SQL 쿼리 -->
+<update id="updateEmployeeDepartment" parameterType="map">
+     UPDATE EMPLOYEE
+     SET EMP_DEP = #{newOrgDep}
+     WHERE EMP_NO = #{empNo}
+</update>
+
+<!-- 부서명으로 ORG_NO 조회 -->
+<select id="selectDepNoByName" resultType="int">
+    SELECT ORG_NO
+    FROM ORGANIZATION
+    WHERE ORG_DEP = #{empDepName}
+    AND COM_NO = #{comNo, jdbcType=NUMERIC}
+</select>
+
+<!-- 직급명으로 POS_NO 조회 -->
+<select id="selectPosNoByName" resultType="int">
+    SELECT POS_NO
+    FROM POSITION
+    WHERE POS_NM = #{empPosName}
+    AND COM_NO = #{comNo, jdbcType=NUMERIC}
+    AND POS_TYPE = 'EB04110'
+</select>
+
+<!-- 직책명으로 POS_NO 조회 -->
+<select id="selectOneposNoByName" resultType="int">
+    SELECT POS_NO
+    FROM POSITION
+    WHERE POS_NM = #{empOneposName}
+    AND COM_NO = #{comNo, jdbcType=NUMERIC}
+    AND POS_TYPE = 'EB04120'
+</select>
+
+
+<insert id="insertNewEmployee" parameterType="EmployeeVO">
+    INSERT INTO EMPLOYEE (
+        EMP_NO, COM_NO, EMP_NM, EMP_DEP, EMP_POS, EMP_ONEPOS, EMP_COMTEL,
+        EMP_TEL, EMP_COMMAIL, EMP_MAIL, EMP_BIR, EMP_JOINDATE, EMP_YEAR,
+        EMP_ID, EMP_GENDER, EMP_PW, EMP_TYPE, EMP_STATE
+    ) VALUES (
+        (SELECT MAX(EMP_NO) + 1 FROM EMPLOYEE),
+        #{comNo},
+        #{empNm},
+        #{empDep},
+        #{empPos},
+        #{empOnepos},
+        #{empComtel},
+        #{empTel},
+        #{empCommail},
+        #{empMail},
+        #{empBir},
+        #{empJoindate},
+        #{empYear},
+        #{empId},
+        #{empGender},
+        #{empPw},
+        #{empType},
+        #{empState}
+    )
+</insert>
+
+<!-- 직급 및 직책 조회를 위한 쿼리 추가 -->
+<select id="selectPositionListByComNo" parameterType="map" resultType="PositionVO">
+    SELECT POS_NO, COM_NO, POS_NM, POS_TYPE
+    FROM POSITION
+    WHERE COM_NO = #{comNo} AND POS_TYPE = #{posType}
+</select>
+
+<select id="selectPositionByPosNo" parameterType="int" resultType="PositionVO">
+    SELECT POS_NO, COM_NO, POS_NM, POS_TYPE
+    FROM POSITION
+    WHERE POS_NO = #{posNo}
+</select>
+
+<insert id="insertPosition" parameterType="PositionVO">
+    INSERT INTO POSITION (POS_NO, COM_NO, POS_NM, POS_TYPE)
+    VALUES ((SELECT NVL(MAX(POS_NO), 0) + 1 FROM POSITION), #{comNo}, #{posNm}, #{posType})
+</insert>
+
+<update id="updatePosition" parameterType="PositionVO">
+    UPDATE POSITION
+    SET POS_NM = #{posNm}, POS_TYPE = #{posType}
+    WHERE POS_NO = #{posNo}
+</update>
+
+<delete id="deletePosition" parameterType="int">
+    DELETE FROM POSITION WHERE POS_NO = #{posNo}
+</delete>
+
+
+
+
+
+
+
+
+
+
+  <resultMap type="EmployeeVO" id="employeeAuthMap" autoMapping="true">
+  	<association property="company" javaType="CompanyVO" autoMapping="true">
+  		<association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+  	</association>
+  </resultMap>
+
+  <select id="selectEmployeeAuth" parameterType="String" resultMap="employeeAuthMap" >
+  	SELECT
+	    EMPLOYEE.EMP_NO
+	  , EMPLOYEE.COM_NO
+	  , EMPLOYEE.EMP_PROFILE
+	  , EMPLOYEE.EMP_NM
+	  , EMPLOYEE.EMP_AFF
+	  , EMPLOYEE.EMP_DEP
+	  , EMPLOYEE.EMP_POS
+	  , EMPLOYEE.EMP_ONEPOS
+	  , EMPLOYEE.EMP_COMTEL
+	  , EMPLOYEE.EMP_TEL
+	  , EMPLOYEE.EMP_COMMAIL
+	  , EMPLOYEE.EMP_MAIL
+	  , EMPLOYEE.EMP_BIR
+	  , EMPLOYEE.EMP_JOINDATE
+	  , EMPLOYEE.EMP_YEAR
+	  , EMPLOYEE.EMP_ID
+	  , EMPLOYEE.EMP_PW
+	  , EMPLOYEE.EMP_GENDER
+	  , EMPLOYEE.EMP_TYPE
+	  , EMPLOYEE.EMP_DELYN
+	  , EMPLOYEE.EMP_ROLE
+	  , COMPANY.COM_NM
+	  , COMPANY.COM_BSNM
+	  , COMPANY.COM_BSNO
+	  , COMPANY.COM_ADR
+	  , COMPANY.COM_TEL
+	  , COMPANY.COM_CLOGO
+	  , COMPANY.COM_WLOGO
+	  , COMPANY.COM_FAVICON
+	  , COMPANY.COM_OG
+	  , COMPANY.COM_CORNO
+	  , COMPANY.COM_GU
+	  , COMPANY.COM_SAPR
+	  ,	AF_CLOGO.ATCH_FILE_ID AS COM_CLOGO_ID
+	  , AF_CLOGO.CREATE_DT AS COM_CLOGO_CREATE_DT
+	  , AF_CLOGO.USE_AT AS COM_CLOGO_USE_AT
+	  , AFD_CLOGO.FILE_SN AS COM_CLOGO_FILE_SN
+	  , AFD_CLOGO.FILE_STRE_COURS AS COM_CLOGO_FILE_STRE_COURS
+	  , AFD_CLOGO.STRE_FILE_NM AS COM_CLOGO_STRE_FILE_NM
+	  , AFD_CLOGO.ORIGNL_FILE_NM AS COM_CLOGO_ORIGNL_FILE_NM
+	  , AFD_CLOGO.FILE_EXTSN AS COM_CLOGO_FILE_EXTSN
+	  , AFD_CLOGO.FILE_MIME AS COM_CLOGO_FILE_MIME
+	  , AFD_CLOGO.FILE_SIZE AS COM_CLOGO_FILE_SIZE
+	  , AFD_CLOGO.FILE_FANCYSIZE AS COM_CLOGO_FILE_FANCYSIZE
+	  , AFD_CLOGO.FILE_CN AS COM_CLOGO_FILE_CN
+	  , AFD_CLOGO.FILE_DWNCNT AS COM_CLOGO_FILE_DWNCNT
+	  , AF_FAVICON.ATCH_FILE_ID AS COM_FAVICON_ID
+	  , AF_FAVICON.CREATE_DT AS COM_FAVICON_CREATE_DT
+	  , AF_FAVICON.USE_AT AS COM_FAVICON_USE_AT
+	  , AFD_FAVICON.FILE_SN AS COM_FAVICON_FILE_SN
+	  , AFD_FAVICON.FILE_STRE_COURS AS COM_FAVICON_FILE_STRE_COURS
+	  , AFD_FAVICON.STRE_FILE_NM AS COM_FAVICON_STRE_FILE_NM
+	  , AFD_FAVICON.ORIGNL_FILE_NM AS COM_FAVICON_ORIGNL_FILE_NM
+	  , AFD_FAVICON.FILE_EXTSN AS COM_FAVICON_FILE_EXTSN
+	  , AFD_FAVICON.FILE_MIME AS COM_FAVICON_FILE_MIME
+	  , AFD_FAVICON.FILE_SIZE AS COM_FAVICON_FILE_SIZE
+	  , AFD_FAVICON.FILE_FANCYSIZE AS COM_FAVICON_FILE_FANCYSIZE
+	  , AFD_FAVICON.FILE_CN AS COM_FAVICON_FILE_CN
+	  , AFD_FAVICON.FILE_DWNCNT AS COM_FAVICON_FILE_DWNCNT
+	  , AFD_PROFILE.STRE_FILE_NM AS EMP_PROFILE_NM
+	  , POS.POS_NM AS EMP_POS_NAME
+      , ONEPOS.POS_NM AS EMP_ONEPOS_NAME
+	FROM
+	    EMPLOYEE INNER JOIN COMPANY ON (EMPLOYEE.COM_NO = COMPANY.COM_NO)
+	    LEFT JOIN ATCH_FILE AF_CLOGO ON COMPANY.COM_CLOGO = AF_CLOGO.ATCH_FILE_ID
+		LEFT JOIN ATCH_FILE_DETAIL AFD_CLOGO ON AF_CLOGO.ATCH_FILE_ID = AFD_CLOGO.ATCH_FILE_ID
+		LEFT JOIN ATCH_FILE AF_FAVICON ON COMPANY.COM_FAVICON = AF_FAVICON.ATCH_FILE_ID
+		LEFT JOIN ATCH_FILE_DETAIL AFD_FAVICON ON AF_FAVICON.ATCH_FILE_ID = AFD_FAVICON.ATCH_FILE_ID
+		LEFT OUTER JOIN ATCH_FILE_DETAIL AFD_PROFILE ON EMPLOYEE.EMP_PROFILE = AFD_PROFILE.ATCH_FILE_ID
+		LEFT OUTER JOIN POSITION POS ON EMPLOYEE.EMP_POS = POS.POS_NO
+        LEFT OUTER JOIN POSITION ONEPOS ON EMPLOYEE.EMP_ONEPOS = ONEPOS.POS_NO
+	WHERE EMPLOYEE.EMP_ID = #{empId} AND EMPLOYEE.EMP_DELYN = 'N'
+  </select>
+
+  <select id="selectEmployeeNoAdminComEmpList" parameterType="kr.or.ddit.commons.paging.PaginationInfo"  resultMap="employeeComListMap">
+
+	 WITH EmployeeDetails AS (
+	    SELECT
+	        E.EMP_NO,
+	        E.COM_NO,
+	        E.EMP_PROFILE,
+	        E.EMP_NM,
+	        E.EMP_AFF,
+	        E.EMP_DEP,
+	        E.EMP_POS,
+	        E.EMP_ONEPOS,
+	        E.EMP_COMTEL,
+	        E.EMP_TEL,
+	        E.EMP_COMMAIL,
+	        E.EMP_MAIL,
+	        E.EMP_BIR,
+	        E.EMP_JOINDATE,
+	        E.EMP_YEAR,
+	        E.EMP_ID,
+	        E.EMP_GENDER,
+	        E.EMP_PW,
+	        E.EMP_TYPE,
+	        E.EMP_DELYN,
+	        E.EMP_ROLE,
+	        E.EMP_STATE,
+	        C.COM_NO AS COMPANY_NO,
+	        C.COM_NM,
+	        O.ORG_NO,
+	        O.ORG_DEP,
+	        O.ORG_UPDEP,
+	        O.ORG_LEVEL,
+	        O.ORG_DF,
+	        O.ORG_ID,
+	        P.POS_NO,
+	        P.POS_NM,
+	        P2.POS_NM AS ONEPOSNM,
+	        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+	        AF.CREATE_DT,
+	        AF.USE_AT,
+	        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+	        AFD.FILE_SN,
+	        AFD.FILE_STRE_COURS,
+	        AFD.STRE_FILE_NM,
+	        AFD.ORIGNL_FILE_NM,
+	        AFD.FILE_EXTSN,
+	        AFD.FILE_MIME,
+	        AFD.FILE_SIZE,
+	        AFD.FILE_FANCYSIZE,
+	        AFD.FILE_CN,
+	        AFD.FILE_DWNCNT
+	    FROM
+	        EMPLOYEE E
+	    LEFT JOIN
+	        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+	    LEFT JOIN
+	        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+	    LEFT JOIN
+	        COMPANY C ON E.COM_NO = C.COM_NO
+	    LEFT JOIN
+	        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+	    LEFT JOIN
+	        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+	    LEFT JOIN
+	        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+	    WHERE
+	        C.COM_NO = #{comNo} AND E.EMP_DELYN = 'N'
+	    AND
+	    	E.EMP_ROLE NOT LIKE 'ROLE_ADMIN'
+	)
+	SELECT *
+	FROM EmployeeDetails
+	ORDER BY
+	    ORG_UPDEP NULLS FIRST, ORG_ID, ORG_UPDEP, ORG_LEVEL, ORG_DF
+
+</select>
+
+<insert id="insertEmployeeByAdmin">
+	INSERT INTO EMPLOYEE (
+    EMP_NO
+    , COM_NO
+    , EMP_PROFILE
+    , EMP_NM
+    , EMP_AFF
+    , EMP_DEP
+    , EMP_POS
+    , EMP_ONEPOS
+    , EMP_COMTEL
+    , EMP_TEL
+    , EMP_COMMAIL
+    , EMP_MAIL
+    , EMP_BIR
+    , EMP_JOINDATE
+    , EMP_YEAR
+    , EMP_ID
+    , EMP_GENDER
+    , EMP_PW
+    , EMP_TYPE
+    , EMP_DELYN
+    , EMP_STATE
+    , EMP_ROLE
+	) VALUES (
+	(SELECT MAX(EMP_NO)+1
+	 FROM EMPLOYEE)
+	, #{comNo, jdbcType=NUMERIC}
+	, #{empProfile, jdbcType=NUMERIC}
+	, #{empNm, jdbcType=VARCHAR}
+	, #{empAff, jdbcType=VARCHAR}
+	, #{empDep, jdbcType=NUMERIC}
+	, #{empPos, jdbcType=NUMERIC}
+	, #{empOnepos, jdbcType=NUMERIC}
+	, #{empComtel, jdbcType=VARCHAR}
+	, #{empTel, jdbcType=VARCHAR}
+	, #{empCommail, jdbcType=VARCHAR}
+	, #{empMail, jdbcType=VARCHAR}
+	, #{empBir, jdbcType=VARCHAR}
+	, #{empJoindate, jdbcType=VARCHAR}
+	, #{empYear, jdbcType=NUMERIC}
+	, #{empId, jdbcType=VARCHAR}
+	, #{empGender, jdbcType=VARCHAR}
+	, #{empPw, jdbcType=VARCHAR}
+	, #{empType, jdbcType=VARCHAR}
+	, 'N'
+	, #{empState, jdbcType=VARCHAR}
+	, #{empRole, jdbcType=VARCHAR}
+	)
+</insert>
+
+<resultMap type="mailSerchVO" id="mail" autoMapping="true">
+</resultMap>
+
+<select id="selectEmpNo"  resultType="int">
+	SELECT EMP_NO
+	FROM EMPLOYEE
+	WHERE EMP_NM = #{EmpNm}
+	    AND EMP_DEP LIKE (
+		    				SELECT ORG_NO
+		                    FROM ORGANIZATION
+		                    WHERE ORG_DEP LIKE  #{posNm}
+		                        AND COM_NO LIKE #{comNo}  	)
+	    AND EMP_POS LIKE (
+						    SELECT POS_NO
+						    FROM POSITION
+						    WHERE POS_NM LIKE #{orgDep}
+						        AND COM_NO LIKE #{comNo} 	)
+</select>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ConferenceParticipantsDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ConferenceParticipantsDefaultVO">
+    <id column="CONPAR_NO" jdbcType="NUMERIC" property="conparNo" />
+    <result column="CON_NO" jdbcType="NUMERIC" property="conNo" />
+    <result column="CONPAR_EMPNO" jdbcType="NUMERIC" property="conparEmpno" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CONFERENCE_PARTICIPANTS
+    where CONPAR_NO = #{conparNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ConferenceParticipantsDefaultVO">
+    insert into CONFERENCE_PARTICIPANTS (CONPAR_NO, CON_NO, CONPAR_EMPNO
+      )
+    values (#{conparNo,jdbcType=NUMERIC}, #{conNo,jdbcType=NUMERIC}, #{conparEmpno,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ConferenceParticipantsDefaultVO">
+    update CONFERENCE_PARTICIPANTS
+    set CON_NO = #{conNo,jdbcType=NUMERIC},
+      CONPAR_EMPNO = #{conparEmpno,jdbcType=NUMERIC}
+    where CONPAR_NO = #{conparNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select CONPAR_NO, CON_NO, CONPAR_EMPNO
+    from CONFERENCE_PARTICIPANTS
+    where CONPAR_NO = #{conparNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CONPAR_NO, CON_NO, CONPAR_EMPNO
+    from CONFERENCE_PARTICIPANTS
+  </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.RoomReservationDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.RoomReservationDefaultVO">
+    <id column="TODO_NO" jdbcType="NUMERIC" property="todoNo" />
+    <id column="ROOM_NO" jdbcType="NUMERIC" property="roomNo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from ROOM_RESERVATION
+    where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+      and ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.RoomReservationDefaultVO">
+    insert into ROOM_RESERVATION (TODO_NO, ROOM_NO)
+    values (#{todoNo,jdbcType=NUMERIC}, #{roomNo,jdbcType=NUMERIC})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select TODO_NO, ROOM_NO
+    from ROOM_RESERVATION
+  </select>
+</mapper>

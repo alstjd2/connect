@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.PmtDcmDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.PmtDcmDefaultVO">
+    <id column="PMT_DCM_NO" jdbcType="NUMERIC" property="pmtDcmNo" />
+    <result column="COMDCM_NUM_NO" jdbcType="NUMERIC" property="comdcmNumNo" />
+    <result column="DCM_FORM_NO" jdbcType="NUMERIC" property="dcmFormNo" />
+    <result column="PMT_DCM_STA_NO" jdbcType="VARCHAR" property="pmtDcmStaNo" />
+    <result column="PMT_LINE_ NO" jdbcType="NUMERIC" property="pmtLineNo" />
+    <result column="PMT_DCM_TITLE" jdbcType="VARCHAR" property="pmtDcmTitle" />
+    <result column="PMT_DCM_ATTNO" jdbcType="NUMERIC" property="pmtDcmAttno" />
+    <result column="PMT_RET_DCM_NO" jdbcType="NUMERIC" property="pmtRetDcmNo" />
+    <result column="PMT_DCM_TEP_SAVE_YN" jdbcType="VARCHAR" property="pmtDcmTepSaveYn" />
+    <result column="PMT_DCM_EMPNO" jdbcType="NUMERIC" property="pmtDcmEmpno" />
+    <result column="PMT_DCM_SAVE_DATE" jdbcType="TIMESTAMP" property="pmtDcmSaveDate" />
+    <result column="PMT_DCM_PRE_POS" jdbcType="NUMERIC" property="pmtDcmPrePos" />
+    <result column="PMT_DCM_REC_EMPNO" jdbcType="NUMERIC" property="pmtDcmRecEmpno" />
+    <result column="PMT_DCM_CONTENT" jdbcType="CLOB" property="pmtDcmContent" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PMT_DCM
+    where PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.PmtDcmDefaultVO">
+    insert into PMT_DCM (PMT_DCM_NO, COMDCM_NUM_NO, DCM_FORM_NO, 
+      PMT_DCM_STA_NO, "PMT_LINE_ NO", PMT_DCM_TITLE, 
+      PMT_DCM_ATTNO, PMT_RET_DCM_NO, PMT_DCM_TEP_SAVE_YN, 
+      PMT_DCM_EMPNO, PMT_DCM_SAVE_DATE, PMT_DCM_PRE_POS, 
+      PMT_DCM_REC_EMPNO, PMT_DCM_CONTENT)
+    values (#{pmtDcmNo,jdbcType=NUMERIC}, #{comdcmNumNo,jdbcType=NUMERIC}, #{dcmFormNo,jdbcType=NUMERIC}, 
+      #{pmtDcmStaNo,jdbcType=VARCHAR}, #{pmtLineNo,jdbcType=NUMERIC}, #{pmtDcmTitle,jdbcType=VARCHAR}, 
+      #{pmtDcmAttno,jdbcType=NUMERIC}, #{pmtRetDcmNo,jdbcType=NUMERIC}, #{pmtDcmTepSaveYn,jdbcType=VARCHAR}, 
+      #{pmtDcmEmpno,jdbcType=NUMERIC}, #{pmtDcmSaveDate,jdbcType=TIMESTAMP}, #{pmtDcmPrePos,jdbcType=NUMERIC}, 
+      #{pmtDcmRecEmpno,jdbcType=NUMERIC}, #{pmtDcmContent,jdbcType=CLOB})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.PmtDcmDefaultVO">
+    update PMT_DCM
+    set COMDCM_NUM_NO = #{comdcmNumNo,jdbcType=NUMERIC},
+      DCM_FORM_NO = #{dcmFormNo,jdbcType=NUMERIC},
+      PMT_DCM_STA_NO = #{pmtDcmStaNo,jdbcType=VARCHAR},
+      "PMT_LINE_ NO" = #{pmtLineNo,jdbcType=NUMERIC},
+      PMT_DCM_TITLE = #{pmtDcmTitle,jdbcType=VARCHAR},
+      PMT_DCM_ATTNO = #{pmtDcmAttno,jdbcType=NUMERIC},
+      PMT_RET_DCM_NO = #{pmtRetDcmNo,jdbcType=NUMERIC},
+      PMT_DCM_TEP_SAVE_YN = #{pmtDcmTepSaveYn,jdbcType=VARCHAR},
+      PMT_DCM_EMPNO = #{pmtDcmEmpno,jdbcType=NUMERIC},
+      PMT_DCM_SAVE_DATE = #{pmtDcmSaveDate,jdbcType=TIMESTAMP},
+      PMT_DCM_PRE_POS = #{pmtDcmPrePos,jdbcType=NUMERIC},
+      PMT_DCM_REC_EMPNO = #{pmtDcmRecEmpno,jdbcType=NUMERIC},
+      PMT_DCM_CONTENT = #{pmtDcmContent,jdbcType=CLOB}
+    where PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select PMT_DCM_NO, COMDCM_NUM_NO, DCM_FORM_NO, PMT_DCM_STA_NO, "PMT_LINE_ NO", PMT_DCM_TITLE, 
+    PMT_DCM_ATTNO, PMT_RET_DCM_NO, PMT_DCM_TEP_SAVE_YN, PMT_DCM_EMPNO, PMT_DCM_SAVE_DATE, 
+    PMT_DCM_PRE_POS, PMT_DCM_REC_EMPNO, PMT_DCM_CONTENT
+    from PMT_DCM
+    where PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select PMT_DCM_NO, COMDCM_NUM_NO, DCM_FORM_NO, PMT_DCM_STA_NO, "PMT_LINE_ NO", PMT_DCM_TITLE, 
+    PMT_DCM_ATTNO, PMT_RET_DCM_NO, PMT_DCM_TEP_SAVE_YN, PMT_DCM_EMPNO, PMT_DCM_SAVE_DATE, 
+    PMT_DCM_PRE_POS, PMT_DCM_REC_EMPNO, PMT_DCM_CONTENT
+    from PMT_DCM
+  </select>
+</mapper>

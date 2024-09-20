@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.tableBox{ 
+	width: 100%; 
+	height: 80%; 
+	overflow-y:auto; 
+	overflow-x:auto; 
+	position: relative;
+}
+	
+.tableData{
+	border-collapse: collapse;
+	 min-width:1px;
+ }
+	 
+.tableData thead tr th{
+	position: sticky;
+	top: 0; 
+	background: rgb(233,236,239);
+	height: 50px;  
+	border-bottom: 2px solid dodgerblue; 
+	/* border-right: 1px solid #aaa; */
+}
+
+.tableData tbody tr td{
+	padding: 15px 10px;  
+	border-bottom: 1px solid #dedede; 
+}

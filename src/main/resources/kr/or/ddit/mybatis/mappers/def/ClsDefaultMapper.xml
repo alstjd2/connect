@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ClsDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ClsDefaultVO">
+    <id column="CLS_NO" jdbcType="NUMERIC" property="clsNo" />
+    <result column="CHI_NO" jdbcType="NUMERIC" property="chiNo" />
+    <result column="CLS_CNT" jdbcType="VARCHAR" property="clsCnt" />
+    <result column="CLS_IMG" jdbcType="NUMERIC" property="clsImg" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CLS
+    where CLS_NO = #{clsNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ClsDefaultVO">
+    insert into CLS (CLS_NO, CHI_NO, CLS_CNT, 
+      CLS_IMG)
+    values (#{clsNo,jdbcType=NUMERIC}, #{chiNo,jdbcType=NUMERIC}, #{clsCnt,jdbcType=VARCHAR}, 
+      #{clsImg,jdbcType=NUMERIC})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ClsDefaultVO">
+    update CLS
+    set CHI_NO = #{chiNo,jdbcType=NUMERIC},
+      CLS_CNT = #{clsCnt,jdbcType=VARCHAR},
+      CLS_IMG = #{clsImg,jdbcType=NUMERIC}
+    where CLS_NO = #{clsNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select CLS_NO, CHI_NO, CLS_CNT, CLS_IMG
+    from CLS
+    where CLS_NO = #{clsNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CLS_NO, CHI_NO, CLS_CNT, CLS_IMG
+    from CLS
+  </select>
+</mapper>

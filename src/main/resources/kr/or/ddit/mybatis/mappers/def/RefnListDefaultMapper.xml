@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.RefnListDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.RefnListDefaultVO">
+    <id column="BUY_NO" jdbcType="NUMERIC" property="buyNo" />
+    <result column="REFN_DATE" jdbcType="VARCHAR" property="refnDate" />
+    <result column="REFN_CHK_DATE" jdbcType="VARCHAR" property="refnChkDate" />
+    <result column="REFN_DETAIL_CONTENT" jdbcType="VARCHAR" property="refnDetailContent" />
+    <result column="REFN_STATUS" jdbcType="VARCHAR" property="refnStatus" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REFN_LIST
+    where BUY_NO = #{buyNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.RefnListDefaultVO">
+    insert into REFN_LIST (BUY_NO, REFN_DATE, REFN_CHK_DATE, 
+      REFN_DETAIL_CONTENT, REFN_STATUS, COM_NO
+      )
+    values (#{buyNo,jdbcType=NUMERIC}, #{refnDate,jdbcType=VARCHAR}, #{refnChkDate,jdbcType=VARCHAR}, 
+      #{refnDetailContent,jdbcType=VARCHAR}, #{refnStatus,jdbcType=VARCHAR}, #{comNo,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.RefnListDefaultVO">
+    update REFN_LIST
+    set REFN_DATE = #{refnDate,jdbcType=VARCHAR},
+      REFN_CHK_DATE = #{refnChkDate,jdbcType=VARCHAR},
+      REFN_DETAIL_CONTENT = #{refnDetailContent,jdbcType=VARCHAR},
+      REFN_STATUS = #{refnStatus,jdbcType=VARCHAR},
+      COM_NO = #{comNo,jdbcType=NUMERIC}
+    where BUY_NO = #{buyNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select BUY_NO, REFN_DATE, REFN_CHK_DATE, REFN_DETAIL_CONTENT, REFN_STATUS, COM_NO
+    from REFN_LIST
+    where BUY_NO = #{buyNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select BUY_NO, REFN_DATE, REFN_CHK_DATE, REFN_DETAIL_CONTENT, REFN_STATUS, COM_NO
+    from REFN_LIST
+  </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.RoomDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.RoomDefaultVO">
+    <id column="ROOM_NO" jdbcType="NUMERIC" property="roomNo" />
+    <id column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="ROOM_NM" jdbcType="VARCHAR" property="roomNm" />
+    <result column="ROOM_LOC" jdbcType="VARCHAR" property="roomLoc" />
+    <result column="ROOM_EMPMAX" jdbcType="NUMERIC" property="roomEmpmax" />
+    <result column="ROOM_STATE" jdbcType="VARCHAR" property="roomState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from ROOM
+    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.RoomDefaultVO">
+    insert into ROOM (ROOM_NO, COM_NO, ROOM_NM, 
+      ROOM_LOC, ROOM_EMPMAX, ROOM_STATE
+      )
+    values (#{roomNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{roomNm,jdbcType=VARCHAR}, 
+      #{roomLoc,jdbcType=VARCHAR}, #{roomEmpmax,jdbcType=NUMERIC}, #{roomState,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.RoomDefaultVO">
+    update ROOM
+    set ROOM_NM = #{roomNm,jdbcType=VARCHAR},
+      ROOM_LOC = #{roomLoc,jdbcType=VARCHAR},
+      ROOM_EMPMAX = #{roomEmpmax,jdbcType=NUMERIC},
+      ROOM_STATE = #{roomState,jdbcType=VARCHAR}
+    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select ROOM_NO, COM_NO, ROOM_NM, ROOM_LOC, ROOM_EMPMAX, ROOM_STATE
+    from ROOM
+    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+      and COM_NO = #{comNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ROOM_NO, COM_NO, ROOM_NM, ROOM_LOC, ROOM_EMPMAX, ROOM_STATE
+    from ROOM
+  </select>
+</mapper>

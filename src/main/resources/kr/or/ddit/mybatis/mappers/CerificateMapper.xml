@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.cerificate.dao.CerificateMapper">
+  <resultMap id="cerificateMap" type="kr.or.ddit.vo.CerificateVO">
+    <id column="CERT_NO" jdbcType="NUMERIC" property="certNo" />
+    <association property="employee" javaType="EmployeeVO" autoMapping="true" />
+    <association property="company" javaType="CompanyVO" autoMapping="true"/>
+  </resultMap>
+  <delete id="deleteCerificate" parameterType="int">
+    delete from CERIFICATE
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertCerificate" parameterType="kr.or.ddit.vo.CerificateVO">
+    insert into CERIFICATE (CERT_NO, EMP_NO, COM_NO,
+      CERT_KIND, CERT_IDATE, CERT_AMT,
+      CERT_ISSCON, CERT_PORP)
+    values (#{certNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC},
+      #{certKind,jdbcType=VARCHAR}, #{certIdate,jdbcType=DATE}, #{certAmt,jdbcType=VARCHAR},
+      #{certIsscon,jdbcType=VARCHAR}, #{certPorp,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateCerificate" parameterType="kr.or.ddit.vo.CerificateVO">
+    update CERIFICATE
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      CERT_KIND = #{certKind,jdbcType=VARCHAR},
+      CERT_IDATE = #{certIdate,jdbcType=DATE},
+      CERT_AMT = #{certAmt,jdbcType=VARCHAR},
+      CERT_ISSCON = #{certIsscon,jdbcType=VARCHAR},
+      CERT_PORP = #{certPorp,jdbcType=VARCHAR}
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectCerificate" parameterType="int" resultMap="cerificateMap">
+    select CERT_NO, EMP_NO, COM_NO, CERT_KIND, CERT_IDATE, CERT_AMT, CERT_ISSCON, CERT_PORP
+    from CERIFICATE
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectCerificateList" resultType="CerificateVO">
+    SELECT
+        c.CERT_ISSNO AS certIssNo,
+        c.CERT_ISSCON AS certIsscon,
+        e.EMP_NM AS empNm,
+        c.CERT_KIND AS certKind,
+        c.CERT_IDATE AS certIdate
+    FROM CERIFICATE c
+    LEFT JOIN EMPLOYEE e ON c.EMP_NO = e.EMP_NO
+    WHERE c.COM_NO = #{comNo}
+    ORDER BY c.CERT_ISSNO DESC
+  </select>
+</mapper>

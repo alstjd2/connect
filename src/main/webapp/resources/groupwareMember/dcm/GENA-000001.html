@@ -1,0 +1,84 @@
+<span class="container flex-grow-1 container-p-y bg-white">
+    <style>
+        #approvalTable input {
+            text-align: center;
+        }
+    </style>
+
+    <!-- Header -->
+    <table class="table">
+        <colgroup>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>&nbsp;협조문</td>
+                <td>[결재선]</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Approval Table -->
+    <table class="table" id="approvalTable">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <th>문서번호</th>
+                <td><span>문서번호</span></td>
+                <th>보안등급</th>
+                <td><span>보안등급</span></td>
+                <th>기안일시</th>
+                <td><span>기안일</span></td>
+            </tr>
+            <tr>
+                <th>기안자</th>
+                <td><span>기안자</span></td>
+                <th>부서</th>
+                <td><span>기안부서</span></td>
+                <th>보존연한</th>
+                <td><span>보존연한</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Details Table -->
+    <table class="table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <th>수신</th>
+                <td colspan="3"><input class="form-control bg-white" type="text"></td>
+            </tr>
+            <tr>
+                <th>참조</th>
+                <td colspan="3"><input class="form-control bg-white" type="text"></td>
+            </tr>
+            <tr>
+                <th>발신</th>
+                <td><input class="form-control bg-white" type="text"></td>
+                <th>발신일자</th>
+                <td><input class="form-control bg-white" type="text"></td>
+            </tr>
+            <tr>
+                <th>제목</th>
+                <td colspan="3"><input class="form-control bg-white" type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><span>에디터(본문)</span></td>
+            </tr>
+        </tbody>
+    </table>
+</span>

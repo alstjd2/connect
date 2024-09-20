@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.AppointmentsDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.AppointmentsDefaultVO">
+    <id column="APM_NO" jdbcType="NUMERIC" property="apmNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="APM_WRITER" jdbcType="NUMERIC" property="apmWriter" />
+    <result column="APM_DATE" jdbcType="TIMESTAMP" property="apmDate" />
+    <result column="APM_ENDATE" jdbcType="TIMESTAMP" property="apmEndate" />
+    <result column="APM_TYPE" jdbcType="VARCHAR" property="apmType" />
+    <result column="APM_CONTENT" jdbcType="VARCHAR" property="apmContent" />
+    <result column="APM_DELYN" jdbcType="VARCHAR" property="apmDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from APPOINTMENTS
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.AppointmentsDefaultVO">
+    insert into APPOINTMENTS (APM_NO, EMP_NO, COM_NO, 
+      APM_WRITER, APM_DATE, APM_ENDATE, 
+      APM_TYPE, APM_CONTENT, APM_DELYN
+      )
+    values (#{apmNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, 
+      #{apmWriter,jdbcType=NUMERIC}, #{apmDate,jdbcType=TIMESTAMP}, #{apmEndate,jdbcType=TIMESTAMP}, 
+      #{apmType,jdbcType=VARCHAR}, #{apmContent,jdbcType=VARCHAR}, #{apmDelyn,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.AppointmentsDefaultVO">
+    update APPOINTMENTS
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      APM_WRITER = #{apmWriter,jdbcType=NUMERIC},
+      APM_DATE = #{apmDate,jdbcType=TIMESTAMP},
+      APM_ENDATE = #{apmEndate,jdbcType=TIMESTAMP},
+      APM_TYPE = #{apmType,jdbcType=VARCHAR},
+      APM_CONTENT = #{apmContent,jdbcType=VARCHAR},
+      APM_DELYN = #{apmDelyn,jdbcType=VARCHAR}
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select APM_NO, EMP_NO, COM_NO, APM_WRITER, APM_DATE, APM_ENDATE, APM_TYPE, APM_CONTENT, 
+    APM_DELYN
+    from APPOINTMENTS
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select APM_NO, EMP_NO, COM_NO, APM_WRITER, APM_DATE, APM_ENDATE, APM_TYPE, APM_CONTENT, 
+    APM_DELYN
+    from APPOINTMENTS
+  </select>
+</mapper>

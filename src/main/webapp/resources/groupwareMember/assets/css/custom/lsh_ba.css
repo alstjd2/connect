@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+
+
+
+
+
+.chat-room-header-name {
+    font-size: 1.5rem; /* 폰트 크기 설정, 필요에 따라 크기를 조정하세요 */
+    font-weight: bold; /* 글자 굵기를 더 두껍게 설정할 수 있습니다 (선택 사항) */
+}
+
+
+
+
+li.chat-message::marker {
+    content: none;  /* 마커(•) 제거 */
+}
+
+
+/* 본인이 보낸 메시지를 오른쪽에 정렬 */
+.my-message {
+	justify-content: flex-end; /* 오른쪽 정렬 */
+    text-align: right;
+    margin-left: auto;
+    background-color: #e0f7fa;  /* 다른 색으로 구분 */
+    max-width: 30%;  /* 최대 너비 설정, 화면을 넘지 않도록 */
+    word-wrap: break-word;  /* 긴 단어가 있을 경우 줄바꿈 */
+    padding: 10px;  /* 말풍선 내부에 여백 추가 */
+    border-radius: 8px;  /* 모서리를 둥글게 */
+    margin-bottom: 10px;  /* 아래쪽 여백 추가 */
+}
+
+/* 다른 사람이 보낸 메시지를 왼쪽에 정렬 */
+.other-message {
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	margin-right: auto;
+    text-align: left;
+    background-color: #f1f1f1;
+    max-width: 30%;  /* 최대 너비 설정, 화면을 넘지 않도록 */
+    word-wrap: break-word;  /* 긴 단어가 있을 경우 줄바꿈 */
+    padding: 10px;  /* 말풍선 내부에 여백 추가 */
+    border-radius: 8px;  /* 모서리를 둥글게 */
+    margin-bottom: 10px;  /* 아래쪽 여백 추가 */
+}
+
+.chat-message-wrapper {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+
+.chat-sender-name {
+    margin-bottom: 20px; /* 기존 간격보다 넓히고 싶은 만큼 숫자를 조정 */
+    font-size: 17px;
+}
+
+.chat-message-text {
+    margin-top: 20px; /* 메시지 내용과 위의 이름 사이 간격 조정 */
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+

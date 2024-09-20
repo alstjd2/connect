@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.msgroom.dao.MsglogMapper">
+  <resultMap id="msglogMap" type="kr.or.ddit.vo.MsglogVO">
+    <id column="MSGLOG_NO" jdbcType="NUMERIC" property="msglogNo" />
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <association property="msgRoom" javaType="MsgroomVO" autoMapping="true" />
+    <association property="recieve" javaType="RecieveVO" autoMapping="true" />
+    <association property="atchFile" javaType="AtchFileVO" autoMapping="true" />
+  </resultMap>
+  <delete id="deleteMsglog" parameterType="map">
+    delete from MSGLOG
+    where MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertMsglog" parameterType="kr.or.ddit.vo.MsglogVO">
+    insert into MSGLOG (MSGLOG_NO, MSGRM_NO, MSGLOG_CONTENT,
+      MSGLOG_WTDATE, ATCH_FILE_ID)
+    values (#{msglogNo,jdbcType=NUMERIC}, #{msgrmNo,jdbcType=NUMERIC}, #{msglogContent,jdbcType=VARCHAR},
+      #{msglogWtdate,jdbcType=DATE}, #{atchFileId,jdbcType=NUMERIC})
+  </insert>
+  <update id="updateMsglog" parameterType="kr.or.ddit.vo.MsglogVO">
+    update MSGLOG
+    set MSGLOG_CONTENT = #{msglogContent,jdbcType=VARCHAR},
+      MSGLOG_WTDATE = #{msglogWtdate,jdbcType=DATE},
+      ATCH_FILE_ID = #{atchFileId,jdbcType=NUMERIC}
+    where MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectMsglog" parameterType="map" resultMap="msglogMap">
+    select MSGLOG_NO, MSGRM_NO, MSGLOG_CONTENT, MSGLOG_WTDATE, ATCH_FILE_ID
+    from MSGLOG
+    where MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="msglogMap">
+    select MSGLOG_NO, MSGRM_NO, MSGLOG_CONTENT, MSGLOG_WTDATE, ATCH_FILE_ID
+    from MSGLOG
+  </select>
+</mapper>

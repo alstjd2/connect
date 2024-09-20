@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.buyList.dao.BuyListMapper">
+
+	<resultMap id="BuyeRMap" type="kr.or.ddit.vo.BuyListVO" autoMapping="true">
+		<result column="BUY_NO" jdbcType="NUMERIC" property="buyNo" />
+		<result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+		<result column="PROD_NO" jdbcType="NUMERIC" property="prodNo" />
+		<result column="BUY_DATE" jdbcType="VARCHAR" property="buyDate" />
+		<result column="BUY_TID" jdbcType="VARCHAR" property="buyTid" />
+		<result column="BUY_TG_TOKEN" jdbcType="VARCHAR" property="buyTgToken" />
+		<result column="BUY_USE_START_DATE" jdbcType="VARCHAR"
+			property="buyUseStartDate" />
+		<result column="BUY_USE_END_DATE" jdbcType="VARCHAR"
+			property="buyUseEndDate" />
+		<result column="BUY_REFN" jdbcType="VARCHAR" property="buyRefn" />
+		<result column="BUY_CARD_NO" jdbcType="VARCHAR"
+			property="buyCardNo" />
+		<result column="BUY_BANK_NM" jdbcType="VARCHAR"
+			property="buyBankNm" />
+		<result column="BUY_CARD_NM" jdbcType="VARCHAR"
+			property="buyCardNm" />
+		<result column="CNT" jdbcType="NUMERIC" property="cnt" />
+		<result column="BUY_STATUS" jdbcType="VARCHAR" property="buyStatus" />
+		<result column="BUY_AMOUNT" jdbcType="NUMERIC"
+			property="buyAmount" />
+		<association property="refnDetail" javaType="RefnListVO"
+			autoMapping="true"></association>
+		<association property="prod" javaType="ProdListVO"
+			autoMapping="true"></association>
+		<association property="company" javaType="CompanyVO"
+			autoMapping="true"></association>
+	</resultMap>
+
+	<sql id="basic">
+		SELECT
+			BUY_NO
+			, BUY_LIST.COM_NO
+			, COMPANY.COM_NM
+			, COMPANY.COM_TEL
+			, PROD_NO
+			, TO_CHAR(BUY_DATE, 'YYYY-MM-DD') AS BUY_DATE
+			, BUY_USE_START_DATE
+			, BUY_USE_END_DATE
+			, BUY_REFN
+			, BUY_CARD_NO
+			, BUY_BANK_NM
+			, BUY_CARD_NM
+			, BUY_TID
+			, BUY_TG_TOKEN
+			, PROD_NM
+			, PROD_PRICE
+			, PROD_EVENT_NM
+			, PROD_DETAIL_CONTENT1
+			, PROD_DETAIL_CONTENT2
+			, PROD_AVAIL
+			, PROD_CRE_DATE
+			, PROD_EVEN_START
+			, PROD_EVN_END
+			, PROD_USE_DAY
+		FROM
+			BUY_LIST NATURAL JOIN PROD_LIST
+			LEFT OUTER JOIN COMPANY
+				ON(BUY_LIST.COM_NO = COMPANY.COM_NO)
+		WHERE BUY_STATUS = 'Y'
+	</sql>
+
+
+	<update id="updateBuyRefnChange"
+		parameterType="kr.or.ddit.vo.ProdListVO">
+		UPDATE BUY_LIST
+		SET
+			BUY_REFN = 'Y'
+		WHERE
+			BUY_NO = #{buyListNo,jdbcType=NUMERIC}
+	</update>
+
+
+	<select id="selectBuyListAll" resultMap="BuyeRMap">
+		<include refid="basic"></include>
+	</select>
+
+	<select id="selectComBuyList" resultMap="BuyeRMap">
+		WITH A AS (
+		SELECT
+		BUY_NO
+		, COM_NO
+		, PROD_NO
+		, TO_CHAR(BUY_DATE, 'YYYY-MM-DD') AS BUY_DATE
+		, BUY_USE_START_DATE
+		, BUY_USE_END_DATE
+		, BUY_REFN
+		, BUY_CARD_NO
+		, BUY_BANK_NM
+		, BUY_CARD_NM
+		, BUY_TID
+		, BUY_TG_TOKEN
+		, PROD_NM
+		, PROD_PRICE
+		, PROD_EVENT_NM
+		, PROD_DETAIL_CONTENT1
+		, PROD_DETAIL_CONTENT2
+		, PROD_AVAIL
+		, PROD_CRE_DATE
+		, PROD_EVEN_START
+		, PROD_EVN_END
+		, PROD_USE_DAY
+		FROM
+		BUY_LIST NATURAL JOIN PROD_LIST
+		WHERE
+		COM_NO = #{comNo,jdbcType=NUMERIC}
+		AND BUY_STATUS = 'Y'
+		ORDER BY
+		BUY_DATE DESC
+		)
+		SELECT ROWNUM AS CNT, A.*
+		FROM A
+	</select>
+
+	<select id="selectBuyUse" resultType="String">
+	<![CDATA[
+		SELECT BUY_USE_STR_DATE
+		FROM
+			(SELECT
+		   TO_CHAR(TO_DATE(BUY_USE_END_DATE, 'YYYYMMDD')+1, 'YYYYMMDD') AS BUY_USE_STR_DATE
+			FROM
+			         BUY_LIST
+			    NATURAL JOIN PROD_LIST
+			    LEFT OUTER JOIN COMPANY ON ( BUY_LIST.COM_NO = COMPANY.COM_NO )
+			WHERE
+			    COMPANY.COM_NO LIKE #{comNo,jdbcType=NUMERIC}
+			    AND BUY_REFN LIKE 'N'
+			    AND BUY_USE_END_DATE >= TO_CHAR(SYSDATE, 'yyyyMMdd')
+			    AND BUY_LIST.BUY_STATUS NOT LIKE 'N'
+			    AND BUY_NO IN (select max(B.BUY_NO) from BUY_LIST B WHERE B.COM_NO = #{comNo,jdbcType=NUMERIC} GROUP BY B.COM_NO))
+
+	]]>
+
+	</select>
+
+	<select id="selectBuyList" resultMap="BuyeRMap">
+		<include refid="basic"></include>
+		WHERE
+		BUY_NO = #{buyNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="selectBuyListNotRefAll" resultMap="BuyeRMap">
+		<include refid="basic"></include>
+		WHERE
+		BUY_REFN = 'N'
+		OR
+		BUY_REFN = 'n'
+	</select>
+
+	<resultMap id="RevenueMap" type="kr.or.ddit.vo.VRevenueVO">
+		<result column="REVENUE" jdbcType="NUMERIC" property="revenue" />
+		<result column="DATE_GROUP" jdbcType="VARCHAR"
+			property="dateGroup" />
+	</resultMap>
+
+
+<!-- 구매 라인 그래프 -->
+	<select id="selectRevenue" resultMap="RevenueMap">
+		SELECT
+		    SUM(PROD_PRICE) AS REVENUE
+		  , DATE_GROUP
+		FROM
+		    (
+		        SELECT
+		            BUY_DATE
+		          , PROD_PRICE
+		          , TO_CHAR(BUY_DATE, 'YYYYMM') AS DATE_GROUP
+		         FROM
+					BUY_LIST NATURAL JOIN PROD_LIST
+		        WHERE BUY_LIST.BUY_STATUS LIKE 'Y'
+		    )
+		GROUP BY DATE_GROUP
+		ORDER BY DATE_GROUP
+	</select>
+
+<!-- 환불 라인 그래프  -->
+	<select id="selectRefnCnt" resultMap="RevenueMap">
+		SELECT
+		    A.DATE_GROUP, NVL(B.REVENUE,0) REVENUE
+		FROM
+		    (
+		        SELECT
+		            SUM(PROD_PRICE) AS REVENUE
+		          , DATE_GROUP
+		        FROM
+		            (
+		                SELECT
+		                    BUY_DATE
+		                  , PROD_PRICE
+		                  , TO_CHAR(BUY_DATE, 'YYYYMM') AS DATE_GROUP
+		                FROM
+		                         BUY_LIST
+		                    NATURAL JOIN PROD_LIST
+		                WHERE
+		                    BUY_LIST.BUY_STATUS LIKE 'Y'
+		            )
+		        GROUP BY
+		            DATE_GROUP
+		        ORDER BY
+		            DATE_GROUP
+		    )A
+		    LEFT OUTER JOIN (
+		        SELECT
+		            SUM(PROD_PRICE) AS REVENUE
+		          , DATE_GROUP
+		        FROM
+		            (
+		                SELECT
+		                    BUY_DATE
+		                  , PROD_PRICE
+		                  , TO_CHAR(BUY_DATE, 'YYYYMM') AS DATE_GROUP
+		                FROM
+		                         BUY_LIST
+		                    NATURAL JOIN PROD_LIST
+		                WHERE
+		                    BUY_LIST.BUY_STATUS LIKE 'Y'
+		                    AND BUY_LIST.BUY_REFN LIKE 'Y'
+		            )
+		        GROUP BY
+		            DATE_GROUP
+		        ORDER BY
+		            DATE_GROUP
+		    ) B
+		ON  A.DATE_GROUP = B.DATE_GROUP
+		ORDER BY DATE_GROUP
+	</select>
+
+	<select id="selectBuyTotal" resultType="int">
+		SELECT
+			 COUNT(BUY_NO) CNT
+		FROM
+			BUY_LIST
+	</select>
+
+
+	<select id="selectBuyCnt" resultType="int">
+		 SELECT
+			 COUNT(BUY_STATUS) CNT
+		FROM
+			BUY_LIST
+		WHERE BUY_REFN LIKE 'n' OR BUY_REFN LIKE 'N'
+	</select>
+
+	<select id="selectBuyProd" resultType="int">
+		SELECT
+			 COUNT(BUY_REFN) CNT
+		FROM
+			BUY_LIST
+		WHERE PROD_NO = #{prodNo,jdbcType=NUMERIC}
+	</select>
+
+
+
+
+	<insert id="insertBuyList">
+		INSERT INTO BUY_LIST (
+		    BUY_NO
+		    , COM_NO
+		    , PROD_NO
+		    , BUY_DATE
+		    , BUY_USE_START_DATE
+		    , BUY_USE_END_DATE
+		    , BUY_CARD_NO
+		    , BUY_BANK_NM
+		    , BUY_CARD_NM
+		    , BUY_TID
+		    , BUY_TG_TOKEN
+		) VALUES (
+		    BUYLIST_SEQ.NEXTVAL
+		  , #{comNo,jdbcType=NUMERIC}
+		  , #{prodNo,jdbcType=NUMERIC}
+		  , SYSDATE
+		  ,	#{buyUseStartDate,jdbcType=VARCHAR}
+		  , TO_CHAR(TO_DATE(#{buyUseStartDate,jdbcType=VARCHAR})+(
+		        SELECT
+		            TO_NUMBER(PROD_USE_DAY)
+		        FROM
+		            PROD_LIST
+		        WHERE
+		            PROD_NO = #{prodNo,jdbcType=NUMERIC}
+		    ),'yyyyMMdd')
+		  , #{buyCardNo,jdbcType=VARCHAR}
+		  , #{buyBankNm,jdbcType=VARCHAR}
+		  , #{buyCardNm,jdbcType=VARCHAR}
+		  , #{buyTid,jdbcType=VARCHAR}
+		  , #{buyTgToken,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateBuyListTS">
+		UPDATE BUY_LIST
+		SET
+		    BUY_STATUS = 'Y'
+		WHERE
+		    BUY_TID =  #{buyTid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectBuyPromotionSaleDetail" parameterType="int" resultMap="BuyeRMap">
+		SELECT
+		    BUY_DATE
+		  , SUM(PROD_PRICE) BUY_AMOUNT
+		FROM
+		    (
+		        SELECT
+		            TO_CHAR(BUY_DATE, 'yyyyMM') BUY_DATE
+		          , SUM(PROD_PRICE)             PROD_PRICE
+		        FROM
+		                 BUY_LIST
+		            NATURAL JOIN PROD_LIST
+		        WHERE
+		                PROD_NO = #{prodNo,jdbcType=NUMERIC}
+		            AND BUY_STATUS LIKE 'Y'
+		        GROUP BY
+		            BUY_DATE
+		    ) DAY
+		GROUP BY
+		    BUY_DATE
+		ORDER BY
+		    BUY_DATE
+
+	</select>
+
+
+	<select id="selectAbleRefn" parameterType="int" resultMap="BuyeRMap">
+	SELECT
+	    BUY_NO
+	  , COM_NO
+	  , PROD_NO
+	  , BUY_DATE
+	  , BUY_USE_START_DATE
+	  , BUY_USE_END_DATE
+	FROM
+	    (
+	        SELECT
+	            BUY_NO
+	          , COM_NO
+	          , PROD_NO
+	          , BUY_DATE
+	          , BUY_USE_START_DATE
+	          , BUY_USE_END_DATE
+	          , TO_CHAR(TO_NUMBER(BUY_USE_START_DATE) + 7)
+	        FROM
+	            BUY_LIST
+	        WHERE
+	                BUY_USE_END_DATE > TO_CHAR(SYSDATE, 'YYYYMMDD')
+	            AND BUY_STATUS NOT LIKE 'N'
+	            AND TO_CHAR(TO_NUMBER(BUY_USE_START_DATE) + 7) >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+	    )
+	WHERE
+	    COM_NO = #{comNo,jdbcType=NUMERIC}
+	</select>
+
+<resultMap id="saleMap" type="kr.or.ddit.vo.BuyListVO" autoMapping="true">
+</resultMap>
+
+<!-- <select id="selectYearList" resultType="saleMap">
+	SELECT DISTINCT SUBSTR((REPLACE(TO_CHAR(TO_DATE(BUY_DATE,'YYYY-MM-DD')),'-','')),0,2)||'년도' AS DATE_STR
+	FROM BUY_LIST
+	ORDER BY DATE_STR
+</select>
+ -->
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+  <definition name="abstractParent3" template="/WEB-INF/layouts/groupwareMemberLayout.jsp">
+  	<put-attribute name="preScript" value="/WEB-INF/includee/groupwareMember/preScript.jsp"/>
+  	<put-attribute name="customCss" value="/WEB-INF/includee/groupwareMember/customCss.jsp"/>
+  	<put-attribute name="sidebar" value="/WEB-INF/includee/groupwareMember/sidebar.jsp"/>
+  	<put-attribute name="header" value="/WEB-INF/includee/groupwareMember/header.jsp"/>
+  	<put-attribute name="postScript" value="/WEB-INF/includee/groupwareMember/postScript.jsp"/>
+  	<put-attribute name="customScript" value="/WEB-INF/includee/groupwareMember/customScript.jsp"/>
+  </definition>
+  
+  <definition name="groupware-member/index" extends="abstractParent3">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-member/index.jsp"/>
+  </definition>
+
+  <definition name="tiles:groupware-member/*" extends="abstractParent3">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-member/{1}.jsp"/>
+  </definition>
+  
+  <definition name="tiles:groupware-member/*/*" extends="abstractParent3">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-member/{1}/{2}.jsp"/>
+  </definition>
+  
+  
+  <definition name="selectDocument" template="/WEB-INF/layouts/groupwareDocumentLayout.jsp">
+  	<put-attribute name="preScript" value="/WEB-INF/includee/groupwareMember/preScript.jsp"/>
+  	<put-attribute name="customCss" value="/WEB-INF/includee/groupwareMember/customCss.jsp"/>
+  	<put-attribute name="sidebar" value="/WEB-INF/includee/groupwareMember/sidebar.jsp"/>
+  	<put-attribute name="header" value="/WEB-INF/includee/groupwareMember/header.jsp"/>
+  	<put-attribute name="postScript" value="/WEB-INF/includee/groupwareMember/postScript.jsp"/>
+  	<put-attribute name="customScript" value="/WEB-INF/includee/groupwareMember/customScript.jsp"/>
+  </definition>
+  <definition name="tiles:document/*" extends="selectDocument">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/dcm/{1}.jsp"/>
+  </definition>
+  
+</tiles-definitions>

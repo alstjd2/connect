@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.prodList.dao.ProdListMapper">
+
+	<resultMap id="ProdListRMap" type="kr.or.ddit.vo.ProdListVO">
+		<id column="PROD_NO" jdbcType="NUMERIC" property="prodNo" />
+		<result column="PROD_NM" jdbcType="VARCHAR" property="prodNm" />
+		<result column="PROD_PRICE" jdbcType="NUMERIC"
+			property="prodPrice" />
+		<result column="PROD_EVENT_NM" jdbcType="VARCHAR"
+			property="prodEventNm" />
+		<result column="PROD_AVAIL" jdbcType="VARCHAR"
+			property="prodAvail" />
+		<result column="PROD_CRE_DATE" jdbcType="TIMESTAMP"
+			property="prodCreDate" />
+		<result column="PROD_EVEN_START" jdbcType="VARCHAR"
+			property="prodEvenStart" />
+		<result column="PROD_EVN_END" jdbcType="VARCHAR"
+			property="prodEvnEnd" />
+		<result column="PROD_DETAIL_CONTENT1" jdbcType="CLOB"
+			property="prodDetailContent1" />
+		<result column="PROD_DETAIL_CONTENT2" jdbcType="CLOB"
+			property="prodDetailContent2" />
+		<result column="PROD_USE_DAY" jdbcType="NUMERIC"
+			property="prodUseDay" />
+		<result column="PROD_TOTAL" jdbcType="NUMERIC"
+			property="total" />
+		<result column="PROD_N" jdbcType="NUMERIC"
+			property="prodN" />
+		<result column="PROD_Y" jdbcType="NUMERIC"
+			property="prodY" />
+
+
+	</resultMap>
+
+	<select id="selectProdCnt" resultMap="ProdListRMap">
+		SELECT
+		    TOTAL
+		  , PROD_Y
+		  , ( TOTAL - PROD_Y ) AS PROD_N
+		FROM
+		    (
+		        SELECT
+		            COUNT(*) AS TOTAL
+		        FROM
+		            PROD_LIST
+		    )
+		  , (
+		        SELECT
+		            COUNT(*) AS PROD_Y
+		        FROM
+		            PROD_LIST
+		        WHERE
+		            PROD_AVAIL LIKE 'Y'
+		    )
+	</select>
+
+	<!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.Long"> 	-->
+	<!-- delete from PROD_LIST 												-->
+	<!-- where PROD_NO = #{prodNo,jdbcType=NUMERIC} 						-->
+	<!-- </delete> -->
+
+	<update id="updateProdAvailChange" parameterType="kr.or.ddit.vo.ProdListVO">
+		UPDATE PROD_LIST
+		SET
+			PROD_AVAIL = #{prodAvail,jdbcType=VARCHAR}
+		WHERE
+			PROD_NO = #{prodNo,jdbcType=NUMERIC}
+	</update>
+
+	<insert id="insertProd" parameterType="kr.or.ddit.vo.ProdListVO">
+		INSERT into PROD_LIST
+		(
+			PROD_NO
+			, PROD_NM
+			, PROD_PRICE
+			, PROD_EVENT_NM
+			, PROD_AVAIL
+			, PROD_CRE_DATE
+			, PROD_EVEN_START
+			, PROD_EVN_END
+			, PROD_DETAIL_CONTENT1
+			, PROD_DETAIL_CONTENT2
+			, PROD_USE_DAY
+		)
+		VALUES
+		(
+			PRODLIST_SEQ.NEXTVAL
+			, #{prodNm,jdbcType=VARCHAR}
+			, #{prodPrice,jdbcType=NUMERIC}
+			, #{prodEventNm,jdbcType=VARCHAR}
+			, #{prodAvail,jdbcType=VARCHAR}
+			, SYSDATE
+			, #{prodEvenStart,jdbcType=VARCHAR}
+			, #{prodEvnEnd,jdbcType=VARCHAR}
+			, #{prodDetailContent1,jdbcType=CLOB}
+			, #{prodDetailContent2,jdbcType=CLOB}
+			, #{prodDetailContent2,jdbcType=CLOB}
+			, #{prodUseDay,jdbcType=NUMERIC}
+		)
+
+	</insert>
+
+	<update id="updateProd" parameterType="kr.or.ddit.vo.ProdListVO">
+		UPDATE PROD_LIST
+		SET
+			PROD_NM = #{prodNm,jdbcType=VARCHAR}
+			, PROD_PRICE = #{prodPrice,jdbcType=NUMERIC}
+			, PROD_EVENT_NM = #{prodEventNm,jdbcType=VARCHAR}
+			, PROD_AVAIL = #{prodAvail,jdbcType=VARCHAR}
+			, PROD_CRE_DATE = #{prodCreDate,jdbcType=TIMESTAMP}
+			, PROD_EVEN_START = #{prodEvenStart,jdbcType=VARCHAR}
+			, PROD_EVN_END = #{prodEvnEnd,jdbcType=VARCHAR}
+			, PROD_DETAIL_CONTENT1 = #{prodDetailContent1,jdbcType=CLOB}
+			, PROD_DETAIL_CONTENT2 = #{prodDetailContent2,jdbcType=CLOB}
+			, PROD_USE_DAY =  #{prodUseDay,jdbcType=NUMERIC}
+		WHERE
+			PROD_NO = #{prodNo,jdbcType=NUMERIC}
+	</update>
+
+	<select id="selectProd" parameterType="int"
+		resultMap="ProdListRMap">
+		SELECT
+		    PROD_NO
+		  , PROD_NM
+		  , PROD_PRICE
+		  , PROD_EVENT_NM
+		  , PROD_AVAIL
+		  , PROD_CRE_DATE
+		  , PROD_EVEN_START
+		  , PROD_EVN_END
+		  , PROD_DETAIL_CONTENT1
+		  , PROD_DETAIL_CONTENT2
+		  , PROD_USE_DAY
+		FROM
+		    PROD_LIST
+		WHERE
+			PROD_NO = #{prodNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="selectProdListAll" resultMap="ProdListRMap">
+		SELECT
+			PROD_NO
+			, PROD_NM
+			, PROD_PRICE
+			, PROD_EVENT_NM
+			, PROD_AVAIL
+			, PROD_CRE_DATE
+			, PROD_EVEN_START
+			, PROD_EVN_END
+			, PROD_DETAIL_CONTENT1
+			, PROD_DETAIL_CONTENT2
+			, PROD_USE_DAY
+		FROM
+			PROD_LIST
+	</select>
+
+	<select id="selectBasicProdList" resultMap="ProdListRMap">
+		SELECT
+		    PROD_NO
+		  , PROD_NM
+		  , PROD_PRICE
+		  , PROD_EVENT_NM
+		  , PROD_AVAIL
+		  , PROD_CRE_DATE
+		  , PROD_EVEN_START
+		  , PROD_EVN_END
+		  , PROD_DETAIL_CONTENT1
+		  , PROD_DETAIL_CONTENT2
+		  , PROD_USE_DAY
+		FROM
+		    PROD_LIST
+		WHERE PROD_EVENT_NM LIKE 'Basic'
+		ORDER BY PROD_NO
+	</select>
+
+	<select id="selectNotBasicProdList" resultMap="ProdListRMap">
+		SELECT
+		    PROD_NO
+		  , PROD_NM
+		  , PROD_PRICE
+		  , PROD_EVENT_NM
+		  , PROD_AVAIL
+		  , PROD_CRE_DATE
+		  , PROD_EVEN_START
+		  , PROD_EVN_END
+		  , PROD_DETAIL_CONTENT1
+		  , PROD_DETAIL_CONTENT2
+		  , PROD_USE_DAY
+		FROM
+		    PROD_LIST
+		WHERE PROD_EVENT_NM NOT LIKE 'Basic'
+		ORDER BY PROD_NO
+	</select>
+
+	<select id="selectProdListAllEnable" resultMap="ProdListRMap">
+		SELECT
+			PROD_NO
+			, PROD_NM
+			, PROD_PRICE
+			, PROD_EVENT_NM
+			, PROD_AVAIL
+			, PROD_CRE_DATE
+			, PROD_EVEN_START
+			, PROD_EVN_END
+			, PROD_DETAIL_CONTENT1
+			, PROD_DETAIL_CONTENT2
+			, PROD_USE_DAY
+		FROM
+			PROD_LIST
+		WHERE
+		    PROD_AVAIL NOT LIKE 'N'
+	</select>
+
+	<select id="selectProdNo" parameterType="String" resultType="int">
+		SELECT
+			PROD_NO
+		FROM
+			PROD_LIST
+		WHERE
+		    PROD_EVENT_NM LIKE #{prodEventNm,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

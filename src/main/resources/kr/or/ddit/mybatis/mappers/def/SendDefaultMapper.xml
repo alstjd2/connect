@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.SendDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.SendDefaultVO">
+    <id column="SEND_NO" jdbcType="NUMERIC" property="sendNo" />
+    <id column="MSGLOG_NO" jdbcType="NUMERIC" property="msglogNo" />
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="SEND_DATE" jdbcType="TIMESTAMP" property="sendDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from SEND
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.SendDefaultVO">
+    insert into SEND (SEND_NO, MSGLOG_NO, MSGRM_NO, 
+      EMP_NO, SEND_DATE)
+    values (#{sendNo,jdbcType=NUMERIC}, #{msglogNo,jdbcType=NUMERIC}, #{msgrmNo,jdbcType=NUMERIC}, 
+      #{empNo,jdbcType=NUMERIC}, #{sendDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.SendDefaultVO">
+    update SEND
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      SEND_DATE = #{sendDate,jdbcType=TIMESTAMP}
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select SEND_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, SEND_DATE
+    from SEND
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select SEND_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, SEND_DATE
+    from SEND
+  </select>
+</mapper>

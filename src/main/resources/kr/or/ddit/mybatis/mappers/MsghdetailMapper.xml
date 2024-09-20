@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.msgroom.dao.MsghdetailMapper">
+  <resultMap id="msghdetailMap" type="kr.or.ddit.vo.MsghdetailVO">
+    <id column="MSGHD_NO" jdbcType="NUMERIC" property="msghdNo" />
+    <association property="msgRoom" javaType="MsgroomVO" autoMapping="true" />
+  </resultMap>
+  <delete id="deleteMsghdetail" parameterType="int">
+    delete from MSGHDETAIL
+    where MSGHD_NO = #{msghdNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertMsghdetail" parameterType="kr.or.ddit.vo.MsghdetailVO">
+    insert into MSGHDETAIL (MSGHD_NO, MSGRM_NO, MSGHD_EMPNO
+      )
+    values (#{msghdNo,jdbcType=NUMERIC}, #{msgrmNo,jdbcType=NUMERIC}, #{msghdEmpno,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateMsghdetail" parameterType="kr.or.ddit.vo.MsghdetailVO">
+    update MSGHDETAIL
+    set MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC},
+      MSGHD_EMPNO = #{msghdEmpno,jdbcType=NUMERIC}
+    where MSGHD_NO = #{msghdNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectMsghdetail" parameterType="int" resultMap="msghdetailMap">
+    select MSGHD_NO, MSGRM_NO, MSGHD_EMPNO
+    from MSGHDETAIL
+    where MSGHD_NO = #{msghdNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="msghdetailMap">
+    select MSGHD_NO, MSGRM_NO, MSGHD_EMPNO
+    from MSGHDETAIL
+  </select>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.organization.dao.OrganizationMapper">
+  <resultMap id="organizationMap" type="kr.or.ddit.vo.OrganizationVO" autoMapping="true">
+    <id column="ORG_NO" jdbcType="NUMERIC" property="orgNo" />
+    <association property="company" javaType="CompanyVO" autoMapping="true" />
+  </resultMap>
+
+  <select id="getNewOrgId" resultType="int">
+    SELECT ORG_ID_SEQ.NEXTVAL FROM DUAL
+  </select>
+
+  <delete id="deleteOrganization" parameterType="int">
+    delete from ORGANIZATION
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertOrganization" parameterType="kr.or.ddit.vo.OrganizationVO">
+  	<selectKey order="BEFORE" keyProperty="orgNo" resultType="int" >
+  	SELECT ORG_NO_SEQ.NEXTVAL FROM DUAL
+  	</selectKey>
+     INSERT INTO ORGANIZATION (ORG_ID, ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_DELYN)
+    VALUES (ORG_ID_SEQ.NEXTVAL, #{orgNo}, #{comNo,jdbcType=NUMERIC}, #{orgDep,jdbcType=VARCHAR},
+            #{orgUpdep,jdbcType=VARCHAR}, #{orgLevel,jdbcType=VARCHAR}, #{orgDf,jdbcType=VARCHAR},
+            #{orgDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateOrganization" parameterType="kr.or.ddit.vo.OrganizationVO">
+    update ORGANIZATION
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      ORG_DEP = #{orgDep,jdbcType=VARCHAR},
+      ORG_UPDEP = #{orgUpdep,jdbcType=VARCHAR},
+      ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR},
+      ORG_DF = #{orgDf,jdbcType=VARCHAR},
+      ORG_DELYN = #{orgDelyn,jdbcType=VARCHAR}
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectOrganization" parameterType="int" resultMap="organizationMap">
+    select ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_DELYN
+    from ORGANIZATION
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </select>
+
+  <!-- 조직도 가져오는 쿼리 -->
+  <select id="selectAll" resultMap="organizationMap">
+    SELECT ORG_NO ,
+               COM_NO ,
+               ORG_DEP ,
+               ORG_UPDEP ,
+               ORG_LEVEL ,
+               ORG_DF,
+               ORG_DELYN ,
+               ORG_ID,
+               (select count(*) from ORGANIZATION c WHERE c.org_updep = ORGANIZATION.ORG_NO) ORG_CHILD_CNT
+        FROM ORGANIZATION
+        <where>
+	        COM_NO = #{comNo}   <!-- 기업번호 필터링 추가 -->
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(orgUpdep)">
+			        AND ORG_UPDEP = #{orgUpdep}
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isBlank(orgUpdep)">
+			        AND ORG_UPDEP is null
+			</if>
+        </where>
+        ORDER BY ORG_LEVEL ASC, ORG_NO ASC   <!-- 부서를 레벨 순서, 그다음 생성된 순서대로 조회. 새로운 부서가 맨 아래에 오도록-->
+  </select>
+  <select id="getMaxOrgLevelForRoot" resultType="int">
+  		SELECT NVL(MAX(ORG_LEVEL), 0) FROM ORGANIZATION WHERE ORG_UPDEP IS NULL AND COM_NO = #{comNo}
+  </select>
+
+  <select id="getMaxOrgLevelForSubDepartments" resultType="int">
+  		SELECT NVL(MAX(ORG_LEVEL), 0) FROM ORGANIZATION WHERE ORG_UPDEP = #{orgUpdep} AND COM_NO = #{comNo}
+  </select>
+	<!-- 상위부서 삭제시 하위부서 포함하여 삭제할때 -->
+  <select id="selectChildOrgNos" parameterType="int" resultType="int">
+    SELECT ORG_NO
+    FROM ORGANIZATION
+    WHERE ORG_UPDEP = #{orgNo}
+</select>
+
+<select id="countByRepresentativeId" parameterType="string" resultType="int">
+    SELECT COUNT(*)
+    FROM organization
+    WHERE org_df = #{representativeId}
+</select>
+
+<update id="updateLevelsAfterDeletion" parameterType="map">
+    MERGE INTO organization tgt
+    USING (
+        SELECT
+            org_no,
+            ROW_NUMBER() OVER (ORDER BY org_level ASC) AS new_level
+        FROM organization
+        WHERE com_no = #{comNo}
+          AND org_updep = (SELECT org_updep FROM organization WHERE org_no = #{deletedOrgNo})
+          AND org_level > #{deletedLevel}
+    ) src
+    ON (tgt.org_no = src.org_no)
+    WHEN MATCHED THEN
+        UPDATE SET tgt.org_level = src.new_level
+</update>
+
+
+<!-- 노드 레벨 업데이트 쿼리 -->
+<update id="updateNodeLevel" parameterType="map">
+    UPDATE ORGANIZATION
+    SET ORG_LEVEL = #{newLevel, jdbcType=NUMERIC}
+    WHERE ORG_NO = #{orgNo, jdbcType=NUMERIC}
+</update>
+
+
+<!-- 노드 이동 후 부모와 레벨을 업데이트하는 쿼리 -->
+<update id="updateNodeParentAndLevel" parameterType="map">
+    UPDATE ORGANIZATION
+    SET ORG_UPDEP = #{newParent, jdbcType=VARCHAR},
+        ORG_LEVEL = #{newLevel, jdbcType=NUMERIC}
+    WHERE ORG_NO = #{orgNo, jdbcType=NUMERIC}
+</update>
+
+<!-- 모든 부서를 가져오는 쿼리 -->
+    <select id="selectAllDepartments" parameterType="int" resultType="kr.or.ddit.vo.OrganizationVO">
+        SELECT * FROM ORGANIZATION WHERE COM_NO = #{comNo}
+    </select>
+
+
+</mapper>

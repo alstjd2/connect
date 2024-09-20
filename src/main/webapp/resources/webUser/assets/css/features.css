@@ -1,0 +1,184 @@
+
+/*======================================
+	Features CSS
+========================================*/
+.features {
+    background-color: #fff;
+    box-shadow: 0 0 60px rgba(87, 87, 87, 0.25);
+}
+.features.style2 .single-feature {
+    text-align: center;
+    background-color: #fff;
+    padding: 70px 40px;
+    border-radius: 5px;
+    z-index: 5;
+    position: relative;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 0px 50px rgba(87, 87, 87, 0.23);
+            box-shadow: 0px 0px 50px rgba(87, 87, 87, 0.23);
+    border-radius: 10px;
+  }
+  
+  .features.style2 .single-feature::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 0%;
+    background-color: #16a6df;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .features.style2 .single-feature:hover::before {
+    width: 100%;
+  }
+  
+  .features.style2 .single-feature i {
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+    background-color: #16a6df;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .features.style2 .single-feature h3 a {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 32px;
+    color: #081828;
+  }
+  
+  .features.style2 .single-feature h3 a:hover {
+    color: #16a6df;
+  }
+  
+  .features.style2 .single-feature:hover i {
+    border-radius: 50%;
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+  
+  .features.style3 {
+    background-color: #081828;
+    padding: 70px 0 100px 0;
+  }
+  
+  .features.style3 .single-feature {
+    padding: 0;
+    padding-left: 90px;
+    position: relative;
+    padding-right: 30px;
+    margin-top: 30px;
+  }
+  
+  .features.style3 .single-feature i {
+    font-size: 25px;
+    position: absolute;
+    background-color: #fff;
+    left: 0;
+    top: 11px;
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 5px;
+    color: #16a6df;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .features.style3 .single-feature:hover i {
+    background-color: #16a6df;
+    color: #fff;
+  }
+  
+  .features.style3 .single-feature h3 a {
+    color: #fff;
+  }
+  
+  .features.style3 .single-feature p {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 13px;
+  }
+  
+  .features .single-feature {
+    position: relative;
+    padding-right: 62px;
+  }
+  
+  .features .single-feature .serial {
+    font-size: 50px;
+    font-weight: 800;
+    color: #16a6df;
+    opacity: 0.2;
+    position: absolute;
+    right: 10px;
+    top: -17px;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .features .single-feature h5 {
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #16a6df;
+    text-transform: uppercase;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+  }
+  
+  .features .single-feature h5::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 0%;
+    background-color: #16a6df;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .features .single-feature:hover h5:before {
+    width: 100%;
+  }
+  
+  .features .single-feature:hover h5 {
+    letter-spacing: 2px;
+  }
+  
+  .features .single-feature h3 {
+    line-height: 32px;
+  }
+  
+  .features .single-feature h3 a {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .features .single-feature h3 a:hover {
+    color: #16a6df;
+  }
+  
+  .features .single-feature p {
+    display: block;
+    margin-top: 20px;
+  }
+  
+  .features .single-feature:hover span {
+    color: #16a6df;
+    opacity: 1;
+  }

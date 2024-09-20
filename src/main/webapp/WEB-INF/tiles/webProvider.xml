@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+  <definition name="abstractParent2" template="/WEB-INF/layouts/webProviderLayout.jsp">
+  	<put-attribute name="preScript" value="/WEB-INF/includee/webProvider/preScript.jsp"/>
+  	<put-attribute name="customCss" value="/WEB-INF/includee/webProvider/customCss.jsp"/>
+  	<put-attribute name="header" value="/WEB-INF/includee/webProvider/header.jsp"/>
+  	<put-attribute name="footer" value="/WEB-INF/includee/webProvider/footer.jsp"/>
+  	<put-attribute name="postScript" value="/WEB-INF/includee/webProvider/postScript.jsp"/>
+  	<put-attribute name="customScript" value="/WEB-INF/includee/webProvider/customScript.jsp"/>
+  </definition>
+
+  <definition name="tiles:web-provider/*" extends="abstractParent2">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/web-provider/{1}.jsp"/>
+  </definition>
+  <definition name="tiles:web-provider/*/*" extends="abstractParent2">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/web-provider/{1}/{2}.jsp"/>
+  </definition>
+ 
+</tiles-definitions>

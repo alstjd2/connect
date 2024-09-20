@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.board.dao.BoardMapper">
+	<resultMap id="BoardMap" type="BoardVO">
+		<id column="BOARD_NO" jdbcType="NUMERIC" property="boardNo" />
+		<id column="MEM_NO" jdbcType="NUMERIC" property="memNo" />
+		<result column="BOARD_TITLE" jdbcType="VARCHAR"
+			property="boardTitle" />
+		<result column="BOARD_CONTENT" jdbcType="VARCHAR"
+			property="boardContent" />
+		<result column="BOARD_ATTACHFILE" jdbcType="NUMERIC"
+			property="boardAttachfile" />
+		<result column="BOARD_DATE" jdbcType="TIMESTAMP"
+			property="boardDate" />
+		<result column="BOARD_DELYN" jdbcType="VARCHAR"
+			property="boardDelyn" />
+		<result column="BOARD_TYPE" jdbcType="VARCHAR"
+			property="boardType" />
+		<result column="BOARD_GUIDE_TYPE" jdbcType="VARCHAR"
+			property="boardGuideType" />
+		<association property="commoncodeDetail" javaType="CommoncodeDetailVO" autoMapping="true" />
+		<association property="prod" javaType="ProdListVO" autoMapping="true" />
+		<association property="promotion" javaType="PromotionVO" autoMapping="true" />
+	</resultMap>
+
+	<select id="selectBoardListPaging"
+		parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+		resultMap="BoardMap">
+		WITH BOARDLIST AS (
+		SELECT
+		BOARD_NO,
+		MEM_NO,
+		BOARD_TITLE,
+		BOARD_CONTENT,
+		BOARD_ATTACHFILE,
+		BOARD_DATE,
+		BOARD_DELYN ,
+		BOARD_GUIDE_TYPE,
+		BOARD_TYPE
+		FROM BOARD
+		<where>
+			BOARD_DELYN = 'N'
+			AND BOARD_TYPE = #{searchVO.boardType}
+			<include refid="searchFrag" />
+		</where>
+		ORDER BY BOARD_NO
+		)
+		SELECT A.*
+		FROM (
+		SELECT BOARDLIST.*, ROWNUM RNUM
+		FROM BOARDLIST
+		) A
+		WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+
+	</select>
+	<select id="selectTotalRecord" resultType="int">
+		SELECT COUNT(BOARD_NO)
+		FROM BOARD
+		<where>
+			BOARD_DELYN = 'N'
+			AND BOARD_TYPE = #{searchVO.boardType}
+			<include refid="searchFrag" />
+		</where>
+	</select>
+	<sql id="searchFrag">
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+			AND
+			<choose>
+				<when test="simpleCondition.searchType eq 'name'">INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0
+				</when>
+				<when test="simpleCondition.searchType eq 'buyer'">INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0
+				</when>
+				<otherwise>
+					INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0
+					OR
+					INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+
+	<insert id="insertBoard" parameterType="BoardVO">
+		<selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
+	         SELECT BOARD_SEQ.NEXTVAL AS BOARD_NO FROM DUAL
+	    </selectKey>
+		INSERT INTO BOARD (
+		BOARD_NO
+		, MEM_NO
+		, BOARD_TITLE
+		, BOARD_CONTENT
+		, BOARD_ATTACHFILE
+		, BOARD_DATE
+		, BOARD_DELYN
+		, BOARD_TYPE
+		)
+		values (
+		#{boardNo,jdbcType=NUMERIC}
+		, #{memNo,jdbcType=NUMERIC}
+		, #{boardTitle,jdbcType=VARCHAR}
+		, #{boardContent,jdbcType=VARCHAR}
+	 	<if test="boardAttachfile neq null">
+		, #{boardAttachfile,jdbcType=NUMERIC}
+	    </if>
+		, SYSDATE
+		, 'Y'
+		, #{boardType,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateBoard" parameterType="BoardVO">
+		update BOARD
+		set BOARD_TITLE = #{boardTitle,jdbcType=VARCHAR},
+		BOARD_CONTENT = #{boardContent,jdbcType=VARCHAR},
+		BOARD_ATTACHFILE = #{boardAttachfile,jdbcType=NUMERIC},
+		BOARD_DATE = #{boardDate,jdbcType=TIMESTAMP},
+		BOARD_DELYN = #{boardDelyn,jdbcType=VARCHAR},
+		BOARD_TYPE = #{boardType,jdbcType=VARCHAR},
+		BOARD_GUIDE_TYPE = #{boardGuideType,jdbcType=VARCHAR}
+		where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+		and MEM_NO = #{memNo,jdbcType=NUMERIC}
+	</update>
+	<select id="selectBoard" parameterType="map"
+		resultMap="BoardMap">
+		select BOARD_NO, MEM_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_ATTACHFILE,
+		BOARD_DATE,
+		BOARD_DELYN, BOARD_TYPE, BOARD_GUIDE_TYPE
+		from BOARD
+		where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+		and MEM_NO = #{memNo,jdbcType=NUMERIC}
+	</select>
+	<select id="selectBoardByType" parameterType="String"
+		resultMap="BoardMap">
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEM_NO,
+		BOARD_TYPE,BOARD_GUIDE_TYPE
+		FROM BOARD
+		WHERE BOARD_TYPE =#{boardType,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectBoardByGuideType" parameterType="String"
+		resultMap="BoardMap">
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEM_NO,
+		BOARD_TYPE,BOARD_GUIDE_TYPE
+		FROM BOARD
+		WHERE BOARD_GUIDE_TYPE = #{boardGuideType,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectBoardList" resultMap="BoardMap">
+		select BOARD_NO, MEM_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_ATTACHFILE,
+		BOARD_DATE,
+		BOARD_DELYN, BOARD_TYPE, BOARD_GUIDE_TYPE
+		from BOARD
+	</select>
+
+	<delete id="deleteBoard" parameterType="BoardVO">
+		delete from BOARD
+		where BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+		and MEM_NO = #{memNo,jdbcType=NUMERIC}
+	</delete>
+
+	<sql id="noticeSql">
+		SELECT
+		    BOARD_NO
+		  , MEM_NO
+		  , BOARD_TITLE
+		  , BOARD_CONTENT
+		  , BOARD_ATTACHFILE
+		  , BOARD_DATE
+		  , BOARD_DELYN
+		  , BOARD_TYPE
+		  , BOARD_GUIDE_TYPE
+		  , CONMCD_CODE
+		FROM
+		    BOARD INNER JOIN COMMONCODE_DETAIL ON(BOARD_TYPE = CONMCD_NO)
+    </sql>
+
+	<select id="selectNoticeAllList" resultMap="BoardMap">
+		SELECT
+		    BOARD_NO
+		  , MEM_NO
+		  , BOARD_TITLE
+		  , BOARD_ATTACHFILE
+		  , BOARD_DATE
+		  , BOARD_DELYN
+		  , BOARD_TYPE
+		  , BOARD_GUIDE_TYPE
+		  , CONMCD_CODE
+		FROM
+		    BOARD INNER JOIN COMMONCODE_DETAIL ON(BOARD_TYPE = CONMCD_NO)
+		WHERE
+		    BOARD_TYPE LIKE 'DA01110'
+		    OR
+		    BOARD_TYPE LIKE 'DA01180'
+		ORDER BY BOARD.BOARD_DATE DESC
+	</select>
+
+	<select id="selectNoticeTypeList" resultMap="BoardMap">
+		<include refid="noticeSql"></include>
+		WHERE
+		    BOARD_TYPE LIKE #{boardType,jdbcType=VARCHAR}
+		ORDER BY BOARD.BOARD_DATE DESC
+	</select>
+
+	<select id="selectNoticeDetail" resultMap="BoardMap">
+		<include refid="noticeSql" />
+		WHERE
+		    BOARD_NO LIKE #{boardNo,jdbcType=NUMERIC}
+	</select>
+
+	<sql id ="selectIndex">
+		SELECT
+		    BOARD_NO
+		  , MEM_NO
+		  , BOARD_TITLE
+		  , SUBSTR(BOARD_CONTENT,1,60) BOARD_CONTENT
+		  , BOARD_ATTACHFILE
+		  , BOARD_DATE
+		  , BOARD_DELYN
+		  , BOARD_TYPE
+		  , BOARD_GUIDE_TYPE
+		  , CONMCD_CODE
+		FROM
+		    BOARD INNER JOIN COMMONCODE_DETAIL ON(BOARD_TYPE = CONMCD_NO)
+		WHERE BOARD_NO LIKE (SELECT
+		                        MAX(BOARD_NO)
+		                    FROM BOARD
+	</sql>
+
+	<select id="selectIndexOff"  resultMap="BoardMap">
+		<include refid="selectIndex" />
+			WHERE BOARD_TYPE LIKE 'EB06120')
+	</select>
+
+	<select id="selectIndexUpdate"  resultMap="BoardMap">
+		<include refid="selectIndex" />
+			WHERE BOARD_TYPE LIKE 'DA01180')
+	</select>
+
+	<select id="selectIndexSale"  resultMap="BoardMap">
+		<include refid="selectIndex" />
+			WHERE BOARD_TYPE LIKE 'EB06110')
+	</select>
+
+	<select id="selectBoardTypeCnt" resultType="int">
+		SELECT COUNT(BOARD_NO)
+		FROM BOARD
+		WHERE BOARD_TYPE LIKE #{boardType}
+	</select>
+
+</mapper>

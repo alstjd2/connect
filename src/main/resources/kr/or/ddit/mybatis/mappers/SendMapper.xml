@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.msgroom.dao.SendMapper">
+  <resultMap id="SendMap" type="kr.or.ddit.vo.SendVO">
+    <id column="SEND_NO" jdbcType="NUMERIC" property="sendNo" />
+    <id column="MSGLOG_NO" jdbcType="NUMERIC" property="msglogNo" />
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <association property="msgLog" javaType="MsglogVO" autoMapping="true"/>
+  </resultMap>
+  <delete id="deleteSend" parameterType="map">
+    delete from SEND
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertSend" parameterType="kr.or.ddit.vo.SendVO">
+    insert into SEND (SEND_NO, MSGLOG_NO, MSGRM_NO, 
+      EMP_NO, SEND_DATE)
+    values (#{sendNo,jdbcType=NUMERIC}, #{msglogNo,jdbcType=NUMERIC}, #{msgrmNo,jdbcType=NUMERIC}, 
+      #{empNo,jdbcType=NUMERIC}, #{sendDate,jdbcType=DATE})
+  </insert>
+  <update id="updateSend" parameterType="kr.or.ddit.vo.SendVO">
+    update SEND
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      SEND_DATE = #{sendDate,jdbcType=DATE}
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectSend" parameterType="map" resultMap="SendMap">
+    select SEND_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, SEND_DATE
+    from SEND
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="SendMap">
+    select SEND_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, SEND_DATE
+    from SEND
+  </select>
+</mapper>

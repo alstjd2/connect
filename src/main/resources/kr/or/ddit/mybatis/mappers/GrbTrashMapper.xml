@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.grbtrash.dao.GrbTrashMapper">
+
+<resultMap id="GrbTrashMap" type="GrbTrashVO">
+    <id column="GRB_TRASH_NO" jdbcType="NUMERIC" property="trashNo" />
+    <result column="GRB_NO" jdbcType="NUMERIC" property="grbNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <association property="grBoard" javaType="kr.or.ddit.vo.GrBoardVO" column="GRB_NO" />
+</resultMap>
+
+  
+  	<select id="TrashCount" resultType="int">
+	SELECT COUNT(*)
+	FROM GRB_TRASH 
+	WHERE GRB_NO = #{grbNo} AND EMP_NO = #{empNo}
+	</select>
+  
+  <select id="checkGrbTrash" resultMap="GrbTrashMap">
+    SELECT TRASH_NO 
+    FROM GRBTRASH 
+    WHERE grb_no = #{grbNo} AND emp_no = #{empNo}
+</select>
+
+	
+<!-- 동일쿼리 사용 -->
+
+  <insert id="insertGrbTrash" parameterType="map" useGeneratedKeys="true" keyProperty="trashNo">
+        <selectKey keyProperty="trashNo" resultType="int" order="BEFORE">
+            SELECT TRASH_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO GRB_TRASH 
+        (TRASH_NO, GRB_NO, EMP_NO)
+        VALUES (#{trashNo}, #{grbNo}, #{empNo})
+    </insert>
+    
+    <update id="updateGrbDelynToY">
+    UPDATE GRBOARD
+    SET GRB_DELYN = 'Y'
+    WHERE GRB_NO = #{grbNo} AND EMP_NO = #{empNo}
+	</update>
+	
+
+    <!-- 휴지통에서 복원 -->
+    <delete id="restoreFromTrash">
+        DELETE FROM GRB_TRASH
+        WHERE GRB_NO = #{grbNo} AND EMP_NO = #{empNo}
+    </delete>
+    
+    <update id="updateGrbDelynToN">
+    UPDATE GRBOARD
+    SET GRB_DELYN = 'N'
+    WHERE GRB_NO = #{grbNo} AND EMP_NO = #{empNo}
+	</update>
+
+    <!-- 영구 삭제 -->
+    <delete id="permanentDelete">
+        DELETE FROM GRB_TRASH
+        WHERE TRASH_NO = #{trashNo}
+    </delete>
+    
+       <delete id="permanentDeleteGrboard">
+        DELETE FROM GRBOARD
+        WHERE GRB_NO = #{grbNo}
+    </delete>
+    
+  
+</mapper>

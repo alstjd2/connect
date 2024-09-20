@@ -1,0 +1,15 @@
+{
+    "data": [
+        {
+            "pmtDcmNo": 1, 
+            "comdcmNum": "2024_EXPR-00005_0000001", 
+            "dcmFormCode": "EXPR-00005", 
+            "pmtDcmStaNo": "DB01140", 
+            "pmtDcmTitle": "[사업진행비] 8월 01일 1차 집담회 다과비 구입",
+            "pmtDcmEmpno": 1,
+            "pmtDcmEmpnm":"김태희",
+            "pmtDcmSaveDate": "2024-08-15",
+            "pmtDcmEndDate": "2024-08-16"
+        }
+    ]
+}

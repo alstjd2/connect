@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.room.dao.RoomMapper">
+	<resultMap id="roomMap" type="RoomVO" autoMapping="true">
+		<id column="ROOM_NO" jdbcType="NUMERIC" property="roomNo" />
+		<id column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+		<association property="company" javaType="CompanyVO" autoMapping="true" />
+		<collection property="roomreserva" ofType="kr.or.ddit.vo.RoomReservationVO" autoMapping="true"/>
+	</resultMap>
+
+	<select id="selectRoomList" parameterType="int">
+		select
+		ROWNUM RNUM
+		, ROOM_NO
+		 , COM_NO
+		 , ROOM_NM
+		 , ROOM_LOC
+		 , ROOM_EMPMAX
+		 , ROOM_STATE
+	    from ROOM
+	    where  COM_NO = #{comNo,jdbcType=NUMERIC}
+			and ROOM_STATE = 'N'
+	</select>
+
+	<select id="selectComRoomList" parameterType="int" resultMap="roomMap">
+			SELECT
+		    ROWNUM RNUM
+			,RI.COM_NO
+			, RI.ROOM_NO
+			, RI.ROOM_NM
+			, RI.ROOM_LOC
+			, RI.ROOM_EMPMAX
+			, RI.ROOM_STATE
+			, RR.EMP_NO
+			, RR.ROOMRESER_START
+			, RR.ROOMRESER_END
+			, RR.ROOMRESER_DELYN
+		FROM
+		    ROOM RI
+		JOIN
+		    ROOM_RESERVATION RR
+		ON
+		    RI.ROOM_NO = RR.ROOM_NO
+		WHERE
+		    RI.COM_NO = #{comNo,jdbcType=NUMERIC}
+		AND RR.ROOMRESER_DELYN = 'N'
+
+
+	</select>
+	<select id="selectComRoomReservationList" parameterType="int">
+			SELECT
+			RNUM
+			,COM_NO
+			,ROOM_NO
+			,ROOM_NM
+			,ROOM_LOC
+			,ROOM_EMPMAX
+			,ROOM_STATE
+			,EMP_NO
+			,ROOMRESER_START
+			,ROOMRESER_END
+			,ROOMRESER_DELYN
+			,EMP_NM
+			,EMP_DEP
+			,ORG_NO
+			,ORG_DEP
+
+			FROM room_reservation_view
+			WHERE
+			    COM_NO = #{comNo,jdbcType=NUMERIC}
+			AND ROOMRESER_DELYN = 'N'
+	</select>
+
+	<select id="selectRoom" parameterType="map">
+
+	 select ROOM_NO
+		 , COM_NO
+		 , ROOM_NM
+		 , ROOM_LOC
+		 , ROOM_EMPMAX
+		 , ROOM_STATE
+	    from ROOM
+	    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+	      and COM_NO = #{comNo,jdbcType=NUMERIC}
+	      and ROOM_STATE = 'N'
+
+	</select>
+	<insert id="insertRoom" parameterType="kr.or.ddit.vo.RoomVO">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="roomNo">
+			SELECT ROOM_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into ROOM (
+			ROOM_NO
+			, COM_NO
+			, ROOM_NM
+			, ROOM_LOC
+			, ROOM_EMPMAX
+			, ROOM_STATE
+		      )
+		    values
+		    (#{roomNo,jdbcType=NUMERIC}
+		    , #{comNo,jdbcType=NUMERIC}
+		    , #{roomNm,jdbcType=VARCHAR}
+		    , #{roomLoc,jdbcType=VARCHAR}
+		    , #{roomEmpmax,jdbcType=NUMERIC}
+		    , 'N'
+		      )
+
+	</insert>
+
+	<update id="updateRoom" parameterType="kr.or.ddit.vo.RoomVO">
+		update ROOM
+		    set ROOM_NM = #{roomNm,jdbcType=VARCHAR},
+		      ROOM_LOC = #{roomLoc,jdbcType=VARCHAR},
+		      ROOM_EMPMAX = #{roomEmpmax,jdbcType=NUMERIC},
+		      ROOM_STATE = #{roomState,jdbcType=VARCHAR}
+		    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+		      and COM_NO = #{comNo,jdbcType=NUMERIC}
+	</update>
+
+	<update id="deleteRoom" parameterType="map">
+		update  ROOM
+			set ROOM_STATE = 'Y'
+	    where ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+	      and COM_NO = #{comNo,jdbcType=NUMERIC}
+
+	</update>
+
+</mapper>

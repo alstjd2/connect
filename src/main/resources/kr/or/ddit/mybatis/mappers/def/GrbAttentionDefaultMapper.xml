@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.GrbAttentionDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.GrbAttentionDefaultVO">
+    <id column="GRB_ATTENTION_NO" jdbcType="NUMERIC" property="grbAttentionNo" />
+    <result column="GRB_NO" jdbcType="NUMERIC" property="grbNo" />
+    <result column="GRB_ATTENTION_TARGET" jdbcType="NUMERIC" property="grbAttentionTarget" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from GRB_ATTENTION
+    where GRB_ATTENTION_NO = #{grbAttentionNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.GrbAttentionDefaultVO">
+    insert into GRB_ATTENTION (GRB_ATTENTION_NO, GRB_NO, GRB_ATTENTION_TARGET
+      )
+    values (#{grbAttentionNo,jdbcType=NUMERIC}, #{grbNo,jdbcType=NUMERIC}, #{grbAttentionTarget,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.GrbAttentionDefaultVO">
+    update GRB_ATTENTION
+    set GRB_NO = #{grbNo,jdbcType=NUMERIC},
+      GRB_ATTENTION_TARGET = #{grbAttentionTarget,jdbcType=NUMERIC}
+    where GRB_ATTENTION_NO = #{grbAttentionNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select GRB_ATTENTION_NO, GRB_NO, GRB_ATTENTION_TARGET
+    from GRB_ATTENTION
+    where GRB_ATTENTION_NO = #{grbAttentionNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select GRB_ATTENTION_NO, GRB_NO, GRB_ATTENTION_TARGET
+    from GRB_ATTENTION
+  </select>
+</mapper>

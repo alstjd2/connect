@@ -1,0 +1,19 @@
+{
+    "data": [
+      {
+        "svyNo": 1,
+        "comNo": 1,
+        "svyImpYn": "N",
+        "svyAnyYn": "N",
+        "svyAllYn": "N",
+        "svyStatus": "종료",
+        "svyNm": "설문지 제목입니다.",
+        "svyStrDate": "2024/08/11",
+        "svyEndDate": "2024/08/18",
+        "empNm": "정윤지",
+        "svyAskDate": "2024/08/11",
+        "svyAllNum": 20,
+        "svyNum": 12
+      }
+    ]
+  }

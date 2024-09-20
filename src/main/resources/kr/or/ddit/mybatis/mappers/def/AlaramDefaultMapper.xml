@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kr.or.ddit.commons.def.mapper.AlaramDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.AlaramDefaultVO">
+    <id column="ALARAM_NO" jdbcType="NUMERIC" property="alaramNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="ALARAM_COMNCODE" jdbcType="VARCHAR" property="alaramComncode" />
+    <result column="ALARAM_CHK" jdbcType="VARCHAR" property="alaramChk" />
+    <result column="ALARAM_DATE" jdbcType="TIMESTAMP" property="alaramDate" />
+    <result column="ALARAM_HEADER" jdbcType="VARCHAR" property="alaramHeader" />
+  </resultMap>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ALARAM
+    where ALARAM_NO = #{alaramNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.AlaramDefaultVO">
+    insert into ALARAM (ALARAM_NO, EMP_NO, COM_NO, 
+      ALARAM_COMNCODE, ALARAM_CHK, ALARAM_DATE, 
+      ALARAM_HEADER)
+    values (#{alaramNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, 
+      #{alaramComncode,jdbcType=VARCHAR}, #{alaramChk,jdbcType=VARCHAR}, #{alaramDate,jdbcType=TIMESTAMP}, 
+      #{alaramHeader,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.AlaramDefaultVO">
+    update ALARAM
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      ALARAM_COMNCODE = #{alaramComncode,jdbcType=VARCHAR},
+      ALARAM_CHK = #{alaramChk,jdbcType=VARCHAR},
+      ALARAM_DATE = #{alaramDate,jdbcType=TIMESTAMP},
+      ALARAM_HEADER = #{alaramHeader,jdbcType=VARCHAR}
+    where ALARAM_NO = #{alaramNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ALARAM_NO, EMP_NO, COM_NO, ALARAM_COMNCODE, ALARAM_CHK, ALARAM_DATE, ALARAM_HEADER
+    from ALARAM
+    where ALARAM_NO = #{alaramNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ALARAM_NO, EMP_NO, COM_NO, ALARAM_COMNCODE, ALARAM_CHK, ALARAM_DATE, ALARAM_HEADER
+    from ALARAM
+  </select>
+</mapper>

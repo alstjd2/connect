@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.early.dao.EarlyMapper">
+  <resultMap id="EarlyVO" type="EarlyVO">
+    <id column="EARLY_NO" jdbcType="NUMERIC" property="earlyNo" />
+    <result column="COM_NM" jdbcType="VARCHAR" property="comNm" />
+    <result column="EARLY_PERINFOCOLLECTION" jdbcType="VARCHAR" property="earlyPerinfocollection" />
+    <result column="EARLY_EMAIL" jdbcType="VARCHAR" property="earlyEmail" />
+    <result column="EARLY_PHONE" jdbcType="VARCHAR" property="earlyPhone" />
+    <result column="EARLY_STATUS" jdbcType="VARCHAR" property="earlyStatus" />
+  </resultMap>
+  <select id="selectEarlyBoardListPaging" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="EarlyVO">
+  	WITH EARLYLIST AS (
+    SELECT 
+      EARLY_NO, 
+      COM_NM, 
+      EARLY_PERINFOCOLLECTION, 
+      EARLY_EMAIL, 
+      EARLY_PHONE,
+      EARLY_STATUS
+     FROM EARLY
+    ORDER BY EARLY_NO
+    )
+    SELECT A.*
+    FROM (
+        SELECT EARLYLIST.*, ROWNUM RNUM
+        FROM EARLYLIST
+    ) A
+    WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+  
+  </select>
+  	<select id="selectTotalRecord" resultType="int" >
+		SELECT COUNT(EARLY_NO)
+		FROM EARLY
+		
+	</select>
+  	<sql id="searchFrag">
+		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+		    	AND 
+		    	<choose>
+		    		<when test="simpleCondition.searchType eq 'name'">INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0</when>
+		    		<when test="simpleCondition.searchType eq 'buyer'">INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0</when>
+		    		<otherwise>
+		    			INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0
+		    			OR
+		    			INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0
+		    		</otherwise>
+		    	</choose>
+		    </if>
+   </sql>
+  <delete id="deleteEarly" parameterType="java.lang.Long">
+    delete from EARLY
+    where EARLY_NO = #{earlyNo,jdbcType=NUMERIC}
+  </delete>
+  
+  <insert id="insertEarly" parameterType="EarlyVO">
+    insert into EARLY (
+    EARLY_NO, 
+    COM_NM, 
+    EARLY_PERINFOCOLLECTION, 
+      EARLY_EMAIL, 
+      EARLY_PHONE)
+    values ((SELECT NVL(MAX(EARLY_NO)+1 ,1) EARLY_NO
+	 FROM EARLY), #{comNm,jdbcType=VARCHAR}, #{earlyPerinfocollection,jdbcType=VARCHAR}, 
+      #{earlyEmail,jdbcType=VARCHAR}, #{earlyPhone,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateEarly" parameterType="EarlyVO">
+    update EARLY
+    set COM_NM = #{comNm,jdbcType=VARCHAR},
+      EARLY_PERINFOCOLLECTION = #{earlyPerinfocollection,jdbcType=VARCHAR},
+      EARLY_EMAIL = #{earlyEmail,jdbcType=VARCHAR},
+      EARLY_PHONE = #{earlyPhone,jdbcType=VARCHAR}
+    where EARLY_NO = #{earlyNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectEarly"  resultMap="EarlyVO">
+    select EARLY_NO, COM_NM, EARLY_PERINFOCOLLECTION, EARLY_EMAIL, EARLY_PHONE
+    from EARLY
+    where EARLY_NO = #{earlyNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectEarlyList" resultMap="EarlyVO">
+    select EARLY_NO, COM_NM, EARLY_PERINFOCOLLECTION, EARLY_EMAIL, EARLY_PHONE
+    from EARLY
+  </select>
+      <update id="updateEarlyStatus" parameterType="EarlyVO">
+    UPDATE EARLY
+    SET EARLY_STATUS = #{earlyStatus}
+    WHERE EARLY_NO = #{earlyNo}
+</update>
+</mapper>

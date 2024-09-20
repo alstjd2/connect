@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.PromotionDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.PromotionDefaultVO">
+    <id column="PROMO_NO" jdbcType="NUMERIC" property="promoNo" />
+    <result column="BOARD_NO" jdbcType="NUMERIC" property="boardNo" />
+    <result column="PROMO_STDATE" jdbcType="TIMESTAMP" property="promoStdate" />
+    <result column="PROMO_ENDDATE" jdbcType="TIMESTAMP" property="promoEnddate" />
+    <result column="PROMO_PROGDMET" jdbcType="VARCHAR" property="promoProgdmet" />
+    <result column="PROMO_PROGCHECK" jdbcType="VARCHAR" property="promoProgcheck" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PROMOTION
+    where PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.PromotionDefaultVO">
+    insert into PROMOTION (PROMO_NO, BOARD_NO, PROMO_STDATE, 
+      PROMO_ENDDATE, PROMO_PROGDMET, PROMO_PROGCHECK
+      )
+    values (#{promoNo,jdbcType=NUMERIC}, #{boardNo,jdbcType=NUMERIC}, #{promoStdate,jdbcType=TIMESTAMP}, 
+      #{promoEnddate,jdbcType=TIMESTAMP}, #{promoProgdmet,jdbcType=VARCHAR}, #{promoProgcheck,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.PromotionDefaultVO">
+    update PROMOTION
+    set BOARD_NO = #{boardNo,jdbcType=NUMERIC},
+      PROMO_STDATE = #{promoStdate,jdbcType=TIMESTAMP},
+      PROMO_ENDDATE = #{promoEnddate,jdbcType=TIMESTAMP},
+      PROMO_PROGDMET = #{promoProgdmet,jdbcType=VARCHAR},
+      PROMO_PROGCHECK = #{promoProgcheck,jdbcType=VARCHAR}
+    where PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select PROMO_NO, BOARD_NO, PROMO_STDATE, PROMO_ENDDATE, PROMO_PROGDMET, PROMO_PROGCHECK
+    from PROMOTION
+    where PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select PROMO_NO, BOARD_NO, PROMO_STDATE, PROMO_ENDDATE, PROMO_PROGDMET, PROMO_PROGCHECK
+    from PROMOTION
+  </select>
+</mapper>

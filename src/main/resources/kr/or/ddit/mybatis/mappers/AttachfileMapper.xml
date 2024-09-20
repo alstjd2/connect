@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.attachifile.dao.AttachfileMapper">
+
+  <update id="deleteAttachfile" parameterType="int">
+    UPDATE ATTACHFILE SET ATT_DELYN = 'Y'
+    WHERE ATT_NO = #{attNo,jdbcType=NUMERIC}
+  </update>
+  
+  <insert id="insertAttachfile" parameterType="AttachfileVO">
+    INSERT INTO ATTACHFILE (
+    ATT_NO
+    , ATT_DELYN
+    , ATT_START
+    , ATT_END
+	) VALUES (
+	(SELECT NVL(MAX(ATT_NO)+1 ,1) ATT_NO
+	 FROM ATTACHFILE)
+	, 'N'
+	, SYSDATE
+	, SYSDATE
+	)
+  </insert>
+  
+  <update id="updateAttachfile" parameterType="AttachfileVO">
+    UPDATE
+    	ATTACHFILE
+    SET
+	    ATT_START=#{attStart, jdbcType=DATE}
+	    , ATT_END=#{attEnd, jdbcType=DATE}
+    WHERE
+    	ATT_NO = #{attNo,jdbcType=NUMERIC} AND ATT_DELYN = 'N'
+  </update>
+  
+  <select id="selectAttachfile" parameterType="int" resultType="AttachfileVO">
+    SELECT
+	    ATT_NO
+	  , ATT_DELYN
+	  , ATT_START
+	  , ATT_END
+	FROM
+	    ATTACHFILE
+	WHERE
+		ATT_NO = #{attNo} AND ATT_DELYN = 'N'
+  </select>
+  
+  <select id="selectAttachfileList" resultType="AttachfileVO">
+    SELECT
+	    ATT_NO
+	  , ATT_DELYN
+	  , ATT_START
+	  , ATT_END
+	FROM
+	    ATTACHFILE
+	WHERE
+		ATT_DELYN = 'N'
+  </select>
+  
+</mapper>

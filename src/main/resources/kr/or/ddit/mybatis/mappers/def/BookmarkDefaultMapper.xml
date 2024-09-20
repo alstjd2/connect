@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.BookmarkDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.BookmarkDefaultVO">
+    <id column="MARK_NO" jdbcType="NUMERIC" property="markNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="MARK_TARGET" jdbcType="NUMERIC" property="markTarget" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BOOKMARK
+    where MARK_NO = #{markNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.BookmarkDefaultVO">
+    insert into BOOKMARK (MARK_NO, EMP_NO, MARK_TARGET
+      )
+    values (#{markNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{markTarget,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.BookmarkDefaultVO">
+    update BOOKMARK
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      MARK_TARGET = #{markTarget,jdbcType=NUMERIC}
+    where MARK_NO = #{markNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select MARK_NO, EMP_NO, MARK_TARGET
+    from BOOKMARK
+    where MARK_NO = #{markNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select MARK_NO, EMP_NO, MARK_TARGET
+    from BOOKMARK
+  </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+  <definition name="abstractParent4" template="/WEB-INF/layouts/groupwareAdminLayout.jsp">
+  	<put-attribute name="preScript" value="/WEB-INF/includee/groupwareAdmin/preScript.jsp"/>
+  	<put-attribute name="customCss" value="/WEB-INF/includee/groupwareAdmin/customCss.jsp"/>
+  	<put-attribute name="sidebar" value="/WEB-INF/includee/groupwareAdmin/sidebar.jsp"/>
+  	<put-attribute name="postScript" value="/WEB-INF/includee/groupwareAdmin/postScript.jsp"/>
+  	<put-attribute name="customScript" value="/WEB-INF/includee/groupwareAdmin/customScript.jsp"/>
+  </definition>
+  
+  <definition name="groupware-admin/index" extends="abstractParent4">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-admin/index.jsp"/>
+  </definition>
+
+  <definition name="tiles:groupware-admin/*" extends="abstractParent4">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-admin/{1}.jsp"/>
+  </definition>
+  
+  <definition name="tiles:groupware-admin/*/*" extends="abstractParent4">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/groupware-admin/{1}/{2}.jsp"/>
+  </definition>
+ 
+</tiles-definitions>

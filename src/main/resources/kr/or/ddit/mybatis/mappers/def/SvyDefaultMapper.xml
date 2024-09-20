@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.SvyDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.SvyDefaultVO">
+    <id column="SVY_NO" jdbcType="NUMERIC" property="svyNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="SVY_TEM_YN" jdbcType="VARCHAR" property="svyTemYn" />
+    <result column="SVY_IMP_YN" jdbcType="VARCHAR" property="svyImpYn" />
+    <result column="SVY_ANY_YN" jdbcType="VARCHAR" property="svyAnyYn" />
+    <result column="SVY_ALL_YN" jdbcType="VARCHAR" property="svyAllYn" />
+    <result column="SVY_NM" jdbcType="VARCHAR" property="svyNm" />
+    <result column="SVY_STR_DATE" jdbcType="TIMESTAMP" property="svyStrDate" />
+    <result column="SVY_END_DATE" jdbcType="TIMESTAMP" property="svyEndDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SVY
+    where SVY_NO = #{svyNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.SvyDefaultVO">
+    insert into SVY (SVY_NO, COM_NO, SVY_TEM_YN, 
+      SVY_IMP_YN, SVY_ANY_YN, SVY_ALL_YN, 
+      SVY_NM, SVY_STR_DATE, SVY_END_DATE
+      )
+    values (#{svyNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{svyTemYn,jdbcType=VARCHAR}, 
+      #{svyImpYn,jdbcType=VARCHAR}, #{svyAnyYn,jdbcType=VARCHAR}, #{svyAllYn,jdbcType=VARCHAR}, 
+      #{svyNm,jdbcType=VARCHAR}, #{svyStrDate,jdbcType=TIMESTAMP}, #{svyEndDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.SvyDefaultVO">
+    update SVY
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      SVY_TEM_YN = #{svyTemYn,jdbcType=VARCHAR},
+      SVY_IMP_YN = #{svyImpYn,jdbcType=VARCHAR},
+      SVY_ANY_YN = #{svyAnyYn,jdbcType=VARCHAR},
+      SVY_ALL_YN = #{svyAllYn,jdbcType=VARCHAR},
+      SVY_NM = #{svyNm,jdbcType=VARCHAR},
+      SVY_STR_DATE = #{svyStrDate,jdbcType=TIMESTAMP},
+      SVY_END_DATE = #{svyEndDate,jdbcType=TIMESTAMP}
+    where SVY_NO = #{svyNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select SVY_NO, COM_NO, SVY_TEM_YN, SVY_IMP_YN, SVY_ANY_YN, SVY_ALL_YN, SVY_NM, SVY_STR_DATE, 
+    SVY_END_DATE
+    from SVY
+    where SVY_NO = #{svyNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select SVY_NO, COM_NO, SVY_TEM_YN, SVY_IMP_YN, SVY_ANY_YN, SVY_ALL_YN, SVY_NM, SVY_STR_DATE, 
+    SVY_END_DATE
+    from SVY
+  </select>
+</mapper>

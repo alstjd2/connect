@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.GrbGubunDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.GrbGubunDefaultVO">
+    <id column="GRB_GUBUN_NO" jdbcType="NUMERIC" property="grbGubunNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="GRB_GUBUN_TITLE" jdbcType="VARCHAR" property="grbGubunTitle" />
+    <result column="GRB_DELYN" jdbcType="VARCHAR" property="grbDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from GRB_GUBUN
+    where GRB_GUBUN_NO = #{grbGubunNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.GrbGubunDefaultVO">
+    insert into GRB_GUBUN (GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, 
+      GRB_DELYN)
+    values (#{grbGubunNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{grbGubunTitle,jdbcType=VARCHAR}, 
+      #{grbDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.GrbGubunDefaultVO">
+    update GRB_GUBUN
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      GRB_GUBUN_TITLE = #{grbGubunTitle,jdbcType=VARCHAR},
+      GRB_DELYN = #{grbDelyn,jdbcType=VARCHAR}
+    where GRB_GUBUN_NO = #{grbGubunNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, GRB_DELYN
+    from GRB_GUBUN
+    where GRB_GUBUN_NO = #{grbGubunNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, GRB_DELYN
+    from GRB_GUBUN
+  </select>
+</mapper>

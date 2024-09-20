@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.svy.dao.SvyAskMapper">
+<resultMap id="svyAsk" type="kr.or.ddit.vo.SvyAskVO" autoMapping="true">
+    <id property="svyAskNo"  column="SVY_ASK_NO" />
+    <id property="svyNo"  column="SVY_NO"  />
+    <association property="svy" javaType="kr.or.ddit.vo.SvyVO" autoMapping="true"/>
+</resultMap>
+<select id="selectsvyAskList" resultMap="svyAsk">
+	SELECT 
+		SVY_ASK_NO
+		, SVY_NO
+		, EMP_NO
+		, SVY_ASK_DATE
+    FROM SVY_ASK
+
+</select>
+
+<select id="selectSvyAsk" parameterType="int" resultMap="svyAsk"> 
+	SELECT 
+		SVY_ASK_NO
+		, SVY_NO
+		, EMP_NO
+		, SVY_ASK_DATE
+    FROM SVY_ASK
+    WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+</select>
+
+<insert id="insertSvyAsk" parameterType="SvyAskVO" >
+	<selectKey order="BEFORE" resultType="int" keyProperty="svyAskNo">
+		SELECT SVYASK_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO SVY_ASK 
+	(
+		SVY_ASK_NO
+		, SVY_NO
+		, EMP_NO
+		, SVY_ASK_DATE
+      )
+    VALUES (
+    	#{svyAskNo,jdbcType=NUMERIC}
+	    , #{svyNo,jdbcType=NUMERIC}
+	    , #{empNo,jdbcType=NUMERIC}
+	    , SYSDATE
+	    )
+</insert>
+
+<update id="updatesvyAsk" parameterType="kr.or.ddit.vo.SvyVO">
+	UPDATE SVY_ASK
+    SET EMP_NO = #{empNo,jdbcType=NUMERIC},
+      SVY_ASK_DATE = #{svyAskDate,jdbcType=TIMESTAMP}
+    WHERE SVY_ASK_NO = #{svyAskNo,jdbcType=NUMERIC}
+      and SVY_NO = #{svyNo,jdbcType=NUMERIC}
+</update>
+
+<delete id="deleteSvyAsk">
+    DELETE FROM SVY_ASK
+    WHERE SVY_ASK_NO = #{svyAskNo,jdbcType=NUMERIC}
+      and SVY_NO = #{svyNo,jdbcType=NUMERIC}	
+</delete>
+
+</mapper>

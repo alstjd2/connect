@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.msgroom.dao.MsgroomMapper">
+  <resultMap id="msgroomMap" type="kr.or.ddit.vo.MsgroomVO" autoMapping="true">
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <association property="employee" javaType="EmployeeVO" autoMapping="true" />
+    <association property="msgHdetail" javaType="MsghdetailVO" autoMapping="true"/>
+  </resultMap>
+
+  <resultMap id="msglogMap" type="kr.or.ddit.vo.MsglogVO" >
+    <id property="msglogNo" column="MSGLOG_NO"/>
+    <result property="msgrmNo" column="MSGRM_NO"/>
+    <result property="msglogContent" column="MSGLOG_CONTENT"/>
+    <result property="msglogWtdate" column="MSGLOG_WTDATE"/>
+    <result property="atchFileId" column="ATCH_FILE_ID"/>
+    <result property="empNm" column="EMP_NM"/>
+    <result property="empNo" column="EMP_NO"/>
+    <!-- 직원 정보 매핑 -->
+    <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO">
+    </association>
+  </resultMap>
+
+
+  <delete id="deleteMsgroom" parameterType="int">
+    delete from MSGROOM
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertMsgroom" parameterType="kr.or.ddit.vo.MsgroomVO">
+    insert into MSGROOM (MSGRM_NO, EMP_NO, MSGRM_HCOUNT,
+      MSGRM_NM, MSGHD_NO, MSGRM_ARRAY
+      )
+    values (#{msgrmNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{msgrmHcount,jdbcType=NUMERIC},
+      #{msgrmNm,jdbcType=VARCHAR}, #{msghdNo,jdbcType=NUMERIC}, #{msgrmArray,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateMsgroom" parameterType="kr.or.ddit.vo.MsgroomVO">
+    update MSGROOM
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      MSGRM_HCOUNT = #{msgrmHcount,jdbcType=NUMERIC},
+      MSGRM_NM = #{msgrmNm,jdbcType=VARCHAR},
+      MSGHD_NO = #{msghdNo,jdbcType=NUMERIC},
+      MSGRM_ARRAY = #{msgrmArray,jdbcType=VARCHAR}
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectMsgroom" parameterType="int" resultMap="msgroomMap">
+    select MSGRM_NO, EMP_NO, MSGRM_HCOUNT, MSGRM_NM, MSGHD_NO, MSGRM_ARRAY
+    from MSGROOM
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAllChatRooms" parameterType="int" resultMap="msgroomMap">
+    SELECT MR.MSGRM_NO, MR.EMP_NO, MR.MSGRM_HCOUNT, MR.MSGRM_NM, MR.MSGRM_ARRAY
+    FROM MSGROOM MR
+    JOIN MSGHDETAIL MD ON MR.MSGRM_NO = MD.MSGRM_NO
+    WHERE MD.EMP_NO = #{empNo, jdbcType=NUMERIC}
+    ORDER BY MR.MSGRM_NO DESC
+    </select>
+
+  <select id="selectChatHistory" parameterType="int" resultMap="msglogMap">
+    SELECT
+        ML.MSGLOG_NO,
+        ML.MSGRM_NO,
+        ML.MSGLOG_CONTENT,
+        ML.MSGLOG_WTDATE,
+        ML.ATCH_FILE_ID,
+        E.EMP_NO,
+        E.EMP_NM
+    FROM
+        MSGLOG ML
+    JOIN
+        EMPLOYEE E ON ML.EMP_NO = E.EMP_NO
+    WHERE
+        ML.MSGRM_NO = #{msgrmNo, jdbcType=NUMERIC}
+    ORDER BY
+        ML.MSGLOG_WTDATE ASC
+ </select>
+
+ <insert id="insertMsgLog" parameterType="kr.or.ddit.vo.MsglogVO">
+    INSERT INTO MSGLOG (MSGLOG_NO, MSGRM_NO, MSGLOG_CONTENT, MSGLOG_WTDATE, ATCH_FILE_ID, EMP_NO)
+    VALUES (MSGLOG_SEQ.NEXTVAL, #{msgrmNo,jdbcType=NUMERIC}, #{msglogContent,jdbcType=VARCHAR},
+            #{msglogWtdate,jdbcType=TIMESTAMP}, #{atchFileId,jdbcType=NUMERIC},#{empNo,jdbcType=NUMERIC})
+ </insert>
+
+
+
+
+
+
+
+
+</mapper>

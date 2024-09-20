@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.non.dao.NonMapper">
+  <resultMap id="NonVO" type="NonVO">
+    <id column="NON_NO" jdbcType="NUMERIC" property="nonNo" />
+    <result column="NON_NM" jdbcType="VARCHAR" property="nonNm" />
+    <result column="NON_TITLE" jdbcType="VARCHAR" property="nonTitle" />
+    <result column="NON_CONTENT" jdbcType="VARCHAR" property="nonContent" />
+    <result column="NON_ATTACHFILE" jdbcType="NUMERIC" property="nonAttachFileNo" />
+    <result column="NON_PERINFOCOLLECTION" jdbcType="VARCHAR" property="nonPerinfocollection" />
+    <result column="NON_STATUS" jdbcType="VARCHAR" property="nonStatus" />
+    <result column="NON_DATE" jdbcType="TIMESTAMP" property="nonDate" />
+    <result column="NON_EMAIL" jdbcType="VARCHAR" property="nonEmail" />
+    	<association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+        	<collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" />
+        </association>
+  </resultMap>
+  
+  	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+ 		 <id column="ATCH_FILE_ID" jdbcType="NUMERIC" property="atchFileId" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+  
+  <select id="selectBoardListPaging"
+		parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+		resultMap="NonVO">
+		WITH NONLIST AS (
+		SELECT
+		NON_NO, 
+		NON_NM, 
+		NON_TITLE, 
+		NON_CONTENT, 
+		NON_ATTACHFILE, 
+		NON_PERINFOCOLLECTION, 
+		NON_STATUS, NON_DATE, 
+		NON_EMAIL
+		FROM NON
+		ORDER BY NON_NO
+		)
+		SELECT A.*
+		FROM (
+		SELECT NONLIST.*, ROWNUM RNUM
+		FROM NONLIST
+		) A
+		WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+	</select>
+	
+	<select id="selectTotalRecord" resultType="int">
+    SELECT COUNT(NON_NO)
+    FROM NON
+    <where>
+        <if test="searchVO.nonNo != null">
+            AND NON_NO = #{searchVO.nonNo}
+        </if>
+        <include refid="searchFrag" />
+    </where>
+</select>
+
+	<sql id="searchFrag">
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+			AND
+			<choose>
+				<when test="simpleCondition.searchType eq 'name'">INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0
+				</when>
+				<when test="simpleCondition.searchType eq 'buyer'">INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0
+				</when>
+				<otherwise>
+					INSTR(ADR_NM, #{simpleCondition.searchWord}) > 0
+					OR
+					INSTR(ADR_POS,#{simpleCondition.searchWord}) > 0
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+
+  <insert id="insertNon" parameterType="NonVO">
+    insert into NON (
+        NON_NO, 
+    	NON_NM,
+    	NON_TITLE, 
+    	NON_CONTENT, 
+      	NON_PERINFOCOLLECTION,
+      	NON_STATUS, 
+      	NON_ATTACHFILE, 
+      	NON_DATE,
+      	NON_EMAIL
+      )
+    VALUES (
+	(SELECT NVL(MAX(NON_NO)+1 ,1) NON_NO
+	 FROM NON),
+	  #{nonNm,jdbcType=VARCHAR}, 
+	  #{nonTitle,jdbcType=VARCHAR}, 
+      #{nonContent,jdbcType=VARCHAR}, 
+      #{nonPerinfocollection,jdbcType=VARCHAR}, 
+      #{nonStatus,jdbcType=VARCHAR}, 
+      #{atchFileId, jdbcType=NUMERIC},
+      sysdate, 
+      #{nonEmail,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertNotAtchNon" parameterType="NonVO">
+    insert into NON (
+        NON_NO, 
+    	NON_NM,
+    	NON_TITLE, 
+    	NON_CONTENT, 
+      	NON_PERINFOCOLLECTION,
+      	NON_STATUS, 
+      	NON_DATE,
+      	NON_EMAIL
+      )
+    VALUES (
+	(SELECT NVL(MAX(NON_NO)+1 ,1) NON_NO
+	 FROM NON),
+	  #{nonNm,jdbcType=VARCHAR}, 
+	  #{nonTitle,jdbcType=VARCHAR}, 
+      #{nonContent,jdbcType=VARCHAR}, 
+      #{nonPerinfocollection,jdbcType=VARCHAR}, 
+      #{nonStatus,jdbcType=VARCHAR}, 
+      sysdate, 
+      #{nonEmail,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectNon"  resultMap="NonVO">
+SELECT 
+    n.NON_NO, 
+    n.NON_NM, 
+    n.NON_TITLE, 
+    n.NON_CONTENT, 
+    n.NON_ATTACHFILE, 
+    n.NON_PERINFOCOLLECTION, 
+    n.NON_STATUS, 
+    n.NON_DATE, 
+    n.NON_EMAIL,
+    af.ATCH_FILE_ID, 
+    afd.FILE_SN, 
+    afd.FILE_STRE_COURS, 
+    afd.STRE_FILE_NM, 
+    afd.ORIGNL_FILE_NM, 
+    afd.FILE_EXTSN, 
+    afd.FILE_CN, 
+    afd.FILE_SIZE, 
+    afd.FILE_FANCYSIZE, 
+    afd.FILE_MIME, 
+    afd.ATCH_FILE_ID
+FROM NON n
+LEFT JOIN ATCH_FILE af ON n.NON_ATTACHFILE = af.ATCH_FILE_ID
+LEFT JOIN ATCH_FILE_DETAIL afd ON af.ATCH_FILE_ID = afd.ATCH_FILE_ID
+WHERE n.NON_NO = #{nonNo, jdbcType=NUMERIC}
+  </select>
+  <select id="selectNonList" resultMap="NonVO">
+    select NON_NO, NON_NM, NON_TITLE, NON_CONTENT, NON_ATTACHFILE, NON_PERINFOCOLLECTION, 
+    NON_STATUS, NON_DATE, NON_EMAIL
+    from NON
+  </select>
+  
+    <update id="updateNon" parameterType="NonVO">
+    update NON
+    set NON_NM = #{nonNm,jdbcType=VARCHAR},
+      NON_TITLE = #{nonTitle,jdbcType=VARCHAR},
+      NON_CONTENT = #{nonContent,jdbcType=VARCHAR},
+      NON_ATTACHFILE = #{nonAttachfile,jdbcType=NUMERIC},
+      NON_PERINFOCOLLECTION = #{nonPerinfocollection,jdbcType=VARCHAR},
+      NON_STATUS = #{nonStatus,jdbcType=VARCHAR},
+      NON_DATE = #{nonDate,jdbcType=TIMESTAMP},
+      NON_EMAIL = #{nonEmail,jdbcType=VARCHAR}
+    where NON_NO = #{nonNo,jdbcType=NUMERIC}
+  </update>
+  
+  <update id="updateNonStatus" parameterType="NonVO">
+    UPDATE NON
+    SET NON_STATUS = #{nonStatus}
+    WHERE non_no = #{nonNo}
+</update>
+    <delete id="deleteNon">
+    delete from NON
+    where NON_NO = #{nonNo,jdbcType=NUMERIC}
+  </delete>
+</mapper>

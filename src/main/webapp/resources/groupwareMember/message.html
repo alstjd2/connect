@@ -1,0 +1,1040 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-addr.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-chat.css" />
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="assets\img\branding\symbol.png" alt="symbol">
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            connect
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-user'></i>
+                            <div class="text-truncate" data-i18n="개인정보">개인정보</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="myInfo-modify.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="정보수정">정보수정</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="휴가관리">휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태현황">근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="부서 근태">부서 근태</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="department-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 휴가관리">부서 휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="department-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 근태현황">부서 근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-spreadsheet'></i>
+                            <div class="text-truncate" data-i18n="문서결재">문서결재</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div class="  text-truncate" data-i18n="결재문서">결재문서</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="대기">대기</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="예정">예정</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="처리">처리</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="완료">완료</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="전체">전체</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-new.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서생성">문서생성</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-ref.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="참조문서">참조문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-receive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="수신문서">수신문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-storage.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="임시보관">임시보관</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="addressBook.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bxs-user-detail'></i>
+                            <div class="text-truncate" data-i18n="주소록">주소록</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="mail.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-envelope'></i>
+                            <div class="text-truncate" data-i18n="메일">메일</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="message.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-chat'></i>
+                            <div class="text-truncate" data-i18n="메시지">메시지</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="board.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-clipboard'></i>
+                            <div class="text-truncate" data-i18n="게시판">게시판</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-calendar-check'></i>
+                            <div class="text-truncate" data-i18n="일정관리">일정관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더">캘린더</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="일정">일정</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="survey.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-message-square-check'></i>
+                            <div class="text-truncate" data-i18n="설문">설문</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="webCam.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx bx-camera-home'></i>
+                            <div class="text-truncate" data-i18n="화상회의">화상회의</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="drive.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-cloud-upload'></i>
+                            <div class="text-truncate" data-i18n="드라이브">드라이브</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="bell.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-bell'></i>
+                            <div class="text-truncate" data-i18n="알림">알림설정</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-md"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <i class="bx bx-md"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-start dropdown-styles">
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                                            <span><i class="bx bx-sun bx-md me-3"></i>Light</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                                            <span><i class="bx bx-moon bx-md me-3"></i>Dark</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                                            <span><i class="bx bx-desktop bx-md me-3"></i>System</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">John Doe</h6>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"> <i
+                                                class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <span class="d-flex align-items-center align-middle">
+                                                <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i><span
+                                                    class="flex-grow-1 align-middle ms-1">Billing Plan</span>
+                                                <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="app-chat card overflow-hidden">
+                        <div class="row g-0">
+
+                            <!-- Sidebar Left -->
+                            <div class="col app-chat-sidebar-left app-sidebar overflow-hidden" id="app-chat-sidebar-left">
+                                <div class="chat-sidebar-left-user sidebar-header d-flex flex-column justify-content-center align-items-center flex-wrap px-6 pt-12">
+                                    <div class="avatar avatar-xl avatar-online chat-sidebar-avatar">
+                                        <img src="assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+                                    </div>
+                                    <h5 class="mt-4 mb-0">존 도</h5>
+                                    <span>관리자</span>
+                                    <i class="bx bx-x bx-lg cursor-pointer close-sidebar" data-bs-toggle="sidebar" data-overlay data-target="#app-chat-sidebar-left"></i>
+                                </div>
+                                <div class="sidebar-body px-6 pb-6">
+                                    <div class="my-6">
+                                        <label for="chat-sidebar-left-user-about" class="text-uppercase text-muted mb-1">소개</label>
+                                        <textarea id="chat-sidebar-left-user-about" class="form-control chat-sidebar-left-user-about" rows="3" maxlength="120">
+                                    안녕하세요, GitHub의 저장소를 구독하셨음을 알려드립니다.</textarea>
+                                    </div>
+                                    <div class="my-6">
+                                        <p class="text-uppercase text-muted mb-1">상태</p>
+                                        <div class="d-grid gap-2 pt-2 text-heading ms-2">
+                                            <div class="form-check form-check-success">
+                                                <input name="chat-user-status" class="form-check-input" type="radio" value="active" id="user-active" checked />
+                                                <label class="form-check-label" for="user-active">온라인</label>
+                                            </div>
+                                            <div class="form-check form-check-warning">
+                                                <input name="chat-user-status" class="form-check-input" type="radio" value="away" id="user-away" />
+                                                <label class="form-check-label" for="user-away">자리 비움</label>
+                                            </div>
+                                            <div class="form-check form-check-danger">
+                                                <input name="chat-user-status" class="form-check-input" type="radio" value="busy" id="user-busy" />
+                                                <label class="form-check-label" for="user-busy">방해 금지</label>
+                                            </div>
+                                            <div class="form-check form-check-secondary">
+                                                <input name="chat-user-status" class="form-check-input" type="radio" value="offline" id="user-offline" />
+                                                <label class="form-check-label" for="user-offline">오프라인</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="my-6">
+                                        <p class="text-uppercase text-muted mb-1">설정</p>
+                                        <ul class="list-unstyled d-grid gap-4 ms-2 pt-2 text-heading">
+                                            <li class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="bx bx-lock-alt me-1"></i>
+                                                    <span class="align-middle">2단계 인증</span>
+                                                </div>
+                                                <div class="form-check form-switch mb-0 me-1">
+                                                    <input type="checkbox" class="form-check-input" checked />
+                                                </div>
+                                            </li>
+                                            <li class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="bx bx-bell me-1"></i>
+                                                    <span class="align-middle">알림</span>
+                                                </div>
+                                                <div class="form-check form-switch mb-0 me-1">
+                                                    <input type="checkbox" class="form-check-input" />
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <i class="bx bx-user me-1"></i>
+                                                <span class="align-middle">친구 초대</span>
+                                            </li>
+                                            <li>
+                                                <i class="bx bx-trash me-1"></i>
+                                                <span class="align-middle">계정 삭제</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex mt-6">
+                                        <button class="btn btn-primary w-100" data-bs-toggle="sidebar" data-overlay data-target="#app-chat-sidebar-left">
+                                            <i class="bx bx-log-out bx-sm me-2"></i>로그아웃
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Sidebar Left-->
+
+                            <!-- 채팅 & 연락처 -->
+                            <div class="col app-chat-contacts app-sidebar flex-grow-0 overflow-hidden border-end" id="app-chat-contacts">
+                                <div class="sidebar-header px-6 border-bottom d-flex align-items-center flex-column gap-4 justify-content-center">
+                                    <button type="button" class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                        새 메시지 생성
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalCenterTitle">모달 제목</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col mb-0">
+                                                            <label for="TagifyUserList" class="form-label">사용자 목록</label>
+                                                            <input id="TagifyUserList" name="TagifyUserList" class="form-control" value="김태희, 맹동승" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary">추가</button>
+                                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">닫기</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center me-6 me-lg-0">
+                                            <div class="flex-shrink-0 avatar avatar-online me-4" data-bs-toggle="sidebar" data-overlay="app-overlay-ex" data-target="#app-chat-sidebar-left">
+                                                <img class="user-avatar rounded-circle cursor-pointer" src="assets/img/avatars/1.png" alt="Avatar" />
+                                            </div>
+                                            <div class="flex-grow-1 input-group input-group-merge rounded-pill">
+                                                <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search bx-sm"></i></span>
+                                                <input type="text" class="form-control chat-search-input" placeholder="검색..." aria-label="Search..." aria-describedby="basic-addon-search31" />
+                                            </div>
+                                        </div>
+                                        <i class="bx bx-x bx-lg cursor-pointer position-absolute top-50 end-0 translate-middle d-lg-none d-block" data-overlay data-bs-toggle="sidebar" data-target="#app-chat-contacts"></i>
+                                    </div>
+                                </div>
+                                <div class="sidebar-body">
+                                    <!-- 채팅 목록 -->
+                                    <ul class="list-unstyled chat-contact-list py-2 mb-0" id="chat-list">
+                                        <li class="chat-contact-list-item chat-contact-list-item-title mt-0">
+                                            <h5 class="text-primary mb-0">채팅</h5>
+                                        </li>
+                                        <li class="chat-contact-list-item chat-list-item-0 d-none">
+                                            <h6 class="text-muted mb-0">채팅이 없습니다</h6>
+                                        </li>
+                                        <li class="chat-contact-list-item mb-1">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar avatar-online">
+                                                    <img src="assets/img/avatars/13.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="chat-contact-name text-truncate m-0 fw-normal">왈데마르 마너링</h6>
+                                                        <small class="text-muted">5분 전</small>
+                                                    </div>
+                                                    <small class="chat-contact-status text-truncate">친구를 초대하세요. 보상을 받으세요.</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item active mb-1">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar avatar-offline">
+                                                    <img src="assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="chat-contact-name text-truncate fw-normal m-0">펠레시아 로워</h6>
+                                                        <small class="text-muted">30분 전</small>
+                                                    </div>
+                                                    <small class="chat-contact-status text-truncate">확실히 구매할 것입니다. 👍</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item mb-0">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar avatar-busy">
+                                                    <span class="avatar-initial rounded-circle bg-label-success">CM</span>
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="chat-contact-name text-truncate fw-normal m-0">칼빈 무어</h6>
+                                                        <small class="text-muted">1일 전</small>
+                                                    </div>
+                                                    <small class="chat-contact-status text-truncate">오래 걸리면 사용자에게 메일을 보낼 수 있습니다.</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- 연락처 목록 -->
+                                    <ul class="list-unstyled chat-contact-list mb-0 py-2" id="contact-list">
+                                        <li class="chat-contact-list-item chat-contact-list-item-title mt-0">
+                                            <h5 class="text-primary mb-0">연락처</h5>
+                                        </li>
+                                        <li class="chat-contact-list-item contact-list-item-0 d-none">
+                                            <h6 class="text-muted mb-0">연락처가 없습니다</h6>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">나탈리 맥스웰</h6>
+                                                    <small class="chat-contact-status text-truncate">UI/UX 디자이너</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">제스 쿡</h6>
+                                                    <small class="chat-contact-status text-truncate">비즈니스 분석가</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="avatar d-block flex-shrink-0">
+                                                    <span class="avatar-initial rounded-circle bg-label-primary">LM</span>
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">루이 메이슨</h6>
+                                                    <small class="chat-contact-status text-truncate">자원 관리자</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">크리스탈 노턴</h6>
+                                                    <small class="chat-contact-status text-truncate">비즈니스 경영자</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="avatar d-block flex-shrink-0">
+                                                    <span class="avatar-initial rounded-circle bg-label-success">CM</span>
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">칼빈 무어</h6>
+                                                    <small class="chat-contact-status text-truncate">UX 엔지니어</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/10.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">메리 자일스</h6>
+                                                    <small class="chat-contact-status text-truncate">회계 부서</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/13.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">왈데마르 마너링</h6>
+                                                    <small class="chat-contact-status text-truncate">AWS 지원</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="avatar d-block flex-shrink-0">
+                                                    <span class="avatar-initial rounded-circle bg-label-danger">AJ</span>
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">에이미 존슨</h6>
+                                                    <small class="chat-contact-status text-truncate">프론트엔드 개발자</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">펠레시아 로워</h6>
+                                                    <small class="chat-contact-status text-truncate">클라우드 엔지니어</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="chat-contact-list-item mb-0">
+                                            <a class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 avatar">
+                                                    <img src="assets/img/avatars/11.png" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="chat-contact-name text-truncate m-0 fw-normal">윌리엄 스티븐스</h6>
+                                                    <small class="chat-contact-status text-truncate">백엔드 개발자</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /채팅 연락처 -->
+
+                            <!-- 채팅 기록 -->
+                            <div class="col app-chat-history">
+                                <div class="chat-history-wrapper">
+                                    <div class="chat-history-header border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex overflow-hidden align-items-center">
+                                                <i class="bx bx-menu bx-lg cursor-pointer d-lg-none d-block me-4"
+                                                    data-bs-toggle="sidebar" data-overlay
+                                                    data-target="#app-chat-contacts"></i>
+                                                <div class="flex-shrink-0 avatar avatar-online">
+                                                    <img src="assets/img/avatars/4.png" alt="Avatar"
+                                                        class="rounded-circle" data-bs-toggle="sidebar" data-overlay
+                                                        data-target="#app-chat-sidebar-right" />
+                                                </div>
+                                                <div class="chat-contact-info flex-grow-1 ms-4">
+                                                    <h6 class="m-0 fw-normal">펠레시아 로워</h6>
+                                                    <small class="user-status text-body">NextJS 개발자</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i
+                                                    class="bx bx-phone bx-md cursor-pointer d-sm-inline-flex d-none btn btn-icon text-secondary me-1"></i>
+                                                <i
+                                                    class="bx bx-video bx-md cursor-pointer d-sm-inline-flex d-none btn btn-icon text-secondary me-1"></i>
+                                                <i
+                                                    class="bx bx-search bx-md cursor-pointer d-sm-inline-flex d-none btn btn-icon text-secondary me-1"></i>
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-icon text-secondary dropdown-toggle hide-arrow"
+                                                        data-bs-toggle="dropdown" aria-expanded="true"
+                                                        id="chat-header-actions">
+                                                        <i class="bx bx-dots-vertical-rounded bx-md"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="chat-header-actions">
+                                                        <a class="dropdown-item" href="javascript:void(0);">연락처 보기</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">알림 음소거</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">연락처 차단</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">채팅 삭제</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">신고하기</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chat-history-body">
+                                        <ul class="list-unstyled chat-history">
+                                            <li class="chat-message chat-message-right">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">어떻게 도와드릴까요? 우리는 여기 있습니다! 😄</p>
+                                                        </div>
+                                                        <div class="text-end text-muted mt-1">
+                                                            <i class="bx bx-check-double bx-16px text-success me-1"></i>
+                                                            <small>오전 10:00</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-avatar flex-shrink-0 ms-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/1.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="user-avatar flex-shrink-0 me-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/4.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">안녕하세요, 존. 최고의 관리자 템플릿을 찾고 있습니다.</p>
+                                                            <p class="mb-0">도와주실 수 있나요? 🤔</p>
+                                                        </div>
+                                                        <div class="chat-message-text mt-2">
+                                                            <p class="mb-0">부트스트랩 5와 호환되어야 합니다.</p>
+                                                        </div>
+                                                        <div class="text-muted mt-1">
+                                                            <small>오전 10:02</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message chat-message-right">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">sneat은 앱에 필요한 모든 구성 요소를 포함하고 있습니다.</p>
+                                                        </div>
+                                                        <div class="text-end text-muted mt-1">
+                                                            <i class="bx bx-check-double bx-16px text-success me-1"></i>
+                                                            <small>오전 10:03</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-avatar flex-shrink-0 ms-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/1.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="user-avatar flex-shrink-0 me-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/4.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">깨끗하고 신선한 UI입니다. 😃</p>
+                                                        </div>
+                                                        <div class="chat-message-text mt-2">
+                                                            <p class="mb-0">다음 프로젝트에 딱 맞습니다.</p>
+                                                        </div>
+                                                        <div class="chat-message-text mt-2">
+                                                            <p class="mb-0">어떻게 구매하나요?</p>
+                                                        </div>
+                                                        <div class="text-muted mt-1">
+                                                            <small>오전 10:05</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message chat-message-right">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">감사합니다. 구매하실 수 있습니다.</p>
+                                                        </div>
+                                                        <div class="text-end text-muted mt-1">
+                                                            <i class="bx bx-check-double bx-16px text-success me-1"></i>
+                                                            <small>오전 10:06</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-avatar flex-shrink-0 ms-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/1.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="user-avatar flex-shrink-0 me-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/4.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">확실히 구매할 것입니다. 👍</p>
+                                                        </div>
+                                                        <div class="chat-message-text mt-2">
+                                                            <p class="mb-0">감사합니다.</p>
+                                                        </div>
+                                                        <div class="text-muted mt-1">
+                                                            <small>오전 10:08</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message chat-message-right">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">좋습니다. 언제든지 연락 주세요.</p>
+                                                        </div>
+                                                        <div class="text-end text-muted mt-1">
+                                                            <i class="bx bx-check-double bx-16px text-success me-1"></i>
+                                                            <small>오전 10:10</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-avatar flex-shrink-0 ms-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/1.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="user-avatar flex-shrink-0 me-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/4.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="chat-message-wrapper flex-grow-1">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">sneat의 디자인 파일이 있나요?</p>
+                                                        </div>
+                                                        <div class="text-muted mt-1">
+                                                            <small>오전 10:15</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="chat-message chat-message-right">
+                                                <div class="d-flex overflow-hidden">
+                                                    <div class="chat-message-wrapper flex-grow-1 w-50">
+                                                        <div class="chat-message-text">
+                                                            <p class="mb-0">
+                                                                네, 맞습니다. 문서 파일에는 디자인 파일이 포함되어 있습니다.
+                                                            </p>
+                                                        </div>
+                                                        <div class="text-end text-muted mt-1">
+                                                            <i class="bx bx-check-double bx-16px me-1"></i>
+                                                            <small>오전 10:15</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="user-avatar flex-shrink-0 ms-4">
+                                                        <div class="avatar avatar-sm">
+                                                            <img src="assets/img/avatars/1.png" alt="Avatar"
+                                                                class="rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- 채팅 메시지 작성 폼 -->
+                                    <div class="chat-history-footer shadow-xs">
+                                        <form class="form-send-message d-flex justify-content-between align-items-center">
+                                            <input class="form-control message-input border-0 me-4 shadow-none"
+                                                placeholder="메시지를 입력하세요..." />
+                                            <div class="message-actions d-flex align-items-center">
+                                                <i
+                                                    class="speech-to-text bx bx-microphone bx-md btn btn-icon cursor-pointer text-heading"></i>
+                                                <label for="attach-doc" class="form-label mb-0">
+                                                    <i
+                                                        class="bx bx-paperclip bx-md cursor-pointer btn btn-icon mx-1 text-heading"></i>
+                                                    <input type="file" id="attach-doc" hidden />
+                                                </label>
+                                                <button class="btn btn-primary d-flex send-msg-btn">                                                    
+                                                    <i class="bx bx-paper-plane bx-sm"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /채팅 기록 -->
+
+                            <!-- 오른쪽 사이드바 -->
+                            <div class="col app-chat-sidebar-right app-sidebar overflow-hidden"
+                            id="app-chat-sidebar-right">
+                            <div class="sidebar-header d-flex flex-column justify-content-center align-items-center flex-wrap px-6 pt-12">
+                                <div class="avatar avatar-xl avatar-online chat-sidebar-avatar">
+                                    <img src="assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <h5 class="mt-4 mb-0">펠레시아 로워</h5>
+                                <span>NextJS 개발자</span>
+                                <i class="bx bx-x bx-lg cursor-pointer close-sidebar d-block"
+                                    data-bs-toggle="sidebar" data-overlay data-target="#app-chat-sidebar-right"></i>
+                            </div>
+                            <div class="sidebar-body p-6 pt-0">
+                                <div class="my-6">
+                                    <p class="text-uppercase mb-1 text-muted">정보</p>
+                                    <p class="mb-0">
+                                        독자는 읽을 수 있는 콘텐츠에 의해 산만해지기 쉽다는 것은 오랜 사실입니다.
+                                    </p>
+                                </div>
+                                <div class="my-6">
+                                    <p class="text-uppercase mb-1 text-muted">개인 정보</p>
+                                    <ul class="list-unstyled d-grid gap-4 mb-0 ms-2 py-2 text-heading">
+                                        <li class="d-flex align-items-center">
+                                            <i class="bx bx-envelope"></i>
+                                            <span class="align-middle ms-2">josephGreen@email.com</span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <i class="bx bx-phone-call"></i>
+                                            <span class="align-middle ms-2">+1(123) 456 - 7890</span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <i class="bx bx-time-five"></i>
+                                            <span class="align-middle ms-2">월 - 금 오전 10시 - 오후 8시</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="my-6">
+                                    <p class="text-uppercase text-muted mb-1">옵션</p>
+                                    <ul class="list-unstyled d-grid gap-4 ms-2 py-2 text-heading">
+                                        <li class="cursor-pointer d-flex align-items-center">
+                                            <i class="bx bx-bookmark"></i>
+                                            <span class="align-middle ms-2">태그 추가</span>
+                                        </li>
+                                        <li class="cursor-pointer d-flex align-items-center">
+                                            <i class="bx bx-star"></i>
+                                            <span class="align-middle ms-2">중요 연락처</span>
+                                        </li>
+                                        <li class="cursor-pointer d-flex align-items-center">
+                                            <i class="bx bx-image-alt"></i>
+                                            <span class="align-middle ms-2">공유된 미디어</span>
+                                        </li>
+                                        <li class="cursor-pointer d-flex align-items-center">
+                                            <i class="bx bx-trash"></i>
+                                            <span class="align-middle ms-2">연락처 삭제</span>
+                                        </li>
+                                        <li class="cursor-pointer d-flex align-items-center">
+                                            <i class="bx bx-block"></i>
+                                            <span class="align-middle ms-2">연락처 차단</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex mt-6">
+                                    <button class="btn btn-danger w-100" data-bs-toggle="sidebar" data-overlay
+                                        data-target="#app-chat-sidebar-right">
+                                        연락처 삭제<i class="bx bx-trash bx-sm ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- /오른쪽 사이드바 -->
+
+                            <div class="app-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+    <script defer src="assets/js/app-chat.js"></script>
+    <script defer src="assets/js/addressBook-group.js"></script>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/locale/ko.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+    <script src="assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

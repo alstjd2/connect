@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.position.dao.PositionMapper">
+  <resultMap id="positionMap" type="kr.or.ddit.vo.PositionVO" autoMapping="true">
+    <id column="POS_NO" jdbcType="NUMERIC" property="posNo" />
+    <association property="company" javaType="CompanyVO" autoMapping="true" />
+  </resultMap>
+  <delete id="deletePosition" parameterType="int">
+    delete from POSITION
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertPosition" parameterType="kr.or.ddit.vo.PositionVO">
+    insert into POSITION (POS_NO, COM_NO, POS_NM, 
+      POS_TYPE)
+    values (#{posNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{posNm,jdbcType=VARCHAR}, 
+      #{posType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updatePosition" parameterType="kr.or.ddit.vo.PositionVO">
+    update POSITION
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      POS_NM = #{posNm,jdbcType=VARCHAR},
+      POS_TYPE = #{posType,jdbcType=VARCHAR}
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectPosition" parameterType="int" resultMap="positionMap">
+    select POS_NO, COM_NO, POS_NM, POS_TYPE
+    from POSITION
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="positionMap">
+    select POS_NO, COM_NO, POS_NM, POS_TYPE
+    from POSITION
+  </select>
+  <select id="selectPosComAll" parameterType="int" resultMap="positionMap">
+    select 
+    	POS_NO, 
+    	COM_NO, 
+    	POS_NM, 
+    	POS_TYPE
+    from POSITION
+    WHERE POS_TYPE LIKE 'EB04110' 
+    AND COM_NO =#{comNo,jdbcType=NUMERIC}
+    ORDER BY POS_NO ASC
+  </select>
+</mapper>

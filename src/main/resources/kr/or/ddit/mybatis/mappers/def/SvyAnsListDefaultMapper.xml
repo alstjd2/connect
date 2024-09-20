@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.SvyAnsListDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.SvyAnsListDefaultVO">
+    <id column="SVY_NO" jdbcType="NUMERIC" property="svyNo" />
+    <id column="SVY_ANS_NO" jdbcType="NUMERIC" property="svyAnsNo" />
+    <id column="CLS_NO" jdbcType="NUMERIC" property="clsNo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from SVY_ANS_LIST
+    where SVY_NO = #{svyNo,jdbcType=NUMERIC}
+      and SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+      and CLS_NO = #{clsNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.SvyAnsListDefaultVO">
+    insert into SVY_ANS_LIST (SVY_NO, SVY_ANS_NO, CLS_NO
+      )
+    values (#{svyNo,jdbcType=NUMERIC}, #{svyAnsNo,jdbcType=NUMERIC}, #{clsNo,jdbcType=NUMERIC}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select SVY_NO, SVY_ANS_NO, CLS_NO
+    from SVY_ANS_LIST
+  </select>
+</mapper>

@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+#grboardDetail{
+	height: calc(100vh - 23.3rem);
+	overflow: scroll;	
+}
+#div-list-body{
+	height: calc(100vh - 15.9rem);
+	
+}
+
+#grboardUpdate{
+	height: calc(100vh - 18.3rem);
+	overflow: scroll;	
+}
+
+#replybox{
+	padding: 0 !important;
+}
+
+#replybox textarea{
+	height: 100px;
+}
+
+#replybtn{
+	margin: 10px 2px 30px 30px;
+}
+
+#boardSelect{
+		width: 200px;
+}
+#boardBorder{
+	border-bottom: solid 1px #eee;
+	background-color: transparent;
+}
+#boardWriter{
+	width: fit-content;
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.conference.dao.ConferenceMapper">
+	<resultMap type="ConferenceVO" id="conferenceMap"
+		autoMapping="true">
+		<id property="conNo" column="CON_NO" />
+		<association property="employee" javaType="EmployeeVO"
+			autoMapping="true" />
+	</resultMap>
+	
+	<select id="selectTotalRecord" resultType="int" >
+		SELECT COUNT(CON_NO)
+		FROM CONFERENCE
+		<where>
+        AND COM_NO = #{searchVO.comNo}
+        AND TRUNC(TO_DATE(START_DATE, 'YYYY-MM-DD"T"HH24:MI')) >= TRUNC(SYSDATE)
+        <include refid="searchFrag" />
+		</where>
+	</select>
+	
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+		    	AND 
+		    	<choose>
+		    		<when test="simpleCondition.searchType eq 'name'">INSTR(ROOM_TITLE, #{simpleCondition.searchWord}) > 0</when>
+		    		<otherwise>
+		    			(INSTR(ROOM_TITLE, #{simpleCondition.searchWord}) > 0
+		    		</otherwise>
+		    	</choose>
+		    </if>
+   </sql>
+   
+   <select id="selectConferenceList" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="conferenceMap">
+
+		WITH CONFERENCELIST AS (
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY START_DATE ASC) AS rnum,
+            CON_NO,
+            EMP_NO,
+            ROOM_TITLE,
+            ROOM_URLID,
+            ROOM_TYPE,
+            MAX_JOIN_COUNT,
+            START_DATE,
+            END_DATE,
+            COM_NO,
+            PASSWD,
+            CALL_Type
+        FROM CONFERENCE
+        WHERE
+            COM_NO = #{searchVO.comNo}
+            AND TRUNC(TO_DATE(START_DATE, 'YYYY-MM-DD"T"HH24:MI')) >= TRUNC(SYSDATE)
+            <include refid="searchFrag" />
+    )
+    SELECT *
+    FROM CONFERENCELIST
+    WHERE rnum BETWEEN #{firstRecord} AND #{lastRecord}
+    ORDER BY rnum
+		
+	</select>
+
+    
+	<select id="selectConference" parameterType="int" resultMap="conferenceMap">
+		SELECT
+			CON_NO
+		  , EMP_NO
+		  , ROOM_TITLE
+		  , ROOM_URLID
+		  , ROOM_TYPE
+		  , MAX_JOIN_COUNT
+		  , START_DATE
+		  , END_DATE
+		  , COM_NO
+		  , PASSWD
+		  , CALL_Type
+		FROM CONFERENCE
+		WHERE
+			CON_NO = #{conNo}
+			
+	</select>
+	
+	<insert id="insertConference" parameterType="ConferenceVO">
+		<selectKey order="BEFORE" resultType="int" keyProperty="conNo">
+			SELECT CONFERENCE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO CONFERENCE
+			(
+				CON_NO
+			  , EMP_NO
+			  , ROOM_TITLE
+			  , ROOM_URLID
+			  , MAX_JOIN_COUNT
+			  , START_DATE
+			  , COM_NO
+			  , PASSWD
+			  , CALL_TYPE
+  		)
+		VALUES (
+
+				#{conNo, jdbcType=NUMERIC}
+				, #{empNo, jdbcType=NUMERIC}
+				, #{roomTitle, jdbcType=VARCHAR}
+				, #{roomUrlId, jdbcType=VARCHAR}
+				, 16
+				, #{startDate, jdbcType=VARCHAR}
+				, #{comNo, jdbcType=NUMERIC}
+				, #{passwd, jdbcType=VARCHAR}
+				, 'P2P'
+				)
+	</insert>
+	
+</mapper>

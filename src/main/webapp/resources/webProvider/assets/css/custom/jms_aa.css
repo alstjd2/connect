@@ -1,0 +1,12 @@
+.email-list-item-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+.email-list-item-time {
+    font-size: 14px;
+    color: #999;
+    display: inline-flex; /* 날짜와 작성자명을 수평으로 표시 */
+    align-items: center;
+}

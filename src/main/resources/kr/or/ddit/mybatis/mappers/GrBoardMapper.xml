@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.grboard.dao.GrBoardMapper">
+	<resultMap type="GrBoardVO" id="grBoardMap" autoMapping="true">
+    <!-- 먼저 ID를 정의 -->
+    <id property="grbNo" column="GRB_NO"/>
+    
+	    <!-- association 안에 collection 이 존재하는 경우 -->
+    <association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+        <collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" />
+    </association>
+    
+    <!-- 그 다음 결과 매핑 요소 -->
+    <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true"/>
+    <association property="gubun" javaType="kr.or.ddit.vo.GrbGubunVO" autoMapping="true"/>
+    
+    <!-- 그 다음 컬렉션 -->
+    <collection property="grbImpList" ofType="GrbImpVO" autoMapping="true"/>
+    <collection property="grbAttentionList" ofType="GrbAttentionVO" autoMapping="true"/>
+    <collection property="grbTrashList" ofType="GrbTrashVO" autoMapping="true"/>
+    <collection property="grbReplyList" ofType="GrbReplyVO" autoMapping="true"/>
+    
+
+</resultMap>
+
+ 	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+ 		 <id column="ATCH_FILE_ID" jdbcType="NUMERIC" property="atchFileId" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+	
+	
+	<resultMap type="GrBoardVO" id="grBoardAtchMap" autoMapping="true">
+       <!-- 먼저 ID를 정의 -->
+       <id property="grbNo" column="GRB_NO"/>
+       
+          <!-- association 안에 collection 이 존재하는 경우 -->
+       <association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+           <collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" columnPrefix="GRB_" />
+       </association>
+       
+       <association property="empAtchFile" javaType="AtchFileVO" autoMapping="true">
+           <collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" columnPrefix="PROFILE_" />
+       </association>
+       
+       <!-- 그 다음 결과 매핑 요소 -->
+       <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true"/>
+       <association property="gubun" javaType="kr.or.ddit.vo.GrbGubunVO" autoMapping="true"/>
+       
+       <!-- 그 다음 컬렉션 -->
+       <collection property="grbImpList" ofType="GrbImpVO" autoMapping="true"/>
+       <collection property="grbAttentionList" ofType="GrbAttentionVO" autoMapping="true"/>
+       <collection property="grbTrashList" ofType="GrbTrashVO" autoMapping="true"/>
+       <collection property="grbReplyList" ofType="GrbReplyVO" autoMapping="true"/>
+   </resultMap>
+   
+   
+
+ <sql id="grBoardColumns">
+		GRB_NO, 
+		EMP_NO, 
+		COM_NO, 
+		GRB_GUBUN_NO, 
+		GRB_NEW_POST, 
+		GRB_TITLE, 
+		GRB_CONTENT, 
+		GRB_ATTACHFILE, 
+		GRB_DATE, 
+		GRB_DELYN, 
+		GRB_START, 
+		GRB_END, 
+		GRB_ATTENTION_YN
+
+	</sql>
+	
+		<insert id="insertGrBoard" parameterType="GrBoardVO">
+    <selectKey order="BEFORE" resultType="int" keyProperty="grbNo">
+        SELECT GRBOARD_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO GRBOARD
+    (
+        GRB_NO, 
+        EMP_NO, 
+        COM_NO, 
+        GRB_GUBUN_NO, 
+        GRB_NEW_POST, 
+        GRB_TITLE, 
+        GRB_CONTENT, 
+        GRB_ATTACHFILE, 
+        GRB_DATE, 
+        GRB_DELYN, 
+        GRB_START, 
+        GRB_END, 
+        GRB_ATTENTION_YN
+    )
+    VALUES
+    (
+        #{grbNo}
+        , #{empNo}
+        , #{comNo}
+        , #{grbGubunNo}
+        , sysdate
+        , #{grbTitle,jdbcType=VARCHAR}
+        , #{grbContent,jdbcType=VARCHAR}
+        , #{atchFileId, jdbcType=NUMERIC}
+        , sysdate
+        , 'N'
+        , #{grbStart,jdbcType=DATE}
+        , #{grbEnd,jdbcType=DATE}
+        , #{grbAttentionYN}
+    )
+</insert>
+
+  <insert id="insertNotAtchGrboard" parameterType="GrBoardVO">
+      <selectKey order="BEFORE" resultType="int" keyProperty="grbNo">
+        SELECT GRBOARD_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into GRBOARD (
+        GRB_NO, 
+        EMP_NO, 
+        COM_NO, 
+        GRB_GUBUN_NO, 
+        GRB_NEW_POST,
+        GRB_TITLE, 
+        GRB_CONTENT, 
+        GRB_DATE, 
+        GRB_DELYN, 
+        GRB_START, 
+        GRB_END, 
+        GRB_ATTENTION_YN
+      )
+        VALUES(
+          #{grbNo}
+	    , #{empNo}
+        , #{comNo}
+        , #{grbGubunNo}
+      	, sysdate
+        , #{grbTitle,jdbcType=VARCHAR}
+        , #{grbContent,jdbcType=VARCHAR}
+        , sysdate
+        , 'N'
+        , #{grbStart,jdbcType=DATE}
+        , #{grbEnd,jdbcType=DATE}
+        , #{grbAttentionYN}
+      )
+  </insert>
+  
+	<select id="selectGrBoard" resultMap="grBoardAtchMap">
+SELECT
+    G.GRB_NO, 
+    G.EMP_NO, 
+    G.COM_NO, 
+    GG.GRB_GUBUN_TITLE, -- 게시판 제목
+    G.GRB_GUBUN_NO,
+    G.GRB_NEW_POST, 
+    G.GRB_TITLE, 
+    G.GRB_CONTENT, 
+    G.GRB_ATTACHFILE, -- 게시글 첨부파일 ID
+    G.GRB_DATE, 
+    G.GRB_DELYN, 
+    G.GRB_START, 
+    G.GRB_END, 
+    G.GRB_ATTENTION_YN, 
+    A.GRB_ATTENTION_NO,
+    A.EMP_NO AS aEmpNo, 
+    A.GRB_NO AS aGrbNo, 
+    E.EMP_NO AS eEmpNo,
+    E.EMP_NM, -- 작성자명
+    E.EMP_PROFILE, -- 프로필 사진 ID
+    AFP.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID, -- 프로필 사진 파일 ID
+    AFP.USE_AT AS PROFILE_USE_AT,
+    AFP.CREATE_DT AS PROFILE_CREATE_DT,
+    AFD_PROFILE.FILE_SN AS PROFILE_FILE_SN, 
+    AFD_PROFILE.FILE_STRE_COURS AS PROFILE_FILE_STRE_COURS, 
+    AFD_PROFILE.STRE_FILE_NM AS PROFILE_STRE_FILE_NM, 
+    AFD_PROFILE.ORIGNL_FILE_NM AS PROFILE_ORIGNL_FILE_NM, 
+    AFD_PROFILE.FILE_EXTSN AS PROFILE_FILE_EXTSN, 
+    AFD_PROFILE.FILE_CN AS PROFILE_FILE_CN, 
+    AFD_PROFILE.FILE_SIZE AS PROFILE_FILE_SIZE, 
+    AFD_PROFILE.FILE_FANCYSIZE AS PROFILE_FILE_FANCYSIZE, 
+    AFD_PROFILE.FILE_MIME AS PROFILE_FILE_MIME,
+    -- 게시글 첨부파일 정보
+    AFG.ATCH_FILE_ID AS GRB_ATCH_FILE_ID, -- 게시글 첨부파일 ID
+    AFD_GRB.FILE_SN AS GRB_FILE_SN, 
+    AFD_GRB.FILE_STRE_COURS AS GRB_FILE_STRE_COURS, 
+    AFD_GRB.STRE_FILE_NM AS GRB_STRE_FILE_NM, 
+    AFD_GRB.ORIGNL_FILE_NM AS GRB_ORIGNL_FILE_NM, 
+    AFD_GRB.FILE_EXTSN AS GRB_FILE_EXTSN, 
+    AFD_GRB.FILE_CN AS GRB_FILE_CN, 
+    AFD_GRB.FILE_SIZE AS GRB_FILE_SIZE, 
+    AFD_GRB.FILE_FANCYSIZE AS GRB_FILE_FANCYSIZE, 
+    AFD_GRB.FILE_MIME AS GRB_FILE_MIME
+FROM  
+    GRBOARD G
+LEFT JOIN 
+    GRB_ATTENTION A ON G.GRB_NO = A.GRB_NO AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+LEFT JOIN 
+    EMPLOYEE E ON G.EMP_NO = E.EMP_NO -- 작성자 정보 조인
+LEFT JOIN 
+    GRB_GUBUN GG ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- 게시판 구분 정보 조인
+-- 직원의 프로필 파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE AFP ON E.EMP_PROFILE = AFP.ATCH_FILE_ID -- 직원의 프로필 사진 파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD_PROFILE ON AFP.ATCH_FILE_ID = AFD_PROFILE.ATCH_FILE_ID -- 직원 프로필 사진 세부 정보
+-- 게시글 첨부파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE AFG ON G.GRB_ATTACHFILE = AFG.ATCH_FILE_ID -- 게시글 첨부파일 정보
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD_GRB ON AFG.ATCH_FILE_ID = AFD_GRB.ATCH_FILE_ID -- 게시글 첨부파일 세부 정보
+        <where>
+                G.GRB_NO = #{grbNo}
+        </where>
+	</select>
+	
+	<update id="incrementHit">
+		UPDATE FREEBOARD
+		SET
+		BO_HIT = BO_HIT + 1
+		WHERE BO_NO = #{grbNo}
+	</update>
+	
+	<!-- 검색 조건 -->
+<sql id="searchFrag">
+    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+        AND 
+        <choose>
+            <!-- 제목으로 검색 -->
+            <when test="simpleCondition.searchType eq 'title'">
+                INSTR(G.GRB_TITLE, #{simpleCondition.searchWord}) > 0
+            </when>
+            <!-- 작성자명으로 검색 -->
+            <when test="simpleCondition.searchType eq 'write'">
+                INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0
+            </when>
+            <!-- 내용으로 검색 -->
+            <when test="simpleCondition.searchType eq 'content'">
+                INSTR(G.GRB_CONTENT, #{simpleCondition.searchWord}) > 0
+            </when>
+            <!-- 전체 검색 -->
+            <when test="simpleCondition.searchType eq ''">
+                (INSTR(G.GRB_TITLE, #{simpleCondition.searchWord}) > 0 
+                OR INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0 
+                OR INSTR(G.GRB_CONTENT, #{simpleCondition.searchWord}) > 0)
+            </when>
+        </choose>
+    </if>
+</sql>
+	
+	<select id="selectGrBoardListNonPaging" resultType="GrBoardVO">
+		SELECT GRB_NO, 
+		EMP_NO, COM_NO, 
+		GRB_GUBUN_NO, 
+		GRB_NEW_POST, 
+		GRB_TITLE, GRB_CONTENT,
+		GRB_ATTACHFILE, 
+		GRB_DATE, 
+	    GRB_DELYN, 
+		GRB_START, 
+		GRB_END, 
+		GRB_ATTENTION_YN
+		FROM GRBOARD
+	</select>
+	
+<update id="updateGrBoard">
+    UPDATE GRBOARD
+    SET
+        GRB_TITLE = #{grbTitle,jdbcType=VARCHAR}
+        , GRB_CONTENT = #{grbContent,jdbcType=VARCHAR}
+        <if test="atchFileId != null">
+        , GRB_ATTACHFILE = #{atchFileId, jdbcType=NUMERIC}
+        </if>
+    WHERE GRB_NO = #{grbNo}
+</update>
+
+<update id="updateNotAttchFile">
+    UPDATE GRBOARD
+    SET
+        GRB_TITLE = #{grbTitle,jdbcType=VARCHAR}
+        , GRB_CONTENT = #{grbContent,jdbcType=VARCHAR}
+    WHERE GRB_NO = #{grbNo}
+</update>
+<select id="updateFileSelect"></select>
+
+	<update id="deleteGrBoard">
+		UPDATE GRBOARD
+		SET GRB_DELYN = #{grbAttentionYn,jdbcType=VARCHAR}
+		WHERE GRB_NO = #{grbNo}
+	</update>
+	
+	
+	<select id="selectGrBoardList" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="grBoardMap">
+    WITH GRBOARDLIST AS (
+        SELECT
+            G.GRB_NO, 
+            G.EMP_NO, 
+            G.COM_NO, 
+            GG.GRB_GUBUN_TITLE, -- 조인한 후 제목을 가져옴
+            G.GRB_GUBUN_NO,
+            G.GRB_NEW_POST, 
+            G.GRB_TITLE, 
+            G.GRB_CONTENT, 
+            G.GRB_ATTACHFILE, 
+            G.GRB_DATE, 
+            G.GRB_DELYN, 
+            G.GRB_START, 
+            G.GRB_END, 
+            G.GRB_ATTENTION_YN, 
+            A.GRB_ATTENTION_NO,
+            A.EMP_NO AS aEmpNo, 
+            A.GRB_NO AS aGrbNo, 
+            E.EMP_NO AS eEmpNo,
+            E.EMP_NM , -- 작성자명 추가
+            E.EMP_PROFILE,
+            AF.ATCH_FILE_ID, 
+            AFD.FILE_SN, 
+            AFD.FILE_STRE_COURS, 
+            AFD.STRE_FILE_NM, 
+            AFD.ORIGNL_FILE_NM, 
+            AFD.FILE_EXTSN, 
+            AFD.FILE_CN, 
+            AFD.FILE_SIZE, 
+            AFD.FILE_FANCYSIZE, 
+            AFD.FILE_MIME
+        FROM  
+            GRBOARD G
+        LEFT JOIN 
+            GRB_ATTENTION A ON G.GRB_NO = A.GRB_NO AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+        LEFT JOIN 
+            EMPLOYEE E ON G.EMP_NO = E.EMP_NO
+        LEFT JOIN 
+            GRB_GUBUN GG ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+        LEFT JOIN 
+            ATCH_FILE AF ON G.GRB_ATTACHFILE = AF.ATCH_FILE_ID -- GRB_ATTACHFILE로 ATCH_FILE 테이블과 조인
+        LEFT JOIN 
+            ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- ATCH_FILE_DETAIL 테이블과 조인하여 파일 세부 정보 가져오기
+        <where>
+            G.GRB_DELYN = 'N' 
+            AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+            <include refid="searchFrag" />
+        </where>
+        ORDER BY 
+           G.GRB_DATE DESC
+    )
+    SELECT A.*
+    FROM (
+        SELECT GRBOARDLIST.*, ROWNUM AS RNUM
+        FROM GRBOARDLIST
+    ) A
+    WHERE A.RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+	<select id="selectGrBoardIndexPage" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="grBoardMap">
+        SELECT
+            G.GRB_NO, 
+            G.EMP_NO, 
+            G.COM_NO, 
+            GG.GRB_GUBUN_TITLE, -- 조인한 후 제목을 가져옴
+            G.GRB_GUBUN_NO,
+            G.GRB_NEW_POST, 
+            G.GRB_TITLE, 
+            G.GRB_CONTENT, 
+            G.GRB_ATTACHFILE, 
+            G.GRB_DATE, 
+            G.GRB_DELYN, 
+            G.GRB_START, 
+            G.GRB_END, 
+            G.GRB_ATTENTION_YN, 
+            A.GRB_ATTENTION_NO,
+            A.EMP_NO AS aEmpNo, 
+            A.GRB_NO AS aGrbNo, 
+            E.EMP_NO AS eEmpNo,
+            E.EMP_NM , -- 작성자명 추가
+            AF.ATCH_FILE_ID, 
+            AFD.FILE_SN, 
+            AFD.FILE_STRE_COURS, 
+            AFD.STRE_FILE_NM, 
+            AFD.ORIGNL_FILE_NM, 
+            AFD.FILE_EXTSN, 
+            AFD.FILE_CN, 
+            AFD.FILE_SIZE, 
+            AFD.FILE_FANCYSIZE, 
+            AFD.FILE_MIME
+        FROM  
+            GRBOARD G
+        LEFT JOIN 
+            GRB_ATTENTION A ON G.GRB_NO = A.GRB_NO AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+        LEFT JOIN 
+            EMPLOYEE E ON G.EMP_NO = E.EMP_NO
+        LEFT JOIN 
+            GRB_GUBUN GG ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+        LEFT JOIN 
+            ATCH_FILE AF ON G.GRB_ATTACHFILE = AF.ATCH_FILE_ID -- GRB_ATTACHFILE로 ATCH_FILE 테이블과 조인
+        LEFT JOIN 
+            ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- ATCH_FILE_DETAIL 테이블과 조인하여 파일 세부 정보 가져오기
+        <where>
+            G.GRB_DELYN = 'N' 
+            AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+            <include refid="searchFrag" />
+        </where>
+        ORDER BY 
+        G.GRB_DATE DESC
+	</select>
+
+
+<select id="selectTotalRecord" resultType="int">
+    SELECT COUNT(G.GRB_NO)
+    FROM GRBOARD G
+    JOIN EMPLOYEE E ON G.EMP_NO = E.EMP_NO  -- EMPLOYEE 테이블과 GRBOARD 테이블을 EMP_NO로 조인
+    WHERE G.GRB_DELYN = 'N'  -- 게시글 삭제 여부 필터링
+    AND G.COM_NO = #{searchVO.comNo}  -- 회사 번호 필터링
+    AND E.EMP_NM = #{searchVO.empNm}  -- 사용자 이름(EMP_NM) 필터링
+    <include refid="searchFrag" />
+</select>
+
+<!-- 중요표시한글 -->
+<select id="selectGrbAtenBoardList" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="grBoardMap">
+			   WITH GRBOARDLIST AS 
+    ( 
+        SELECT
+            G.GRB_NO, 
+            G.EMP_NO, 
+            G.COM_NO,
+            G.GRB_GUBUN_NO, 
+            G.GRB_NEW_POST, 
+            G.GRB_TITLE, 
+            G.GRB_CONTENT, 
+            G.GRB_ATTACHFILE, 
+            G.GRB_DATE, 
+            G.GRB_DELYN, 
+            G.GRB_START, 
+            G.GRB_END, 
+            G.GRB_ATTENTION_YN, 
+            A.GRB_ATTENTION_NO,
+            A.EMP_NO as aEmpNo, 
+            A.GRB_NO as aGrbNo, 
+            E.EMP_NO AS eEmpNo 
+        FROM  
+            GRBOARD G 
+        INNER JOIN 
+            GRB_ATTENTION A 
+        ON 
+            G.GRB_NO = A.GRB_NO 
+            AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+        INNER JOIN 
+            EMPLOYEE E 
+        ON 
+            G.EMP_NO = E.EMP_NO
+        WHERE 
+            G.GRB_DELYN = 'N'
+        AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+        <include refid="searchFrag" />
+         ORDER BY 
+           G.GRB_DATE DESC
+    )
+    SELECT A.*
+    FROM (
+        SELECT GRBOARDLIST.*, ROWNUM RNUM
+        FROM GRBOARDLIST
+    ) A
+    WHERE 
+        RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+<select id="countGrBoardList" resultType="int">
+    SELECT COUNT(G.GRB_NO)
+    FROM GRBOARD G
+    INNER JOIN GRB_ATTENTION A ON G.GRB_NO = A.GRB_NO  -- 관심 게시글과 조인
+    INNER JOIN EMPLOYEE E ON A.EMP_NO = E.EMP_NO       -- EMPLOYEE와 조인하여 직원 이름 필터링
+    WHERE G.GRB_DELYN = 'N'                            -- 삭제되지 않은 게시글
+    AND A.EMP_NO = #{searchVO.empNo}                   -- 현재 로그인한 사용자의 EMP_NO로 필터링
+    AND E.EMP_NM = #{searchVO.empNm}                   -- 사용자 이름(EMP_NM) 필터링
+    <include refid="searchFrag" />
+</select>
+
+
+<select id="countUserPosts" resultType="int">
+    SELECT COUNT(G.GRB_NO)
+    FROM GRBOARD G
+    JOIN EMPLOYEE E ON G.EMP_NO = E.EMP_NO  -- EMPLOYEE 테이블과 GRBOARD 테이블을 EMP_NO로 조인
+    WHERE G.GRB_DELYN = 'N'
+    AND G.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+    AND E.EMP_NM = #{searchVO.empNm}  -- 사용자 이름(EMP_NM) 필터링
+    <include refid="searchFrag" />
+</select>
+
+<select id="selectGrbMyPostBoardList" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="grBoardMap">
+WITH GRBOARDLIST AS 
+( 
+  SELECT
+    G.GRB_NO, 
+    G.EMP_NO, 
+    G.COM_NO, 
+    GG.GRB_GUBUN_TITLE, -- GRB_GUBUN_TITLE 가져오기
+    G.GRB_GUBUN_NO,
+    G.GRB_NEW_POST, 
+    G.GRB_TITLE, 
+    G.GRB_CONTENT, 
+    G.GRB_ATTACHFILE, 
+    G.GRB_DATE, 
+    G.GRB_DELYN, 
+    G.GRB_START, 
+    G.GRB_END, 
+    G.GRB_ATTENTION_YN, 
+    A.GRB_ATTENTION_NO,
+    A.EMP_NO AS aEmpNo, 
+    A.GRB_NO AS aGrbNo, 
+    E.EMP_NO AS eEmpNo,
+    E.EMP_NM, -- 작성자명
+    E.EMP_PROFILE, -- 작성자 프로필 사진 ID
+    AF.ATCH_FILE_ID, -- 첨부 파일 ID
+    AFD.FILE_SN, -- 파일 순번
+    AFD.FILE_STRE_COURS, -- 저장된 파일 경로
+    AFD.STRE_FILE_NM, -- 저장된 파일명
+    AFD.ORIGNL_FILE_NM, -- 원본 파일명
+    AFD.FILE_EXTSN, -- 파일 확장자
+    AFD.FILE_CN, -- 파일 설명
+    AFD.FILE_SIZE, -- 파일 크기
+    AFD.FILE_FANCYSIZE, -- 파일 크기(포맷팅된)
+    AFD.FILE_MIME -- 파일 MIME 타입
+FROM  
+    GRBOARD G
+LEFT JOIN 
+    GRB_ATTENTION A 
+    ON G.GRB_NO = A.GRB_NO 
+    AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+LEFT JOIN 
+    EMPLOYEE E 
+    ON G.EMP_NO = E.EMP_NO -- 게시글 작성자 정보 가져오기
+LEFT JOIN 
+    GRB_GUBUN GG 
+    ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+LEFT JOIN 
+    ATCH_FILE AF 
+    ON G.GRB_ATTACHFILE = AF.ATCH_FILE_ID -- 첨부 파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD 
+    ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- 파일 세부 정보 조인
+WHERE 
+    G.GRB_DELYN = 'N' -- 삭제되지 않은 게시글 필터링
+        AND G.EMP_NO = #{searchVO.empNo} -- 로그인한 사용자가 작성한 글만 조회
+    AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호로 필터링
+<include refid="searchFrag" /> -- 기타 검색 조건 추가
+ORDER BY 
+    G.GRB_DATE DESC -- 최신 게시글 순으로 정렬
+)
+SELECT A.*
+FROM (
+    SELECT GRBOARDLIST.*, ROWNUM RNUM
+    FROM GRBOARDLIST
+) A
+WHERE 
+    RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+
+
+
+<select id="selectGrbImpList"
+	parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+	resultMap="grBoardMap">
+	WITH GRBOARDLIST AS
+	(SELECT
+    G.GRB_NO, 
+    G.EMP_NO, 
+    G.COM_NO, 
+    GG.GRB_GUBUN_TITLE, -- GRB_GUBUN_TITLE 가져오기
+    G.GRB_GUBUN_NO,
+    G.GRB_NEW_POST, 
+    G.GRB_TITLE, 
+    G.GRB_CONTENT, 
+    G.GRB_ATTACHFILE, 
+    G.GRB_DATE, 
+    G.GRB_DELYN, 
+    G.GRB_START, 
+    G.GRB_END, 
+    G.GRB_ATTENTION_YN, 
+    A.GRB_ATTENTION_NO,
+    A.EMP_NO AS aEmpNo, 
+    A.GRB_NO AS aGrbNo, 
+    E.EMP_NO AS eEmpNo,
+    E.EMP_NM, -- 작성자명
+    E.EMP_PROFILE, -- 작성자 프로필 사진 ID
+    AF.ATCH_FILE_ID, -- 첨부 파일 ID
+    AFD.FILE_SN, -- 파일 순번
+    AFD.FILE_STRE_COURS, -- 저장된 파일 경로
+    AFD.STRE_FILE_NM, -- 저장된 파일명
+    AFD.ORIGNL_FILE_NM, -- 원본 파일명
+    AFD.FILE_EXTSN, -- 파일 확장자
+    AFD.FILE_CN, -- 파일 설명
+    AFD.FILE_SIZE, -- 파일 크기
+    AFD.FILE_FANCYSIZE, -- 파일 크기(포맷팅된)
+    AFD.FILE_MIME -- 파일 MIME 타입
+FROM  
+    GRBOARD G
+LEFT JOIN 
+    GRB_ATTENTION A 
+    ON G.GRB_NO = A.GRB_NO 
+    AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+LEFT JOIN 
+    EMPLOYEE E 
+    ON G.EMP_NO = E.EMP_NO -- 게시글 작성자 정보 가져오기
+LEFT JOIN 
+    GRB_GUBUN GG 
+    ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+LEFT JOIN 
+    ATCH_FILE AF 
+    ON G.GRB_ATTACHFILE = AF.ATCH_FILE_ID -- 첨부 파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD 
+    ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- 파일 세부 정보 조인
+WHERE
+	G.GRB_DELYN = 'N'
+	AND G.GRB_ATTENTION_YN = 'Y' -- GRB_ATTENTION_YN이 'Y'인 경우만 필터링
+	AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+<include refid="searchFrag" /> -- 기타 검색 조건 추가
+ORDER BY 
+    G.GRB_DATE DESC -- 최신 게시글 순으로 정렬
+    )
+	SELECT A.*
+	FROM (
+	SELECT GRBOARDLIST.*, ROWNUM RNUM
+	FROM GRBOARDLIST
+	) A
+	WHERE
+	RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+<select id="countImp" resultType="int">
+    SELECT COUNT(G.GRB_NO)
+    FROM GRBOARD G
+    JOIN EMPLOYEE E ON G.EMP_NO = E.EMP_NO  -- EMPLOYEE 테이블과 GRBOARD 테이블을 EMP_NO로 조인
+    WHERE G.GRB_ATTENTION_YN = 'Y'
+    AND G.EMP_NO = #{searchVO.empNo} -- 로그인한 사용자의 EMP_NO와 일치하는 데이터만 필터링
+    AND E.EMP_NM = #{searchVO.empNm}  -- 사용자 이름(EMP_NM) 필터링
+    <include refid="searchFrag" />
+</select>
+
+
+<select id="selectGrbTrashList"
+	parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+	resultMap="grBoardMap">
+WITH GRBOARDLIST AS 
+(
+    SELECT
+    G.GRB_NO, 
+    G.EMP_NO, 
+    G.COM_NO, 
+    GG.GRB_GUBUN_TITLE, -- GRB_GUBUN_TITLE 가져오기
+    G.GRB_GUBUN_NO,
+    G.GRB_NEW_POST, 
+    G.GRB_TITLE, 
+    G.GRB_CONTENT, 
+    G.GRB_ATTACHFILE, 
+    G.GRB_DATE, 
+    G.GRB_DELYN, 
+    G.GRB_START, 
+    G.GRB_END, 
+    G.GRB_ATTENTION_YN, 
+    A.GRB_ATTENTION_NO,
+    A.EMP_NO AS aEmpNo, 
+    A.GRB_NO AS aGrbNo, 
+    E.EMP_NO AS eEmpNo,
+    E.EMP_NM, -- 작성자명
+    E.EMP_PROFILE, -- 작성자 프로필 사진 ID
+    AF.ATCH_FILE_ID, -- 첨부 파일 ID
+    AFD.FILE_SN, -- 파일 순번
+    AFD.FILE_STRE_COURS, -- 저장된 파일 경로
+    AFD.STRE_FILE_NM, -- 저장된 파일명
+    AFD.ORIGNL_FILE_NM, -- 원본 파일명
+    AFD.FILE_EXTSN, -- 파일 확장자
+    AFD.FILE_CN, -- 파일 설명
+    AFD.FILE_SIZE, -- 파일 크기
+    AFD.FILE_FANCYSIZE, -- 파일 크기(포맷팅된)
+    AFD.FILE_MIME -- 파일 MIME 타입
+FROM  
+    GRBOARD G
+LEFT JOIN 
+    GRB_ATTENTION A 
+    ON G.GRB_NO = A.GRB_NO 
+    AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+LEFT JOIN 
+    EMPLOYEE E 
+    ON G.EMP_NO = E.EMP_NO -- 게시글 작성자 정보 가져오기
+LEFT JOIN 
+    GRB_GUBUN GG 
+    ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+LEFT JOIN 
+    ATCH_FILE AF 
+    ON G.GRB_ATTACHFILE = AF.ATCH_FILE_ID -- 첨부 파일 정보 조인
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD 
+    ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- 파일 세부 정보 조인
+WHERE
+        G.GRB_DELYN = 'Y' 
+        AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+        AND G.EMP_NO = #{searchVO.empNo} -- 로그인한 사용자의 EMP_NO와 일치하는 데이터만 필터링
+        <include refid="searchFrag" />
+ORDER BY 
+    G.GRB_DATE DESC -- 최신 게시글 순으로 정렬
+)
+SELECT A.*
+FROM (
+    SELECT GRBOARDLIST.*, ROWNUM RNUM
+    FROM GRBOARDLIST
+) A
+WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+<select id="countTrash" resultType="int">
+    SELECT COUNT(G.GRB_NO)
+    FROM GRBOARD G
+    INNER JOIN GRB_TRASH T ON G.GRB_NO = T.GRB_NO  -- GRB_TRASH와 GRBOARD 테이블을 GRB_NO로 조인
+    INNER JOIN EMPLOYEE E ON G.EMP_NO = E.EMP_NO   -- EMPLOYEE 테이블과 EMP_NO로 조인
+    WHERE G.GRB_DELYN = 'Y'                        -- 삭제된 게시글 필터링
+    AND T.EMP_NO = #{searchVO.empNo}               -- 현재 로그인한 사용자의 EMP_NO로 필터링
+    AND E.EMP_NM = #{searchVO.empNm}               -- 사용자 이름(EMP_NM)으로 필터링
+    <include refid="searchFrag" />
+</select>
+
+<select id="selectGrbGubunList" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="grBoardMap">
+			WITH GRBOARDLIST AS 
+(
+  SELECT
+    G.GRB_NO, 
+    G.EMP_NO, 
+    G.COM_NO, 
+    GG.GRB_GUBUN_TITLE, -- 조인한 후 제목을 가져옴
+    G.GRB_GUBUN_NO,
+    G.GRB_NEW_POST, 
+    G.GRB_TITLE, 
+    G.GRB_CONTENT, 
+    G.GRB_ATTACHFILE, 
+    G.GRB_DATE, 
+    G.GRB_DELYN, 
+    G.GRB_START, 
+    G.GRB_END, 
+    G.GRB_ATTENTION_YN, 
+    A.GRB_ATTENTION_NO,
+    A.EMP_NO as aEmpNo, 
+    A.GRB_NO as aGrbNo, 
+    E.EMP_NO AS eEmpNo 
+FROM  
+    GRBOARD G
+LEFT JOIN 
+    GRB_ATTENTION A ON G.GRB_NO = A.GRB_NO AND A.EMP_NO = #{searchVO.empNo} -- 현재 로그인한 사용자의 EMP_NO로 필터링
+LEFT JOIN 
+    EMPLOYEE E ON G.EMP_NO = E.EMP_NO
+LEFT JOIN 
+    GRB_GUBUN GG ON G.GRB_GUBUN_NO = GG.GRB_GUBUN_NO -- GRB_GUBUN 테이블과 조인하여 GRB_GUBUN_TITLE 가져오기
+WHERE
+    G.GRB_DELYN = 'N' 
+    AND G.COM_NO = #{searchVO.comNo} -- 로그인한 사람의 회사번호와 같은 데이터만 필터링
+    AND G.GRB_GUBUN_NO = #{searchVO.grbGubunNo} -- 구분 번호에 맞는 데이터만 필터링
+    <include refid="searchFrag" />
+   ORDER BY 
+           G.GRB_DATE DESC
+)
+SELECT A.*
+FROM (
+    SELECT GRBOARDLIST.*, ROWNUM RNUM
+    FROM GRBOARDLIST
+) A
+WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+<select id="CountGubun" resultType="int">
+SELECT
+        COUNT(G.GRB_GUBUN_NO) AS GUBUN_COUNT
+    FROM 
+        GRB_GUBUN GG
+    LEFT JOIN 
+        GRBOARD G ON GG.GRB_GUBUN_NO = G.GRB_GUBUN_NO AND GG.COM_NO = G.COM_NO
+    WHERE 
+        GG.GRB_GUBUN_NO = #{searchVO.grbGubunNo}
+</select>
+
+
+
+</mapper>
+
+

@@ -1,0 +1,119 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+ "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="simple" targetRuntime="MyBatis3Simple">
+  
+	<plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+	<plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin" />
+	
+	<commentGenerator>
+		<property name="suppressAllComments" value="true"/>
+		<property name="suppressDate" value="true"/>
+	</commentGenerator>
+	
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+        connectionURL="jdbc:oracle:thin:@112.220.114.130:1521:xe" userId="TEAM4_202402F" password="java" />
+        
+    <javaTypeResolver>
+    	<property name="forceBigDecimals" value="false"/>
+		<!-- DATE 타입을 String 이 아닌 LocalDateTime 으로 선언할때 필요함.	-->	
+		<property name="useJSR310Types" value="true"/>
+    </javaTypeResolver>    
+	
+	<javaModelGenerator targetPackage="kr.or.ddit.vo.def" targetProject="src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaModelGenerator>
+	
+    <sqlMapGenerator targetPackage="kr.or.ddit.mybatis.mappers.def" targetProject="src/main/resources">
+    	<property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="kr.or.ddit.commons.def.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+	
+	<!-- 
+	SELECT '<table tableName="'||TABLE_NAME||'"  domainObjectName="'||
+	    REPLACE(INITCAP(TABLE_NAME), '_', '') ||'DefaultVO" mapperName="'||
+	    REPLACE(INITCAP(TABLE_NAME), '_', '')||'DefaultMapper"/>'
+	FROM USER_TABLES; 
+	-->
+	<!-- 위 코드 조각으로 계정 내 모든 테이블에 대해 table 엘리먼트 생성할 수 있음. -->
+	
+	<table tableName="MEMBER"  domainObjectName="MemberDefaultVO" mapperName="MemberDefaultMapper"/>
+	<table tableName="BOARD"  domainObjectName="BoardDefaultVO" mapperName="BoardDefaultMapper"/>
+	<table tableName="BUY_LIST"  domainObjectName="BuyListDefaultVO" mapperName="BuyListDefaultMapper"/>
+	<table tableName="PROD_LIST"  domainObjectName="ProdListDefaultVO" mapperName="ProdListDefaultMapper"/>
+	<table tableName="REFN_LIST"  domainObjectName="RefnListDefaultVO" mapperName="RefnListDefaultMapper"/>
+	<table tableName="POSITION"  domainObjectName="PositionDefaultVO" mapperName="PositionDefaultMapper"/>
+	<table tableName="APPOINTMENTS"  domainObjectName="AppointmentsDefaultVO" mapperName="AppointmentsDefaultMapper"/>
+	<table tableName="TODO_LIST"  domainObjectName="TodoListDefaultVO" mapperName="TodoListDefaultMapper"/>
+	<table tableName="ATTACHFILE"  domainObjectName="AttachfileDefaultVO" mapperName="AttachfileDefaultMapper"/>
+	<table tableName="ATT_DETAIL"  domainObjectName="AttDetailDefaultVO" mapperName="AttDetailDefaultMapper"/>
+	<table tableName="COMMONCODE"  domainObjectName="CommoncodeDefaultVO" mapperName="CommoncodeDefaultMapper"/>
+	<table tableName="COMMONCODE_DETAIL"  domainObjectName="CommoncodeDetailDefaultVO" mapperName="CommoncodeDetailDefaultMapper"/>
+	<table tableName="ADDRESS"  domainObjectName="AddressDefaultVO" mapperName="AddressDefaultMapper"/>
+	<table tableName="MSGROOM"  domainObjectName="MsgroomDefaultVO" mapperName="MsgroomDefaultMapper"/>
+	<table tableName="MSGLOG"  domainObjectName="MsglogDefaultVO" mapperName="MsglogDefaultMapper"/>
+	<table tableName="SEND"  domainObjectName="SendDefaultVO" mapperName="SendDefaultMapper"/>
+	<table tableName="RECIEVE"  domainObjectName="RecieveDefaultVO" mapperName="RecieveDefaultMapper"/>
+	<table tableName="ALARAM"  domainObjectName="AlaramDefaultVO" mapperName="AlaramDefaultMapper"/>
+	<table tableName="TODOLIST_CATEGORY"  domainObjectName="TodolistCategoryDefaultVO" mapperName="TodolistCategoryDefaultMapper"/>
+	<table tableName="MSGHDETAIL"  domainObjectName="MsghdetailDefaultVO" mapperName="MsghdetailDefaultMapper"/>
+	<table tableName="MAIL"  domainObjectName="MailDefaultVO" mapperName="MailDefaultMapper"/>
+	<table tableName="SEND_MAIL"  domainObjectName="SendMailDefaultVO" mapperName="SendMailDefaultMapper"/>
+	<table tableName="REC_MAIL"  domainObjectName="RecMailDefaultVO" mapperName="RecMailDefaultMapper"/>
+	<table tableName="MEMO"  domainObjectName="MemoDefaultVO" mapperName="MemoDefaultMapper"/>
+	<table tableName="COLOR"  domainObjectName="ColorDefaultVO" mapperName="ColorDefaultMapper"/>
+	<table tableName="BOOKMARK"  domainObjectName="BookmarkDefaultVO" mapperName="BookmarkDefaultMapper"/>
+	<table tableName="GROUP_EMPLOYEE"  domainObjectName="GroupEmployeeDefaultVO" mapperName="GroupEmployeeDefaultMapper"/>
+	<table tableName="CONFERENCE"  domainObjectName="ConferenceDefaultVO" mapperName="ConferenceDefaultMapper"/>
+	<table tableName="ATTENDANCE"  domainObjectName="AttendanceDefaultVO" mapperName="AttendanceDefaultMapper"/>
+	<table tableName="VACATION_INFO"  domainObjectName="VacationInfoDefaultVO" mapperName="VacationInfoDefaultMapper"/>
+	<table tableName="APPLICATION"  domainObjectName="ApplicationDefaultVO" mapperName="ApplicationDefaultMapper"/>
+	<table tableName="TODOLIST_CATEGORY_DETAIL"  domainObjectName="TodolistCategoryDetailDefaultVO" mapperName="TodolistCategoryDetailDefaultMapper"/>
+	<table tableName="SVY"  domainObjectName="SvyDefaultVO" mapperName="SvyDefaultMapper"/>
+	<table tableName="CHI"  domainObjectName="ChiDefaultVO" mapperName="ChiDefaultMapper"/>
+	<table tableName="CLS"  domainObjectName="ClsDefaultVO" mapperName="ClsDefaultMapper"/>
+	<table tableName="SVY_ANS"  domainObjectName="SvyAnsDefaultVO" mapperName="SvyAnsDefaultMapper"/>
+	<table tableName="SVY_ANS_LIST"  domainObjectName="SvyAnsListDefaultVO" mapperName="SvyAnsListDefaultMapper"/>
+	<table tableName="COMDCM_NUM"  domainObjectName="ComdcmNumDefaultVO" mapperName="ComdcmNumDefaultMapper"/>
+	<table tableName="DCM_CTG"  domainObjectName="DcmCtgDefaultVO" mapperName="DcmCtgDefaultMapper"/>
+	<table tableName="COMDCM_FORM"  domainObjectName="ComdcmFormDefaultVO" mapperName="ComdcmFormDefaultMapper"/>
+	<table tableName="PMT_LINE"  domainObjectName="PmtLineDefaultVO" mapperName="PmtLineDefaultMapper"/>
+	<table tableName="PMT_DCM"  domainObjectName="PmtDcmDefaultVO" mapperName="PmtDcmDefaultMapper"/>
+	<table tableName="PMT_DCM_APP"  domainObjectName="PmtDcmAppDefaultVO" mapperName="PmtDcmAppDefaultMapper"/>
+	<table tableName="PMT_DCM_REF_NO"  domainObjectName="PmtDcmRefNoDefaultVO" mapperName="PmtDcmRefNoDefaultMapper"/>
+	<table tableName="TDRIVE_EMPLIST"  domainObjectName="TdriveEmplistDefaultVO" mapperName="TdriveEmplistDefaultMapper"/>
+	<table tableName="TDRIVE_DIRECTORY"  domainObjectName="TdriveDirectoryDefaultVO" mapperName="TdriveDirectoryDefaultMapper"/>
+	<table tableName="EDDIR"  domainObjectName="EddirDefaultVO" mapperName="EddirDefaultMapper"/>
+	<table tableName="DRIVELOG"  domainObjectName="DrivelogDefaultVO" mapperName="DrivelogDefaultMapper"/>
+	<table tableName="ROOM"  domainObjectName="RoomDefaultVO" mapperName="RoomDefaultMapper"/>
+	<table tableName="EMPLOYEE"  domainObjectName="EmployeeDefaultVO" mapperName="EmployeeDefaultMapper"/>
+	<table tableName="ORGANIZATION"  domainObjectName="OrganizationDefaultVO" mapperName="OrganizationDefaultMapper"/>
+	<table tableName="CERIFICATE"  domainObjectName="CerificateDefaultVO" mapperName="CerificateDefaultMapper"/>
+	<table tableName="ABSENCE"  domainObjectName="AbsenceDefaultVO" mapperName="AbsenceDefaultMapper"/>
+	<table tableName="PROMOTION"  domainObjectName="PromotionDefaultVO" mapperName="PromotionDefaultMapper"/>
+	<table tableName="OFFEDU"  domainObjectName="OffeduDefaultVO" mapperName="OffeduDefaultMapper"/>
+	<table tableName="GRBOARD"  domainObjectName="GrboardDefaultVO" mapperName="GrboardDefaultMapper"/>
+	<table tableName="GRB_GUBUN"  domainObjectName="GrbGubunDefaultVO" mapperName="GrbGubunDefaultMapper"/>
+	<table tableName="GRBIMP"  domainObjectName="GrbimpDefaultVO" mapperName="GrbimpDefaultMapper"/>
+	<table tableName="GRB_ATTENTION"  domainObjectName="GrbAttentionDefaultVO" mapperName="GrbAttentionDefaultMapper"/>
+	<table tableName="NON"  domainObjectName="NonDefaultVO" mapperName="NonDefaultMapper"/>
+	<table tableName="EARLY"  domainObjectName="EarlyDefaultVO" mapperName="EarlyDefaultMapper"/>
+	<table tableName="COMPANY"  domainObjectName="CompanyDefaultVO" mapperName="CompanyDefaultMapper"/>
+	<table tableName="SVY_ASK"  domainObjectName="SvyAskDefaultVO" mapperName="SvyAskDefaultMapper"/>
+	<table tableName="EARLY_ADMIN"  domainObjectName="EarlyAdminDefaultVO" mapperName="EarlyAdminDefaultMapper"/>
+	<table tableName="ROOM_RESERVATION"  domainObjectName="RoomReservationDefaultVO" mapperName="RoomReservationDefaultMapper"/>
+	<table tableName="CONFERENCE_LOG"  domainObjectName="ConferenceLogDefaultVO" mapperName="ConferenceLogDefaultMapper"/>
+	<table tableName="ERR_ADMIN"  domainObjectName="ErrAdminDefaultVO" mapperName="ErrAdminDefaultMapper"/>
+	<table tableName="ADRGROUP"  domainObjectName="AdrgroupDefaultVO" mapperName="AdrgroupDefaultMapper"/>
+	<table tableName="CONFERENCE_PARTICIPANTS"  domainObjectName="ConferenceParticipantsDefaultVO" mapperName="ConferenceParticipantsDefaultMapper"/>
+	<table tableName="ERIVELOG"  domainObjectName="ErivelogDefaultVO" mapperName="ErivelogDefaultMapper"/>
+	<table tableName="ERR_BOARD"  domainObjectName="ErrBoardDefaultVO" mapperName="ErrBoardDefaultMapper"/>
+
+	
+  </context>
+</generatorConfiguration>

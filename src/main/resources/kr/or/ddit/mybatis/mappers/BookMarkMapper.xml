@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.bookmark.dao.BookMarkMapper">
+	
+	<resultMap id="employeeWithProfileMap" type="EmployeeVO" autoMapping="true">
+	  <id property="empNo" column="EMP_NO" />
+	  <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+	</resultMap>
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+	<!-- ResultMap for BookMark -->
+	<resultMap type="BookMarkVO" id="bookmarkMap"
+		autoMapping="true">
+		<id property="markNo" column="MARK_NO" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="markTarget" column="MARK_TARGET" />
+
+		<association property="employee" javaType="EmployeeVO"
+			autoMapping="true">
+			<id property="empNo" column="EMP_NO" />
+
+			<!-- Association to COMPANY -->
+			<association property="company" javaType="CompanyVO"
+				autoMapping="true">
+				<id property="comNo" column="COM_NO" />
+				<collection property="organizationList" ofType="OrganizationVO" autoMapping="true">
+                    <id property="orgNo" column="ORG_NO" />
+                    
+                </collection>
+
+                <collection property="positionList" ofType="PositionVO" autoMapping="true">
+                    <id property="posNo" column="POS_NO" />
+                     <result property="posNm" column="POS_NM" />
+                </collection>
+				
+			</association>
+			<association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+		</association>
+	</resultMap>
+	
+	<select id="selectTotalRecord" resultType="int" >
+		SELECT COUNT(B.MARK_NO)
+		FROM BOOKMARK B
+		LEFT JOIN EMPLOYEE E ON B.MARK_TARGET = E.EMP_NO
+		<where>
+        B.EMP_NO = #{searchVO.empNo}
+        <include refid="searchFrag" />
+		</where>
+	</select>
+	
+	 <!-- 검색 조건 -->
+	<sql id="searchFrag">
+		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+		    	AND 
+		    	<choose>
+		    		<when test="simpleCondition.searchType eq 'name'">INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0</when>
+		    		<otherwise>
+		    			(INSTR(E.EMP_NM, #{simpleCondition.searchWord}) > 0)
+		    		</otherwise>
+		    	</choose>
+		    </if>
+   </sql>
+	
+	<select id="selectBookMarkList" resultMap="bookmarkMap">
+	WITH BookmarkList AS (
+        SELECT
+            B.MARK_NO,
+            E.EMP_NO,
+            E.EMP_NM,
+            E.EMP_POS,
+            E.EMP_ONEPOS, 
+            E.EMP_TEL,
+            E.EMP_MAIL,
+            E.EMP_PROFILE,
+            E.EMP_STATE,
+            C.COM_NO,
+            C.COM_NM,
+            O.ORG_DEP,
+            O.ORG_UPDEP,
+            O.ORG_LEVEL,
+            O.ORG_DF,
+            O.ORG_ID,
+            P.POS_NM,
+            P2.POS_NM AS ONEPOSNM,
+            AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID, 
+            AF.CREATE_DT AS PROFILE_CREATE_DT,
+            AF.USE_AT AS PROFILE_USE_AT,
+            AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID, 
+            AFD.FILE_SN,
+            AFD.FILE_STRE_COURS,
+            AFD.STRE_FILE_NM,
+            AFD.ORIGNL_FILE_NM,
+            AFD.FILE_EXTSN,
+            AFD.FILE_MIME,
+            AFD.FILE_SIZE,
+            AFD.FILE_FANCYSIZE,
+            AFD.FILE_CN,
+            AFD.FILE_DWNCNT
+        FROM
+            BOOKMARK B
+        LEFT JOIN
+            EMPLOYEE E ON B.MARK_TARGET = E.EMP_NO
+        LEFT JOIN
+            COMPANY C ON E.COM_NO = C.COM_NO
+        LEFT JOIN
+            ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+        LEFT JOIN
+            POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+        LEFT JOIN
+            POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+        LEFT JOIN
+            ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+        LEFT JOIN
+            ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+        WHERE
+            B.EMP_NO = #{searchVO.empNo}
+            <include refid="searchFrag" />
+    )
+    SELECT *
+    FROM (
+        SELECT
+            BookmarkList.*,
+            ROWNUM AS RNUM 
+        FROM
+            BookmarkList
+        ORDER BY
+            ORG_UPDEP NULLS FIRST,
+            ORG_ID,
+            ORG_UPDEP,
+            ORG_LEVEL,
+            ORG_DF
+    )
+    WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+    ORDER BY RNUM
+	
+        
+        
+
+
+
+	</select>
+
+
+	<select id="selectBookMark" parameterType="int"
+		resultMap="bookmarkMap">
+		SELECT
+		MARK_NO
+		, EMP_NO
+		, MARK_TARGET
+		FROM
+		BOOKMARK
+		WHERE MARK_NO = #{markNo}
+	</select>
+
+<insert id="insertBookMark" parameterType="map" useGeneratedKeys="true" keyProperty="markNo">
+    <selectKey keyProperty="markNo" resultType="int" order="BEFORE">
+        SELECT BOOKMARK_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO BOOKMARK
+    (MARK_NO, EMP_NO, MARK_TARGET)
+    VALUES (#{markNo}, #{empNo}, #{markTarget})
+</insert>
+
+
+
+	<delete id="deleteBookMark">
+		DELETE FROM BOOKMARK
+		WHERE MARK_NO = #{markNo,jdbcType=NUMERIC}
+	</delete>
+
+
+
+
+</mapper>

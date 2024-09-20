@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.pmtDcmRefNo.dao.PmtDcmRefNoMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.PmtDcmRefNoVO">
+    <id column="PMT_DCM_REF_NO" jdbcType="NUMERIC" property="pmtDcmRefNo" />
+    <result column="PMT_DCM_NO" jdbcType="NUMERIC" property="pmtDcmNo" />
+    <result column="PMT_DCM_REF_EMP_NO" jdbcType="NUMERIC" property="pmtDcmRefEmpNo" />
+    <result column="PMT_DCM_REF_CMT" jdbcType="VARCHAR" property="pmtDcmRefCmt" />
+    <result column="PMT_DCM_REF_CMT_DATE" jdbcType="TIMESTAMP" property="pmtDcmRefCmtDate" />
+    <result column="PMT_DCM_REF_EMP_NM" jdbcType="VARCHAR" property="pmtDcmRefEmpNm" />
+    <result column="PMT_DCM_REF_EMP_POS" jdbcType="VARCHAR" property="pmtDcmRefEmpPos" />
+    <result column="PMT_DCM_REF_EMP_ONEPOS" jdbcType="VARCHAR" property="pmtDcmRefEmpOnepos" />
+    <result column="PMT_DCM_REF_EMP_DEP" jdbcType="VARCHAR" property="pmtDcmRefEmpDep" />
+  </resultMap>
+  <!-- 
+  <delete id="deletePmtDcmRefNo" parameterType="int">
+    delete from PMT_DCM_REF_NO
+    where PMT_DCM_REF_NO = #{pmtDcmRefNo,jdbcType=NUMERIC}
+  </delete>
+   -->
+  <insert id="insertPmtDcmRefNo" parameterType="kr.or.ddit.vo.PmtDcmRefNoVO">
+	<selectKey order="BEFORE" resultType="int" keyProperty="pmtDcmRefNo">
+		SELECT PMTDCMREF_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into PMT_DCM_REF_NO (
+    	PMT_DCM_REF_NO
+		, PMT_DCM_NO
+		, PMT_DCM_REF_EMP_NO
+		, PMT_DCM_REF_CMT
+		, PMT_DCM_REF_CMT_DATE
+		, PMT_DCM_REF_EMP_NM
+		, PMT_DCM_REF_EMP_POS
+		, PMT_DCM_REF_EMP_ONEPOS
+		, PMT_DCM_REF_EMP_DEP
+    )
+    values (
+		#{pmtDcmRefNo,jdbcType=NUMERIC}
+		, #{pmtDcmNo,jdbcType=NUMERIC}
+		, #{pmtDcmRefEmpNo,jdbcType=NUMERIC}
+		, #{pmtDcmRefCmt,jdbcType=VARCHAR}
+		, #{pmtDcmRefCmtDate,jdbcType=DATE}
+	    , #{pmtDcmRefEmpNm,jdbcType=VARCHAR}
+		, #{pmtDcmRefEmpPos,jdbcType=VARCHAR}
+		, #{pmtDcmRefEmpOnepos,jdbcType=VARCHAR}
+		, #{pmtDcmRefEmpDep,jdbcType=VARCHAR}
+      )
+  </insert>
+  <!-- 
+  <update id="updatePmtDcmRefNo" parameterType="kr.or.ddit.vo.PmtDcmRefNoVO">
+    update PMT_DCM_REF_NO
+    set PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC},
+      PMT_DCM_REF_EMP_NO = #{pmtDcmRefEmpNo,jdbcType=NUMERIC},
+      PMT_DCM_REF_CMT = #{pmtDcmRefCmt,jdbcType=VARCHAR},
+      PMT_DCM_REF_CMT_DATE = #{pmtDcmRefCmtDate,jdbcType=TIMESTAMP}
+    where PMT_DCM_REF_NO = #{pmtDcmRefNo,jdbcType=NUMERIC}
+  </update>
+  
+   -->
+   
+  <select id="selectPmtDcmRefNo" parameterType="int" resultMap="BaseResultMap">
+    select 
+    	PMT_DCM_REF_NO
+		, PMT_DCM_NO
+		, PMT_DCM_REF_EMP_NO
+		, PMT_DCM_REF_CMT
+		, PMT_DCM_REF_CMT_DATE
+		, PMT_DCM_REF_EMP_NM
+		, PMT_DCM_REF_EMP_POS
+		, PMT_DCM_REF_EMP_ONEPOS
+		, PMT_DCM_REF_EMP_DEP
+    from PMT_DCM_REF_NO
+    where PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectPmtDcmRefNoAll" parameterType="int"  resultMap="BaseResultMap">
+    select 
+    	PMT_DCM_REF_NO
+		, PMT_DCM_NO
+		, PMT_DCM_REF_EMP_NO
+		, PMT_DCM_REF_CMT
+		, PMT_DCM_REF_CMT_DATE
+		, PMT_DCM_REF_EMP_NM
+		, PMT_DCM_REF_EMP_POS
+		, PMT_DCM_REF_EMP_ONEPOS
+		, PMT_DCM_REF_EMP_DEP
+    from PMT_DCM_REF_NO
+    where PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+  </select>
+</mapper>

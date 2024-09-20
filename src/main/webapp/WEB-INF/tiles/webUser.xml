@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+  <definition name="abstractParent1" template="/WEB-INF/layouts/webUserLayout.jsp">
+  	<put-attribute name="preCss" value="/WEB-INF/includee/webUser/preCss.jsp"/>
+  	<put-attribute name="customCss" value="/WEB-INF/includee/webUser/customCss.jsp"/>
+  	<put-attribute name="header" value="/WEB-INF/includee/webUser/header.jsp"/>
+  	<put-attribute name="footer" value="/WEB-INF/includee/webUser/footer.jsp"/>
+  	<put-attribute name="postScript" value="/WEB-INF/includee/webUser/postScript.jsp"/>
+  	<put-attribute name="customScript" value="/WEB-INF/includee/webUser/customScript.jsp"/>
+  </definition>
+
+  <definition name="web-user/index" extends="abstractParent1">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/web-user/index.jsp"/>
+  </definition>
+  
+  <definition name="tiles:web-user/*" extends="abstractParent1">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/web-user/{1}.jsp"/>
+  </definition>
+  <definition name="tiles:web-user/*/*" extends="abstractParent1">
+  	<put-attribute name="contentPage" value="/WEB-INF/views/web-user/{1}/{2}.jsp"/>
+  </definition>
+ 
+</tiles-definitions>

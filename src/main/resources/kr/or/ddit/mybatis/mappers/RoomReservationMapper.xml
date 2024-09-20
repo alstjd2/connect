@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.room.dao.RoomReservationMapper">
+	<resultMap type="RoomReservationVO" id="roomReservationMap" autoMapping="true">
+		<association property="employee" javaType="EmployeeVO" autoMapping="true" />
+		<association property="room" javaType="RoomVO" autoMapping="true" />
+	</resultMap>
+	<select id="selectRoomReserList" parameterType="int" resultMap="roomReservationMap">
+		SELECT
+       ROOMRESER_NO,
+		    ROOM.EMP_NO,
+		    ROOM_NO,
+		    E.EMP_NM,
+            O.ORG_DEP,
+            P.POS_NM,
+		    ROOMRESER_START,
+		    ROOMRESER_END,
+		    ROOMRESER_DELYN,
+		    ROOM_DATE,
+		    ROOM_PASS,
+		    ROOM_PEOPLE
+       FROM
+       ROOM_RESERVATION ROOM INNER JOIN EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+            LEFT JOIN
+             COMPANY C ON E.COM_NO = C.COM_NO
+            LEFT JOIN
+                ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+            LEFT JOIN
+                POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+            LEFT JOIN
+                POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+		    WHERE
+		     TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'DD') = EXTRACT(DAY FROM SYSDATE)
+		        AND ROOMRESER_DELYN = 'N'
+                AND ROOMRESER_NO = #{roomreserNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="selectRoomReservationList" parameterType="int" resultMap="roomReservationMap">
+		SELECT
+    ROW_NUMBER() OVER (ORDER BY ROOM_DATE DESC) AS rnum,
+    ROOMRESER_NO,
+    ROOM.EMP_NO,
+    R.ROOM_NM,
+    R.ROOM_LOC,
+    R.ROOM_EMPMAX,
+    R.ROOM_NO,
+    E.EMP_NM,
+    O.ORG_DEP,
+    P.POS_NM,
+    ROOMRESER_START,
+    ROOMRESER_END,
+    ROOMRESER_DELYN,
+    ROOM_DATE,
+    ROOM_PASS,
+    ROOM_PEOPLE
+FROM
+    ROOM_RESERVATION ROOM
+    INNER JOIN ROOM R ON R.ROOM_NO = ROOM.ROOM_NO
+INNER JOIN
+    EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+LEFT JOIN
+    COMPANY C ON E.COM_NO = C.COM_NO
+LEFT JOIN
+    ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+LEFT JOIN
+    POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+LEFT JOIN
+    POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+WHERE
+    E.COM_NO = #{comNo,jdbcType=NUMERIC}
+   AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'DD') = EXTRACT(DAY FROM SYSDATE)
+		        AND ROOMRESER_DELYN = 'N'
+	</select>
+<select id="selectDeleteRoomReservationList" parameterType="int" resultMap="roomReservationMap">
+		SELECT
+    ROW_NUMBER() OVER (ORDER BY ROOM_DATE DESC) AS rnum,
+    ROOMRESER_NO,
+    ROOM.EMP_NO,
+    R.ROOM_NM,
+    R.ROOM_LOC,
+    R.ROOM_EMPMAX,
+    R.ROOM_NO,
+    E.EMP_NM,
+    O.ORG_DEP,
+    P.POS_NM,
+    ROOMRESER_START,
+    ROOMRESER_END,
+    ROOMRESER_DELYN,
+    ROOM_DATE,
+    ROOM_PASS,
+    ROOM_PEOPLE
+FROM
+    ROOM_RESERVATION ROOM
+    INNER JOIN ROOM R ON R.ROOM_NO = ROOM.ROOM_NO
+INNER JOIN
+    EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+LEFT JOIN
+    COMPANY C ON E.COM_NO = C.COM_NO
+LEFT JOIN
+    ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+LEFT JOIN
+    POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+LEFT JOIN
+    POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+WHERE
+    E.COM_NO = #{comNo,jdbcType=NUMERIC}
+   AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'DD') = EXTRACT(DAY FROM SYSDATE)
+		        AND ROOMRESER_DELYN = 'Y'
+	</select>
+<select id="selectMonthAllRoomReservationList" parameterType="int" resultMap="roomReservationMap">
+		            		SELECT
+    ROW_NUMBER() OVER (ORDER BY ROOM_DATE DESC) AS rnum,
+    ROOMRESER_NO,
+    ROOM.EMP_NO,
+    R.ROOM_NM,
+    R.ROOM_LOC,
+    R.ROOM_EMPMAX,
+    R.ROOM_NO,
+    E.EMP_NM,
+    O.ORG_DEP,
+    P.POS_NM,
+    ROOMRESER_START,
+    ROOMRESER_END,
+    ROOMRESER_DELYN,
+    ROOM_DATE,
+    ROOM_PASS,
+    ROOM_PEOPLE
+FROM
+    ROOM_RESERVATION ROOM
+    INNER JOIN ROOM R ON R.ROOM_NO = ROOM.ROOM_NO
+INNER JOIN
+    EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+LEFT JOIN
+    COMPANY C ON E.COM_NO = C.COM_NO
+LEFT JOIN
+    ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+LEFT JOIN
+    POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+LEFT JOIN
+    POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+WHERE
+    E.COM_NO = #{comNo,jdbcType=NUMERIC}
+   AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+			    AND TO_CHAR(TO_DATE(ROOM_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+	</select>
+	<select id="selectComRoomReservationList" parameterType="int" resultMap="roomReservationMap">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY ROOM_DATE DESC) AS rnum,
+		    ROOMRESER_NO,
+		    ROOM.EMP_NO,
+		    R.ROOM_NM,
+		    R.ROOM_LOC,
+		    R.ROOM_EMPMAX,
+		    R.ROOM_NO,
+		    E.EMP_NM,
+		    O.ORG_DEP,
+		    P.POS_NM,
+		    ROOMRESER_START,
+		    ROOMRESER_END,
+		    ROOMRESER_DELYN,
+		    ROOM_DATE,
+		    ROOM_PASS,
+		    ROOM_PEOPLE
+		FROM
+		    ROOM_RESERVATION ROOM
+		INNER JOIN ROOM R ON R.ROOM_NO = ROOM.ROOM_NO
+		INNER JOIN
+		    EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+		LEFT JOIN
+		    COMPANY C ON E.COM_NO = C.COM_NO
+		LEFT JOIN
+		    ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+		LEFT JOIN
+		    POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+		LEFT JOIN
+		    POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+		WHERE
+		    E.COM_NO = #{comNo,jdbcType=NUMERIC}
+		ORDER BY
+		    ROOM_DATE DESC
+	</select>
+		<select id="selectComDeleteRoomReservationList" parameterType="int" resultMap="roomReservationMap">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY ROOM_DATE DESC) AS rnum,
+		    ROOMRESER_NO,
+		    ROOM.EMP_NO,
+		    R.ROOM_NM,
+		    R.ROOM_LOC,
+		    R.ROOM_EMPMAX,
+		    R.ROOM_NO,
+		    E.EMP_NM,
+		    O.ORG_DEP,
+		    P.POS_NM,
+		    ROOMRESER_START,
+		    ROOMRESER_END,
+		    ROOMRESER_DELYN,
+		    ROOM_DATE,
+		    ROOM_PASS,
+		    ROOM_PEOPLE
+		FROM
+		    ROOM_RESERVATION ROOM
+		INNER JOIN ROOM R ON R.ROOM_NO = ROOM.ROOM_NO
+		INNER JOIN
+		    EMPLOYEE E ON ROOM.EMP_NO = E.EMP_NO
+		LEFT JOIN
+		    COMPANY C ON E.COM_NO = C.COM_NO
+		LEFT JOIN
+		    ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+		LEFT JOIN
+		    POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+		LEFT JOIN
+		    POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+		WHERE
+		    E.COM_NO = #{comNo,jdbcType=NUMERIC}
+		    AND ROOMRESER_DELYN = 'Y'
+		ORDER BY
+		    ROOM_DATE DESC
+	</select>
+
+	<insert id="insertRoomReser" parameterType="RoomReservationVO">
+				INSERT INTO ROOM_RESERVATION (
+				ROOMRESER_NO,
+			    EMP_NO,
+			    ROOM_NO,
+			    ROOMRESER_START,
+			    ROOMRESER_END,
+			    ROOMRESER_DELYN,
+			    ROOM_DATE,
+			    ROOM_PASS,
+			    ROOM_PEOPLE
+			) VALUES (
+			ROOMRESER_SEQ.NEXTVAL,
+			    #{empNo,jdbcType=NUMERIC}
+			    ,#{roomNo,jdbcType=NUMERIC}
+			    , #{roomreserStart,jdbcType=VARCHAR}
+			    , #{roomreserEnd,jdbcType=VARCHAR}
+			    ,  'N'
+			    ,  TO_CHAR(SYSDATE,	'YY-MM-DD')
+			    ,  #{roomPass,jdbcType=VARCHAR}
+			    , #{roomPeople,jdbcType=VARCHAR}
+			)
+
+	</insert>
+
+	<update id="updateRoomReser" parameterType="int">
+		UPDATE  ROOM_RESERVATION
+		SET
+		ROOMRESER_DELYN = 'Y'
+		WHERE ROOMRESER_NO = #{roomreserNo,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteRoomReser"  parameterType="map">
+		delete from ROOM_RESERVATION
+	    where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+	      and ROOM_NO = #{roomNo,jdbcType=NUMERIC}
+
+	</delete>
+</mapper>

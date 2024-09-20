@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.attachifile.dao.AttDetailMapper">
+
+  <update id="deleteAttDetail" parameterType="int">
+    UPDATE ATT_DETAIL SET ATTD_DELYN = 'Y'
+    WHERE ATTD_NO = #{attdNo,jdbcType=NUMERIC}
+  </update>
+  
+  <insert id="insertAttDetail" parameterType="AttDetailVO">
+    INSERT INTO ATT_DETAIL (
+    ATTD_NO
+    , ATT_NO
+    , ATTD_QRINM
+    , ATTD_SAVENM
+    , ATTD_PATH
+    , ATTD_EXE
+    , ATTD_SIZE
+    , ATTD_DELYN
+	) VALUES (
+	(SELECT NVL(MAX(ATTD_NO)+1 ,1) ATTD_NO
+	 FROM ATT_DETAIL)
+	, #{attNo, jdbcType=NUMERIC}
+	, #{attdQrinm, jdbcType=VARCHAR}
+	, #{attdSavenm, jdbcType=VARCHAR}
+	, #{attdPath, jdbcType=VARCHAR}
+	, #{attdExe, jdbcType=VARCHAR}
+	, #{attdSize, jdbcType=VARCHAR}
+	, 'N'
+	)
+  </insert>
+  
+  <update id="updateAttDetail" parameterType="AttDetailVO">
+    UPDATE
+    	ATT_DETAIL
+    SET
+	    ATTD_QRINM=#{attdQrinm, jdbcType=VARCHAR}
+		, ATTD_SAVENM=#{attdSavenm, jdbcType=VARCHAR}
+		, ATTD_PATH=#{attdPath, jdbcType=VARCHAR}
+		, ATTD_EXE=#{attdExe, jdbcType=VARCHAR}
+		, ATTD_SIZE=#{attdSize, jdbcType=VARCHAR}
+    WHERE
+    	ATTD_NO = #{attdNo,jdbcType=NUMERIC} AND ATTD_DELYN = 'N'
+  </update>
+  
+  <select id="selectAttDetail" parameterType="int" resultType="AttDetailVO">
+    SELECT
+	    ATTD_NO
+	  , ATT_NO
+	  , ATTD_QRINM
+	  , ATTD_SAVENM
+	  , ATTD_PATH
+	  , ATTD_EXE
+	  , ATTD_SIZE
+	  , ATTD_DELYN
+	FROM
+	    ATT_DETAIL
+	WHERE
+		ATTD_NO = #{attNo} AND ATTD_DELYN = 'N'
+  </select>
+  
+  <select id="selectAttDetailList" resultType="AttDetailVO">
+    SELECT
+	    ATTD_NO
+	  , ATT_NO
+	  , ATTD_QRINM
+	  , ATTD_SAVENM
+	  , ATTD_PATH
+	  , ATTD_EXE
+	  , ATTD_SIZE
+	  , ATTD_DELYN
+	FROM
+	    ATT_DETAIL
+	WHERE
+		ATTD_DELYN = 'N'
+  </select>
+  
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.PositionDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.PositionDefaultVO">
+    <id column="POS_NO" jdbcType="NUMERIC" property="posNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="POS_NM" jdbcType="VARCHAR" property="posNm" />
+    <result column="POS_TYPE" jdbcType="VARCHAR" property="posType" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from POSITION
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.PositionDefaultVO">
+    insert into POSITION (POS_NO, COM_NO, POS_NM, 
+      POS_TYPE)
+    values (#{posNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{posNm,jdbcType=VARCHAR}, 
+      #{posType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.PositionDefaultVO">
+    update POSITION
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      POS_NM = #{posNm,jdbcType=VARCHAR},
+      POS_TYPE = #{posType,jdbcType=VARCHAR}
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select POS_NO, COM_NO, POS_NM, POS_TYPE
+    from POSITION
+    where POS_NO = #{posNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select POS_NO, COM_NO, POS_NM, POS_TYPE
+    from POSITION
+  </select>
+</mapper>

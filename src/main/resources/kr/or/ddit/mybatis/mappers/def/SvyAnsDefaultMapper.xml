@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.SvyAnsDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.SvyAnsDefaultVO">
+    <id column="SVY_ANS_NO" jdbcType="NUMERIC" property="svyAnsNo" />
+    <result column="SVY_NO" jdbcType="NUMERIC" property="svyNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="SVY_ANS_DATE" jdbcType="TIMESTAMP" property="svyAnsDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SVY_ANS
+    where SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.SvyAnsDefaultVO">
+    insert into SVY_ANS (SVY_ANS_NO, SVY_NO, EMP_NO, 
+      SVY_ANS_DATE)
+    values (#{svyAnsNo,jdbcType=NUMERIC}, #{svyNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, 
+      #{svyAnsDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.SvyAnsDefaultVO">
+    update SVY_ANS
+    set SVY_NO = #{svyNo,jdbcType=NUMERIC},
+      EMP_NO = #{empNo,jdbcType=NUMERIC},
+      SVY_ANS_DATE = #{svyAnsDate,jdbcType=TIMESTAMP}
+    where SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select SVY_ANS_NO, SVY_NO, EMP_NO, SVY_ANS_DATE
+    from SVY_ANS
+    where SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select SVY_ANS_NO, SVY_NO, EMP_NO, SVY_ANS_DATE
+    from SVY_ANS
+  </select>
+</mapper>

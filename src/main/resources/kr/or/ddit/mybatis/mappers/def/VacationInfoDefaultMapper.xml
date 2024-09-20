@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.VacationInfoDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.VacationInfoDefaultVO">
+    <id column="VACI_NO" jdbcType="NUMERIC" property="vaciNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="VACI_NM" jdbcType="VARCHAR" property="vaciNm" />
+    <result column="VACI_DATE" jdbcType="TIMESTAMP" property="vaciDate" />
+    <result column="VACI_DAY" jdbcType="NUMERIC" property="vaciDay" />
+    <result column="VACI_TYPE" jdbcType="VARCHAR" property="vaciType" />
+    <result column="VACI_DELYN" jdbcType="VARCHAR" property="vaciDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from VACATION_INFO
+    where VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.VacationInfoDefaultVO">
+    insert into VACATION_INFO (VACI_NO, COM_NO, VACI_NM, 
+      VACI_DATE, VACI_DAY, VACI_TYPE, 
+      VACI_DELYN)
+    values (#{vaciNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{vaciNm,jdbcType=VARCHAR}, 
+      #{vaciDate,jdbcType=TIMESTAMP}, #{vaciDay,jdbcType=NUMERIC}, #{vaciType,jdbcType=VARCHAR}, 
+      #{vaciDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.VacationInfoDefaultVO">
+    update VACATION_INFO
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      VACI_NM = #{vaciNm,jdbcType=VARCHAR},
+      VACI_DATE = #{vaciDate,jdbcType=TIMESTAMP},
+      VACI_DAY = #{vaciDay,jdbcType=NUMERIC},
+      VACI_TYPE = #{vaciType,jdbcType=VARCHAR},
+      VACI_DELYN = #{vaciDelyn,jdbcType=VARCHAR}
+    where VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select VACI_NO, COM_NO, VACI_NM, VACI_DATE, VACI_DAY, VACI_TYPE, VACI_DELYN
+    from VACATION_INFO
+    where VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select VACI_NO, COM_NO, VACI_NM, VACI_DATE, VACI_DAY, VACI_TYPE, VACI_DELYN
+    from VACATION_INFO
+  </select>
+</mapper>

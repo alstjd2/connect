@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.vacation.dao.ApplicationMapper">
+	<resultMap id="appMap" type="kr.or.ddit.vo.ApplicationVO"
+		autoMapping="true">
+		<id column="APP_NO" jdbcType="NUMERIC" property="appNo" />
+		<id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+		<id column="VACI_NO" jdbcType="NUMERIC" property="vaciNo" />
+		<association property="vacationInfo"
+			javaType="kr.or.ddit.vo.VacationInfoVO" autoMapping="true" />
+		<association property="employee"
+			javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true" />
+	</resultMap>
+
+	<select id="selectApplicationList" resultMap="appMap">
+		select APP_NO
+		,
+		EMP_NO
+		, VACI_NO
+		, APP_STRDATE
+		, APP_ENDDATE
+		, APP_TEMEMP
+		, APP_DETAIL
+		,
+		APP_DEP
+		, APP_DATE
+		, APP_ROVEMP
+		, APP_STATE
+		from APPLICATION
+	</select>
+
+	<select id="selectApplication" parameterType="map"
+		resultMap="appMap">
+		select APP_NO
+		, EMP_NO
+		, VACI_NO
+		, APP_STRDATE
+		, APP_ENDDATE
+		,
+		APP_TEMEMP
+		, APP_DETAIL
+		, APP_DEP
+		, APP_DATE
+		, APP_ROVEMP
+		, APP_STATE
+		from
+		APPLICATION
+		where APP_NO = #{appNo,jdbcType=NUMERIC}
+		and EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+		and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="speEmpAllCnt" parameterType="int" resultMap="appMap">
+		SELECT
+		SUM(VAC.VACI_DAY) cnt
+		FROM APPLICATION APP INNER JOIN VACATION_INFO VAC
+		ON APP.VACI_NO = VAC.VACI_NO
+		WHERE VAC.VACI_TYPE = 'BB02130'
+		AND
+		APP.EMP_NO = #{empNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="speEmpUseCnt" parameterType="int" resultMap="appMap">
+		SELECT
+		SUM(VAC.VACI_DAY) cnt
+		FROM APPLICATION APP INNER JOIN VACATION_INFO VAC
+		ON APP.VACI_NO = VAC.VACI_NO
+		WHERE VAC.VACI_TYPE = 'BB02130'
+		AND
+		APP.EMP_NO = #{empNo,jdbcType=NUMERIC}
+		AND APP.APP_STATE = 'BB01120'
+
+	</select>
+
+	<select id="comSpeList" parameterType="int" resultMap="appMap">
+		SELECT
+		APP.APP_NO
+		, APP.EMP_NO
+        , EMP.EMP_NM
+		, APP.VACI_NO
+		, VAC.VACI_NM
+		, VAC.VACI_DAY
+		, APP_STRDATE
+		, APP_ENDDATE
+		, APP.VACI_TYPE
+		, APP_STATE
+		FROM APPLICATION APP INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+                             INNER JOIN EMPLOYEE EMP ON APP.EMP_NO = EMP.EMP_NO
+		WHERE APP.VACI_TYPE = 'BB02130'
+		AND EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+
+
+	</select>
+
+
+	<select id="speEmpList" parameterType="int" resultMap="appMap">
+		SELECT
+		APP.APP_NO
+		, APP.EMP_NO
+		, APP.VACI_NO
+		, VAC.VACI_NM
+		, VAC.VACI_DAY
+		, APP_STRDATE
+		, APP_ENDDATE
+		, APP.VACI_TYPE
+		, APP_STATE
+		FROM APPLICATION APP INNER JOIN VACATION_INFO VAC ON
+		APP.VACI_NO = VAC.VACI_NO
+		WHERE APP.VACI_TYPE = 'BB02130'
+		AND APP.EMP_NO
+		= #{empNo,jdbcType=NUMERIC}
+		AND (APP_STATE NOT IN 'BB01120' OR APP_STATE IS NULL)
+
+
+	</select>
+
+	<select id="speEmpUseList" parameterType="int"
+		resultMap="appMap">
+		SELECT
+		APP.APP_NO
+		, APP.EMP_NO
+		, APP.VACI_NO
+		, VAC.VACI_NM
+		, VAC.VACI_DAY
+		, APP_STRDATE
+		, APP_ENDDATE
+		, APP.VACI_TYPE
+		, APP_STATE
+		FROM APPLICATION APP INNER JOIN VACATION_INFO VAC ON
+		APP.VACI_NO = VAC.VACI_NO
+		WHERE APP.VACI_TYPE = 'BB02130'
+		AND APP.EMP_NO
+		= #{empNo,jdbcType=NUMERIC}
+
+
+	</select>
+
+	<resultMap type="EmployeeVO" id="empMap" autoMapping="true">
+		<id property="empNo" jdbcType="NUMERIC" column="EMP_NO" />
+		<result column="POS_NM" jdbcType="VARCHAR"
+			property="empPosName" />
+		<result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+		<result column="EMP_NM" jdbcType="NUMERIC" property="empNm" />
+		<result column="ORG_DEP" jdbcType="VARCHAR"
+			property="empDepName" />
+		<result column="POSITION" jdbcType="VARCHAR"
+			property="empOneposName" />
+		<collection property="applicationList"
+			ofType="ApplicationVO" autoMapping="true">
+			<result property="temEmpNm" jdbcType="VARCHAR"
+				column="TEMEMP_NM" />
+			<result property="roveNm" jdbcType="VARCHAR" column="ROVE_NM" />
+			<association property="vacationInfo"
+				javaType="VacationInfoVO" autoMapping="true" />
+		</collection>
+	</resultMap>
+
+	<select id="comVacIngCnt"  parameterType="int">
+		SELECT
+		 COUNT(APP.APP_NO) CNT
+		FROM EMPLOYEE EMP
+					LEFT OUTER JOIN APPLICATION APP ON (EMP.EMP_NO = APP.EMP_NO)
+					LEFT OUTER JOIN ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+					INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+					WHERE EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+					AND APP.APP_STRDATE IS NOT NULL
+                    AND APP.APP_STATE = 'BB01110'
+	</select>
+	<select id="comVacApproveCnt"  parameterType="int" >
+		SELECT
+		 COUNT(APP.APP_NO) CNT
+		FROM EMPLOYEE EMP
+					LEFT OUTER JOIN APPLICATION APP ON (EMP.EMP_NO = APP.EMP_NO)
+					LEFT OUTER JOIN ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+					INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+					WHERE EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+					AND APP.APP_STRDATE IS NOT NULL
+                    AND APP.APP_STATE = 'BB01120'
+	</select>
+	<select id="comVacCnt"  parameterType="int" >
+		SELECT
+		 COUNT(APP.APP_NO) CNT
+		FROM EMPLOYEE EMP
+					LEFT OUTER JOIN APPLICATION APP ON (EMP.EMP_NO = APP.EMP_NO)
+					LEFT OUTER JOIN ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+					INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+					WHERE EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+					AND APP.APP_STRDATE IS NOT NULL
+                    AND APP.APP_STATE = 'BB01130'
+	</select>
+
+	<select id="selectComApplicationList" parameterType="int"
+		resultMap="empMap">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY APP.APP_DATE DESC) AS RNUM,
+		    EMP.COM_NO,
+		    EMP.EMP_NO,
+		    EMP.EMP_NM,
+		    EMP.EMP_DEP,
+		    ORG.ORG_DEP,
+		    APP.APP_NO,
+		    APP.APP_DETAIL,
+		    APP.VACI_NO,
+		    APP.APP_STRDATE,
+		    APP.APP_ENDDATE,
+		    TO_DATE(APP_ENDDATE, 'YYYY-MM-DD') - TO_DATE(APP_STRDATE, 'YYYY-MM-DD') + 1 AS DAYS,
+		    APP.APP_DATE,
+		    APP.APP_STATE,
+		    CASE
+		        WHEN APP.APP_STATE = 'BB01110' THEN '진행중'
+		        WHEN APP.APP_STATE = 'BB01120' THEN '승인완료'
+		        WHEN APP.APP_STATE = 'BB01130' THEN '반려'
+		        ELSE '기타'
+		    END AS APP_STATE_NM,
+		    APP.APP_TEMEMP,
+		    APP.APP_ROVEMP,
+		    EMP.EMP_YEAR,
+		    VAC.VACI_NM,
+		    VAC.VACI_DAY,
+		    VAC.VACI_TYPE,
+		    VACI_DELYN,
+		    CASE
+		        WHEN VAC.VACI_TYPE = 'BB02110' THEN '연차'
+		        WHEN VAC.VACI_TYPE = 'BB02120' THEN '경조'
+		        WHEN VAC.VACI_TYPE = 'BB02130' THEN '특별휴가'
+		        ELSE '기타'
+		    END AS VACI_TYPE_NM
+		FROM EMPLOYEE EMP
+					LEFT OUTER JOIN APPLICATION APP ON (EMP.EMP_NO = APP.EMP_NO)
+					LEFT OUTER JOIN ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+					INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+					WHERE EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+					AND APP.APP_STRDATE IS NOT NULL
+					ORDER BY APP.APP_DATE DESC
+	</select>
+
+	<select id="selectEmpApplicationList" parameterType="int"
+		resultMap="empMap">
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY APP_STRDATE DESC) AS RNUM,
+		APP_NO,
+		EMP_NO,
+		VACI_NO,
+		APP_STRDATE,
+		APP_ENDDATE,
+		APP_TEMEMP,
+		APP_DETAIL,
+		APP_DEP,
+		APP_DATE,
+		APP_ROVEMP,
+		APP_STATE,
+		CASE
+		WHEN APP.APP_STATE = 'BB01110' THEN '진행중'
+		WHEN APP.APP_STATE = 'BB01120' THEN '승인완료'
+		WHEN APP.APP_STATE = 'BB01130' THEN '반려'
+		ELSE '기타'
+		END AS APP_STATE_NM,
+		VACI_TYPE,
+		CASE
+		WHEN VACI_TYPE = 'BB02110' THEN '연차'
+		WHEN VACI_TYPE = 'BB02120' THEN '경조'
+		WHEN VACI_TYPE = 'BB02130' THEN '특별휴가'
+		ELSE '기타'
+		END AS VACI_TYPE_NM,
+		TO_DATE(APP_ENDDATE, 'YYYY-MM-DD') - TO_DATE(APP_STRDATE, 'YYYY-MM-DD') + 1 AS DAYS
+		FROM
+		APPLICATION APP
+		WHERE
+		EMP_NO = #{empNo,jdbcType=NUMERIC}
+		AND APP_STATE IS NOT NULL
+		ORDER BY
+		APP_DATE DESC
+	</select>
+
+	<select id="selectEmpApplicationDetail" parameterType="int"
+		resultMap="empMap">
+		SELECT
+        APP_NO,
+        EMP.EMP_NO,
+        EMP.EMP_NM,
+        VACI_NO,
+        APP_STRDATE,
+        APP_ENDDATE,
+        APP_TEMEMP,
+        CASE WHEN APP_TEMEMP = 0 THEN '대무자 없음' ELSE EMPPP.EMP_NM END AS TEMEMP_NM,
+        APP_DETAIL,
+        APP_DEP,
+        APP_DATE,
+        APP_ROVEMP,
+        APP_FINALDATE,
+        EMPP.EMP_NM AS ROVE_NM,
+        APP_STATE,
+        CASE
+        WHEN APP.APP_STATE = 'BB01110' THEN '진행중'
+        WHEN APP.APP_STATE = 'BB01120' THEN '승인완료'
+        WHEN APP.APP_STATE = 'BB01130' THEN '반려'
+        ELSE '기타'
+        END AS APP_STATE_NM,
+        VACI_TYPE,
+        CASE
+        WHEN VACI_TYPE = 'BB02110' THEN '연차'
+        WHEN VACI_TYPE = 'BB02120' THEN '경조'
+        WHEN VACI_TYPE = 'BB02130' THEN '특별휴가'
+        ELSE '기타'
+        END AS VACI_TYPE_NM,
+        TO_DATE(APP_ENDDATE, 'YYYY-MM-DD') - TO_DATE(APP_STRDATE, 'YYYY-MM-DD') + 1 AS DAYS
+		FROM
+		        APPLICATION APP INNER JOIN EMPLOYEE EMP ON APP.EMP_NO = EMP.EMP_NO
+		        INNER JOIN EMPLOYEE EMPP ON APP.APP_ROVEMP = EMPP.EMP_NO
+		        LEFT OUTER JOIN EMPLOYEE EMPPP ON APP.APP_TEMEMP = EMPPP.EMP_NO
+		WHERE
+		        APP_NO = #{appNo,jdbcType=NUMERIC}
+		        AND APP_STATE IS NOT NULL
+		ORDER BY
+		        APP_STRDATE ASC
+	</select>
+
+	<select id="selectDepApplicationList" parameterType="int"
+		resultMap="empMap">
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY APP_STRDATE DESC) AS RNUM,
+		APP_NO,
+		EMP.EMP_NO,
+		EMP.EMP_NM,
+		VACI_NO,
+		APP_STRDATE,
+		APP_ENDDATE,
+		APP_TEMEMP,
+		APP_DETAIL,
+		APP_DEP,
+		APP_DATE,
+		APP_ROVEMP,
+		APP_STATE,
+		CASE
+		WHEN APP.APP_STATE = 'BB01110' THEN '진행중'
+		WHEN APP.APP_STATE = 'BB01120' THEN '승인완료'
+		WHEN APP.APP_STATE = 'BB01130' THEN '반려'
+		ELSE '기타'
+		END AS APP_STATE_NM,
+		VACI_TYPE,
+		CASE
+		WHEN VACI_TYPE = 'BB02110' THEN '연차'
+		WHEN VACI_TYPE = 'BB02120' THEN '경조'
+		WHEN VACI_TYPE = 'BB02130' THEN '특별휴가'
+		ELSE '기타'
+		END AS VACI_TYPE_NM,
+		TO_DATE(APP_ENDDATE, 'YYYY-MM-DD') - TO_DATE(APP_STRDATE, 'YYYY-MM-DD') + 1 AS DAYS
+		FROM
+		APPLICATION APP INNER JOIN EMPLOYEE EMP ON APP.EMP_NO = EMP.EMP_NO
+		WHERE
+		APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+		AND APP_STATE IS NOT NULL
+		ORDER BY
+		APP_STRDATE ASC
+	</select>
+
+	<select id="appDepIngCnt" parameterType="int">
+		SELECT
+			COUNT(APP_NO) cnt
+			FROM APPLICATION
+			WHERE APP_STATE = 'BB01110'
+			AND APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+
+
+	</select>
+	<select id="appDepAproveCnt" parameterType="int">
+		SELECT
+		COUNT(APP_NO) cnt
+		FROM APPLICATION
+		WHERE APP_STATE = 'BB01120'
+		AND APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+
+
+	</select>
+	<select id="appDepCnt" parameterType="int">
+		SELECT
+			COUNT(APP_NO) cnt
+			FROM APPLICATION
+			WHERE APP_STATE = 'BB01130'
+			AND APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+
+
+	</select>
+
+	<insert id="insertApplication"
+		parameterType="kr.or.ddit.vo.ApplicationVO">
+		insert into APPLICATION
+		(APP_NO
+		, EMP_NO
+		, VACI_NO
+		,
+		APP_STRDATE
+		, APP_ENDDAT
+		, APP_TEMEMP
+		, APP_DETAIL
+		, APP_DEP
+		, APP_DATE
+		,
+		APP_ROVEMP
+		, APP_STATE)
+		values (#{appNo,jdbcType=NUMERIC}
+		,
+		#{empNo,jdbcType=NUMERIC}
+		, #{vaciNo,jdbcType=NUMERIC}
+		,
+		#{appStrdate,jdbcType=TIMESTAMP}
+		, #{appEnddate,jdbcType=TIMESTAMP}
+		,
+		#{appTememp,jdbcType=NUMERIC}
+		, #{appDetail,jdbcType=VARCHAR}
+		,
+		#{appDep,jdbcType=VARCHAR}
+		, #{appDate,jdbcType=TIMESTAMP}
+		,
+		#{appRovemp,jdbcType=NUMERIC}
+		, #{appState,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSpcApplication"
+		parameterType="kr.or.ddit.vo.ApplicationVO">
+		INSERT INTO APPLICATION(
+		APP_NO
+		, VACI_NO
+		, EMP_NO
+		, VACI_TYPE
+		, APP_STATE
+		, APP_DATE
+		)VALUES (
+		APP_SEQ.nextval
+		, #{vaciNo,jdbcType=NUMERIC}
+		, #{empNo,jdbcType=NUMERIC}
+		, 'BB02130'
+		, NULL
+		, SYSDATE
+		)
+	</insert>
+
+	<insert id="empVacApplicationMer" parameterType="ApplicationVO">
+
+		MERGE INTO APPLICATION a
+		USING dual
+		ON (a.app_no = #{appNo,jdbcType=NUMERIC}
+		AND a.emp_no = #{empNo,jdbcType=NUMERIC}
+		AND a.vaci_no = #{vaciNo,jdbcType=NUMERIC} )
+		WHEN MATCHED THEN
+		UPDATE
+		SET a.app_strdate = #{appStrdate,jdbcType=VARCHAR} ,
+		a.app_enddate = #{appEnddate,jdbcType=VARCHAR} ,
+		a.app_tememp = #{appTememp,jdbcType=NUMERIC},
+		a.app_detail = #{appDetail,jdbcType=VARCHAR} ,
+		a.app_dep = #{appDep,jdbcType=VARCHAR} ,
+		a.app_rovemp = #{appRovemp,jdbcType=NUMERIC},
+		a.app_state = 'BB01110',
+		a.app_date = TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+		a.vaci_type = 'BB02130'
+		WHERE a.app_strdate IS NULL
+		AND a.app_enddate IS NULL
+		AND a.app_tememp IS NULL
+		AND a.app_detail IS NULL
+		AND a.app_dep IS NULL
+		AND a.app_rovemp IS NULL
+		AND a.app_state IS NULL
+		AND a.app_date IS NOT NULL
+		AND a.vaci_type = 'BB02130'
+		WHEN NOT MATCHED THEN
+		INSERT (app_no
+		, emp_no
+		, vaci_no
+		, app_strdate
+		, app_enddate
+		, app_tememp
+		, app_detail
+		, app_dep
+		, app_date
+		, app_rovemp
+		, app_state
+		, vaci_type)
+		VALUES (
+		APP_SEQ.nextval
+		, #{empNo,jdbcType=NUMERIC}
+		, #{vaciNo,jdbcType=NUMERIC}
+		, #{appStrdate,jdbcType=VARCHAR}
+		, #{appEnddate,jdbcType=VARCHAR}
+		, #{appTememp,jdbcType=NUMERIC}
+		, #{appDetail,jdbcType=VARCHAR}
+		, #{appDep,jdbcType=VARCHAR}
+		, TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		, #{appRovemp,jdbcType=NUMERIC}
+		, 'BB01110'
+		, #{vaciType,jdbcType=VARCHAR}
+		)
+
+
+
+	</insert>
+
+
+	<update id="updateApplication"
+		parameterType="kr.or.ddit.vo.ApplicationVO">
+		update APPLICATION
+		set APP_STRDATE =
+		#{appStrdate,jdbcType=TIMESTAMP},
+		APP_ENDDATE =
+		#{appEnddate,jdbcType=TIMESTAMP},
+		APP_TEMEMP =
+		#{appTememp,jdbcType=NUMERIC},
+		APP_DETAIL =
+		#{appDetail,jdbcType=VARCHAR},
+		APP_DEP = #{appDep,jdbcType=VARCHAR},
+		APP_DATE = #{appDate,jdbcType=TIMESTAMP},
+		APP_ROVEMP =
+		#{appRovemp,jdbcType=NUMERIC},
+		APP_STATE = #{appState,jdbcType=VARCHAR}
+		where APP_NO = #{appNo,jdbcType=NUMERIC}
+		and EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+		and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+
+	</update>
+
+	<update id="updateApproveApplication" parameterType="ApplicationVO">
+	 UPDATE APPLICATION
+		 SET
+		 APP_NO = #{appNo,jdbcType=NUMERIC}
+		 , EMP_NO = #{empNo,jdbcType=NUMERIC}
+		 , VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+		 , APP_STRDATE = #{appStrdate,jdbcType=VARCHAR}
+		 , APP_ENDDATE = #{appEnddate,jdbcType=VARCHAR}
+		 , APP_TEMEMP = #{appTememp,jdbcType=NUMERIC}
+		 , APP_DETAIL = #{appDetail,jdbcType=VARCHAR}
+		, APP_DEP = #{appDep,jdbcType=VARCHAR}
+		, APP_DATE = #{appDate,jdbcType=VARCHAR}
+		, APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+		 , APP_STATE = 'BB01120'
+		 , APP_FINALDATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		 WHERE APP_NO = #{appNo,jdbcType=NUMERIC}
+	</update>
+
+	<update id="updateCompanionApplication" parameterType="ApplicationVO">
+		UPDATE APPLICATION
+		 SET
+		 APP_NO = #{appNo,jdbcType=NUMERIC}
+		 , EMP_NO = #{empNo,jdbcType=NUMERIC}
+		 , VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+		 , APP_STRDATE = #{appStrdate,jdbcType=VARCHAR}
+		 , APP_ENDDATE = #{appEnddate,jdbcType=VARCHAR}
+		 , APP_TEMEMP = #{appTememp,jdbcType=NUMERIC}
+		 , APP_DETAIL = #{appDetail,jdbcType=VARCHAR}
+		, APP_DEP = #{appDep,jdbcType=VARCHAR}
+		, APP_DATE = #{appDate,jdbcType=VARCHAR}
+		, APP_ROVEMP = #{appRovemp,jdbcType=NUMERIC}
+		 , APP_STATE = 'BB01130'
+		 , APP_FINALDATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		 WHERE APP_NO = #{appNo,jdbcType=NUMERIC}
+
+
+
+
+
+	</update>
+
+
+
+	<delete id="deleteApplication" parameterType="map">
+		delete from
+		APPLICATION
+		where APP_NO = #{appNo,jdbcType=NUMERIC}
+		and EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+		and VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+
+	</delete>
+
+
+</mapper>

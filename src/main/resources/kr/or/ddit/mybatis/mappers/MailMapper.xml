@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.mail.dao.mailSaveMapper">
+  <resultMap id="mailMap" type="kr.or.ddit.vo.MailVO" autoMapping="true">
+    <id column="MAIL_NO" jdbcType="NUMERIC" property="mailNo" />
+    <result column="MAIL_TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="MAIL_REF" jdbcType="NUMERIC" property="empNo" />
+    <result column="MAIL_CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+
+	<insert id="insertSaveMail" parameterType="MailVO" >
+		INSERT
+		    INTO MAIL (
+		        MAIL_NO
+		        , MAIL_TITLE
+		        , MAIL_CONTENT
+		        , MAIL_DATE
+		        , MAIL_REF
+		    )
+		VALUES (
+		    MAIL_SEQ.NEXTVAL
+		    , #{title}
+		    , #{content}
+		    , SYSDATE
+		    , #{empNo}
+		    )
+	</insert>
+
+
+</mapper>

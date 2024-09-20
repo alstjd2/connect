@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.MsgroomDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.MsgroomDefaultVO">
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="MSGRM_HCOUNT" jdbcType="NUMERIC" property="msgrmHcount" />
+    <result column="MSGRM_NM" jdbcType="VARCHAR" property="msgrmNm" />
+    <result column="MSGHD_NO" jdbcType="NUMERIC" property="msghdNo" />
+    <result column="MSGRM_ARRAY" jdbcType="VARCHAR" property="msgrmArray" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MSGROOM
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.MsgroomDefaultVO">
+    insert into MSGROOM (MSGRM_NO, EMP_NO, MSGRM_HCOUNT, 
+      MSGRM_NM, MSGHD_NO, MSGRM_ARRAY
+      )
+    values (#{msgrmNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{msgrmHcount,jdbcType=NUMERIC}, 
+      #{msgrmNm,jdbcType=VARCHAR}, #{msghdNo,jdbcType=NUMERIC}, #{msgrmArray,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.MsgroomDefaultVO">
+    update MSGROOM
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      MSGRM_HCOUNT = #{msgrmHcount,jdbcType=NUMERIC},
+      MSGRM_NM = #{msgrmNm,jdbcType=VARCHAR},
+      MSGHD_NO = #{msghdNo,jdbcType=NUMERIC},
+      MSGRM_ARRAY = #{msgrmArray,jdbcType=VARCHAR}
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select MSGRM_NO, EMP_NO, MSGRM_HCOUNT, MSGRM_NM, MSGHD_NO, MSGRM_ARRAY
+    from MSGROOM
+    where MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select MSGRM_NO, EMP_NO, MSGRM_HCOUNT, MSGRM_NM, MSGHD_NO, MSGRM_ARRAY
+    from MSGROOM
+  </select>
+</mapper>

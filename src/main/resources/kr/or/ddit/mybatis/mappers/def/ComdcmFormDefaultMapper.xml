@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ComdcmFormDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ComdcmFormDefaultVO">
+    <id column="DCM_FORM_NO" jdbcType="NUMERIC" property="dcmFormNo" />
+    <result column="DCM_CTG_NO" jdbcType="NUMERIC" property="dcmCtgNo" />
+    <result column="DCM_FORM_NM" jdbcType="VARCHAR" property="dcmFormNm" />
+    <result column="DCM_FORM_CODE" jdbcType="VARCHAR" property="dcmFormCode" />
+    <result column="DCM_FORM_TITLE" jdbcType="VARCHAR" property="dcmFormTitle" />
+    <result column="DCM_FORM_FILES_YN" jdbcType="VARCHAR" property="dcmFormFilesYn" />
+    <result column="DCM_FORM_CNT" jdbcType="CLOB" property="dcmFormCnt" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COMDCM_FORM
+    where DCM_FORM_NO = #{dcmFormNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ComdcmFormDefaultVO">
+    insert into COMDCM_FORM (DCM_FORM_NO, DCM_CTG_NO, DCM_FORM_NM, 
+      DCM_FORM_CODE, DCM_FORM_TITLE, DCM_FORM_FILES_YN, 
+      DCM_FORM_CNT)
+    values (#{dcmFormNo,jdbcType=NUMERIC}, #{dcmCtgNo,jdbcType=NUMERIC}, #{dcmFormNm,jdbcType=VARCHAR}, 
+      #{dcmFormCode,jdbcType=VARCHAR}, #{dcmFormTitle,jdbcType=VARCHAR}, #{dcmFormFilesYn,jdbcType=VARCHAR}, 
+      #{dcmFormCnt,jdbcType=CLOB})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ComdcmFormDefaultVO">
+    update COMDCM_FORM
+    set DCM_CTG_NO = #{dcmCtgNo,jdbcType=NUMERIC},
+      DCM_FORM_NM = #{dcmFormNm,jdbcType=VARCHAR},
+      DCM_FORM_CODE = #{dcmFormCode,jdbcType=VARCHAR},
+      DCM_FORM_TITLE = #{dcmFormTitle,jdbcType=VARCHAR},
+      DCM_FORM_FILES_YN = #{dcmFormFilesYn,jdbcType=VARCHAR},
+      DCM_FORM_CNT = #{dcmFormCnt,jdbcType=CLOB}
+    where DCM_FORM_NO = #{dcmFormNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select DCM_FORM_NO, DCM_CTG_NO, DCM_FORM_NM, DCM_FORM_CODE, DCM_FORM_TITLE, DCM_FORM_FILES_YN, 
+    DCM_FORM_CNT
+    from COMDCM_FORM
+    where DCM_FORM_NO = #{dcmFormNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select DCM_FORM_NO, DCM_CTG_NO, DCM_FORM_NM, DCM_FORM_CODE, DCM_FORM_TITLE, DCM_FORM_FILES_YN, 
+    DCM_FORM_CNT
+    from COMDCM_FORM
+  </select>
+</mapper>

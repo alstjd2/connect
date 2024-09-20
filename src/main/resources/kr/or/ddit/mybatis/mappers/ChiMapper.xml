@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.chi.dao.ChiMapper">
+	<resultMap type="ChiVO" id="chiMap" autoMapping="true">
+        <id property="chiNo" column="CHI_NO"/>
+        <association property="svy" javaType="SvyVO" autoMapping="true" />
+        <collection property="clsList" ofType="ClsVO" autoMapping="true" />
+    </resultMap>
+    
+    <select id="selectChiList" resultMap="chiMap">
+    	SELECT CHI_NO
+    			, SVY_NO
+    			, CHI_NM
+    			, CHI_OVL_YN
+    	FROM CHI
+	</select>
+
+    
+	<select id="selectChi" parameterType="int"
+		resultMap="chiMap">
+		SELECT CHI_NO
+				, SVY_NO
+				, CHI_NM
+				, CHI_OVL_YN
+    	FROM CHI
+    	WHERE CHI_NO = #{chiNo,jdbcType=NUMERIC}
+	</select>
+	
+	<insert id="insertChi" parameterType="ChiVO">
+		<selectKey order="BEFORE" resultType="int" keyProperty="chiNo">
+			SELECT CHI_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+      	INSERT INTO CHI (
+      		CHI_NO
+      		, SVY_NO
+      		, CHI_NM
+      		, CHI_OVL_YN
+      	)
+    	VALUES (
+    		#{chiNo,jdbcType=NUMERIC}
+    		, #{svyNo,jdbcType=NUMERIC}
+    		, #{chiNm,jdbcType=VARCHAR}
+      		, #{chiOvlYn,jdbcType=VARCHAR})
+      	
+	</insert>
+	
+	<update id="updateChi" parameterType="SvyVO">
+   		UPDATE CHI
+    		SET SVY_NO = #{svyNo,jdbcType=NUMERIC}
+    		,CHI_NM = #{chiNm,jdbcType=VARCHAR}
+    		,CHI_OVL_YN = #{chiOvlYn,jdbcType=VARCHAR}
+    	WHERE CHI_NO = #{chiNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteChi" >
+	    DELETE FROM CHI
+	    WHERE CHI_NO = #{chiNo,jdbcType=NUMERIC}
+  </delete>
+</mapper>

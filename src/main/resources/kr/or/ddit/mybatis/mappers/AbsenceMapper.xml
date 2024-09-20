@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.absence.dao.AbsenceMapper">
+  <resultMap id="absenceMap" type="kr.or.ddit.vo.AbsenceVO">
+    <id column="AB_NO" jdbcType="NUMERIC" property="abNo" />
+    <association property="company" javaType="CompanyVO" autoMapping="true" />
+  </resultMap>
+  <delete id="deleteAbsence" parameterType="int">
+    delete from ABSENCE
+    where AB_NO = #{abNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertAbsence" parameterType="kr.or.ddit.vo.AbsenceVO">
+    insert into ABSENCE (AB_NO, COM_NO, AB_CONTENT
+      )
+    values (#{abNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{abContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateAbsence" parameterType="kr.or.ddit.vo.AbsenceVO">
+    update ABSENCE
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      AB_CONTENT = #{abContent,jdbcType=VARCHAR}
+    where AB_NO = #{abNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectAbsence" parameterType="int" resultMap="absenceMap">
+    select AB_NO, COM_NO, AB_CONTENT
+    from ABSENCE
+    where AB_NO = #{abNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="absenceMap">
+    select AB_NO, COM_NO, AB_CONTENT
+    from ABSENCE
+  </select>
+</mapper>

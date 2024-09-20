@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ConferenceDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ConferenceDefaultVO">
+    <id column="CON_NO" jdbcType="NUMERIC" property="conNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="CON_ID" jdbcType="VARCHAR" property="conId" />
+    <result column="CON_PW" jdbcType="VARCHAR" property="conPw" />
+    <result column="CON_TOPIC" jdbcType="VARCHAR" property="conTopic" />
+    <result column="CON_START" jdbcType="TIMESTAMP" property="conStart" />
+    <result column="CON_DUR" jdbcType="NUMERIC" property="conDur" />
+    <result column="CON_URL" jdbcType="VARCHAR" property="conUrl" />
+    <result column="CON_CRAT" jdbcType="TIMESTAMP" property="conCrat" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CONFERENCE
+    where CON_NO = #{conNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ConferenceDefaultVO">
+    insert into CONFERENCE (CON_NO, EMP_NO, CON_ID, 
+      CON_PW, CON_TOPIC, CON_START, 
+      CON_DUR, CON_URL, CON_CRAT
+      )
+    values (#{conNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{conId,jdbcType=VARCHAR}, 
+      #{conPw,jdbcType=VARCHAR}, #{conTopic,jdbcType=VARCHAR}, #{conStart,jdbcType=TIMESTAMP}, 
+      #{conDur,jdbcType=NUMERIC}, #{conUrl,jdbcType=VARCHAR}, #{conCrat,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ConferenceDefaultVO">
+    update CONFERENCE
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      CON_ID = #{conId,jdbcType=VARCHAR},
+      CON_PW = #{conPw,jdbcType=VARCHAR},
+      CON_TOPIC = #{conTopic,jdbcType=VARCHAR},
+      CON_START = #{conStart,jdbcType=TIMESTAMP},
+      CON_DUR = #{conDur,jdbcType=NUMERIC},
+      CON_URL = #{conUrl,jdbcType=VARCHAR},
+      CON_CRAT = #{conCrat,jdbcType=TIMESTAMP}
+    where CON_NO = #{conNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select CON_NO, EMP_NO, CON_ID, CON_PW, CON_TOPIC, CON_START, CON_DUR, CON_URL, CON_CRAT
+    from CONFERENCE
+    where CON_NO = #{conNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CON_NO, EMP_NO, CON_ID, CON_PW, CON_TOPIC, CON_START, CON_DUR, CON_URL, CON_CRAT
+    from CONFERENCE
+  </select>
+</mapper>

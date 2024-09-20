@@ -1,0 +1,535 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" type="text/css" href="assets/vendor/css/rtl/theme-semi-dark.css">
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+
+
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo fs-2 fw-bold">
+                            A
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            Admin
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="company.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-buildings'></i>
+                            <div class="text-truncate" data-i18n="기업관리">기업관리</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="인사관리">인사관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="personnel-organization.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="조직관리">조직관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-employee.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="직원관리">직원관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-certificate.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="증명서관리">증명서관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-transfer-alt'></i>
+                            <div class="text-truncate" data-i18n="근태관리">근태관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="attendance-time.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태 시간 현황">근태 시간 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 일정 조회">부재 일정 조회</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-application.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 신청 현황">부재 신청 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-category.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 항목 관리">부재 항목 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-file'></i>
+                            <div class="text-truncate" data-i18n="문서관리">문서관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="document-number.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서 번호 관리">문서 번호 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-list.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="전체 문서함">전체 문서함</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-customize'></i>
+                            <div class="text-truncate" data-i18n="서비스관리">서비스관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="mail.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메일 관리">메일 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="message.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">메시지 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더 관리">캘린더 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="board.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 관리">게시판 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="survey.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="설문 관리">설문 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="drive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 관리">드라이브 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-doughnut-chart'></i>
+                            <div class="text-truncate" data-i18n="사용통계">사용통계</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 사용용량">드라이브 사용용량</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">구성원 증감 추세</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="보낸 메일 수">보낸 메일 수</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 사용현황">게시판 사용현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="회의 진행 통계">회의 진행 통계</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="container mb-10">
+                            <div class="card">
+                                <h5 class="card-header fw-bold pt-10 fs-4">연차 기준 관리</h5>
+                                <div class="card-body">
+                                    <form action="">
+                                        <ul class="mb-4 row p-0">
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year1" class="col-form-label">1년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="15" id="input-year1">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year2" class="col-form-label">2년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="16" id="input-year2">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year3" class="col-form-label">3년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="16" id="input-year3">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year4" class="col-form-label">4년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="16" id="input-year4">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year5" class="col-form-label">5년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="17" id="input-year5">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year6" class="col-form-label">6년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="17" id="input-year6">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year7" class="col-form-label">7년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="18" id="input-year7">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year8" class="col-form-label">8년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="18" id="input-year8">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year9" class="col-form-label">9년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="19" id="input-year9">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year10" class="col-form-label">10년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="19" id="input-year10">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year11" class="col-form-label">11년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="20" id="input-year11">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year12" class="col-form-label">12년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="20" id="input-year12">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year13" class="col-form-label">13년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="21" id="input-year13">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year14" class="col-form-label">14년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="21" id="input-year14">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year15" class="col-form-label">15년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="22" id="input-year15">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year16" class="col-form-label">16년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="22" id="input-year16">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year17" class="col-form-label">17년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="23" id="input-year17">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year18" class="col-form-label">18년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="23" id="input-year18">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year19" class="col-form-label">19년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="24" id="input-year19">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year20" class="col-form-label">20년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="24" id="input-year20">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year21" class="col-form-label">21년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="25" id="input-year21">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year22" class="col-form-label">22년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="25" id="input-year22">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year23" class="col-form-label">23년</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="26" id="input-year23">
+                                                </div>
+                                            </li>
+                                            <li class="col-sm-2 d-block">
+                                                <label for="input-year24" class="col-form-label">24년 이상</label>
+                                                <div>
+                                                    <input class="form-control" type="number" value="26" id="input-year24">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="mb-4 row p-3">
+                                            <button type="submit" class="btn btn-primary">저장하기</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Form Repeater -->
+                        <div class="container">
+                            <div class="row px-3">
+                                <div class="card col-lg-6">
+                                    <h5 class="card-header">경조기준관리</h5>
+                                    <div class="card-body">
+                                        <form class="form-repeater">
+                                            <div data-repeater-list="group-a">
+                                                <div data-repeater-item>
+                                                    <div class="row">
+                                                        <div class="mb-6 col-md-4 col-12 mb-0">
+                                                            <label class="form-label" for="form-repeater-1-1">경조사명</label>
+                                                            <input type="text" id="form-repeater-1-1" class="form-control" placeholder="경조사명을 입력하세요." />
+                                                        </div>
+                                                        <div class="mb-6 col-md-4 col-12 mb-0">
+                                                            <label class="form-label" for="form-repeater-1-2">휴가일수</label>
+                                                            <input type="number" id="form-repeater-1-2" class="form-control" placeholder="휴가일수를 입력하세요." />
+                                                        </div>
+                                                        <div class="mb-6 col-md-4 col-12 mb-0 d-flex align-items-end">
+                                                            <button class="btn btn-label-danger w-100" data-repeater-delete>
+                                                                <i class="bx bx-x me-1"></i>
+                                                                <span class="align-middle">Delete</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mt-0" />
+                                                </div>
+                                            </div>
+                                            <div class="mb-0">
+                                                <button class="btn btn-primary" data-repeater-create>
+                                                <i class="bx bx-plus me-1"></i>
+                                                    <span class="align-middle">Add</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card col-lg-6">
+                                    <h5 class="card-header">특별휴가관리</h5>
+                                    <div class="card-body">
+                                        <form class="form-special">
+                                            <div data-repeater-list="group-a">
+                                                <div data-repeater-item>
+                                                    <div class="row">
+                                                        <div class="mb-6 col-md-4 col-12 mb-0">
+                                                            <label class="form-label" for="form-special-1-1">경조사명</label>
+                                                            <input type="text" id="form-special-1-1" class="form-control" placeholder="경조사명을 입력하세요." />
+                                                        </div>
+                                                        <div class="mb-6 col-md-4 col-12 mb-0">
+                                                            <label class="form-label" for="form-special-1-2">휴가일수</label>
+                                                            <input type="number" id="form-special-1-2" class="form-control" placeholder="휴가일수를 입력하세요." />
+                                                        </div>
+                                                        <div class="mb-6 col-md-4 col-12 mb-0 d-flex align-items-end">
+                                                            <button class="btn btn-label-danger w-100" data-repeater-delete>
+                                                                <i class="bx bx-x me-1"></i>
+                                                                <span class="align-middle">Delete</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mt-0" />
+                                                </div>
+                                            </div>
+                                            <div class="mb-0">
+                                                <button class="btn btn-primary" data-repeater-create>
+                                                <i class="bx bx-plus me-1"></i>
+                                                    <span class="align-middle">Add</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Form Repeater -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+     
+    <script defer src="assets/js/attendance.js"></script>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/autosize/autosize.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.grboard.dao.GrbReplyMapper">
+    <!-- Result Map for Complex Types -->
+    <resultMap id="grbReplyResultMap" type="kr.or.ddit.vo.GrbReplyVO">
+        <id property="grbReplyNo" column="grb_Reply_No" />
+        <result property="grbNo" column="grb_No" />
+        <result property="empNo" column="emp_No" />
+        <result property="comNo" column="com_No" />
+        <result property="replyContent" column="reply_Content" />
+        <result property="grbReplyAttachfile" column="grb_Reply_Attachfile" />
+        <result property="grbReplyDate" column="grb_Reply_Date" />
+        <result property="grbReplyDelyn" column="grb_Reply_Delyn" />
+        <result property="atchFileId" column="atchFileId" />
+
+     <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true"/>
+
+        <!-- AtchFileVO association -->
+        <association property="atchFile" column="atchFileId" javaType="kr.or.ddit.vo.AtchFileVO">
+            <id property="atchFileId" column="atchFileId" />
+            <!-- 필요한 경우 AtchFileVO의 추가 필드를 매핑 -->
+        </association>
+    </resultMap>
+    
+    <resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+ 		 <id column="ATCH_FILE_ID" jdbcType="NUMERIC" property="atchFileId" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+<resultMap type="GrbReplyVO" id="grBoardAtchMap" autoMapping="true">
+       <!-- 먼저 ID를 정의 -->
+       <id property="grbReplyNo" column="GRB_REPLY_NO"/>
+       <association property="empAtchFile" javaType="AtchFileVO" autoMapping="true">
+           <collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" columnPrefix="PROFILE_" />
+       </association>
+        <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true"/>
+   </resultMap>
+	
+	
+    
+
+    <!-- Create -->
+<insert id="insertGrbReply" parameterType="kr.or.ddit.vo.GrbReplyVO">
+    <selectKey resultType="int" keyProperty="grbReplyNo" order="BEFORE">
+        SELECT NVL(MAX(GRB_REPLY_NO) + 1, 1) FROM GRB_REPLY
+    </selectKey>
+    INSERT INTO GRB_REPLY (
+        GRB_REPLY_NO, 
+        GRB_NO, 
+        EMP_NO, 
+        REPLY_CONTENT, 
+        REPLY_ATCHFILE, 
+        GRB_REPLY_DATE,
+        GRB_REPLY_DELYN
+    ) VALUES (
+        #{grbReplyNo},
+        #{grbNo}, 
+        #{empNo}, 
+        #{replyContent}, 
+        #{atchFileId},
+        sysdate, 
+        'N'
+    )
+</insert>
+
+    <!-- Read -->
+    <select id="selectGrbReplyList" parameterType="map" resultMap="grBoardAtchMap">
+         SELECT
+    R.GRB_REPLY_NO, 
+    R.GRB_NO,
+    R.EMP_NO,
+    R.REPLY_CONTENT,
+    R.GRB_REPLY_DATE,
+    R.GRB_REPLY_DELYN,
+    E.EMP_NM, -- 작성자 이름
+    E.EMP_PROFILE, -- 프로필 사진 ID
+    AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID, -- 프로필 사진 파일 ID
+    AFD.FILE_SN AS PROFILE_FILE_SN, -- 파일 시퀀스 번호
+    AFD.FILE_STRE_COURS AS PROFILE_FILE_STRE_COURS, -- 파일 저장 경로
+    AFD.STRE_FILE_NM AS PROFILE_STRE_FILE_NM, -- 저장된 파일 이름
+    AFD.ORIGNL_FILE_NM AS PROFILE_ORIGNL_FILE_NM, -- 원본 파일 이름
+    AFD.FILE_EXTSN AS PROFILE_FILE_EXTSN, -- 파일 확장자
+    AFD.FILE_SIZE AS PROFILE_FILE_SIZE, -- 파일 크기
+    AFD.FILE_MIME AS PROFILE_FILE_MIME -- 파일 MIME 타입
+FROM
+    GRB_REPLY R
+JOIN 
+    EMPLOYEE E ON R.EMP_NO = E.EMP_NO
+LEFT JOIN 
+    ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID -- 프로필 사진 정보 조인
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID -- 프로필 사진 파일 세부 정보 조인
+WHERE
+    R.GRB_NO = #{grbNo}
+    AND R.GRB_REPLY_DELYN = 'N'
+ORDER BY 
+    R.GRB_REPLY_NO
+    </select>
+    
+       <update id="updateGrbReplyDelynToY">
+    UPDATE GRB_REPLY
+    SET GRB_REPLY_DELYN = 'Y'
+    WHERE GRB_REPLY_NO = #{grbReplyNo}
+	</update>
+	
+	    <delete id="deleteReply">
+		DELETE FROM GRB_REPLY
+		WHERE GRB_NO = #{grbNo}
+</delete>
+
+
+</mapper>
+
+

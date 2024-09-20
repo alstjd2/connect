@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.adrgroup.dao.AdrGroupMapper">
+
+<resultMap id="employeeWithProfileMap" type="EmployeeVO" autoMapping="true">
+	  <id property="empNo" column="EMP_NO" />
+	  <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+	</resultMap>
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+<resultMap type="AdrGroupVO" id="adrgroupMap" autoMapping="true">
+		<id property="grpNo" column="GRP_NO" />
+		<association property="employee" javaType="EmployeeVO" autoMapping="true" >
+				<!-- Company Association -->
+			    <association property="company" javaType="CompanyVO">
+			        <id property="comNo" column="COM_NO" />
+			        <result property="comNm" column="COM_NM" />
+			        <result property="COMPANY_NO" column="COMPANY_NO" />
+			        
+			        <!-- Organization List -->
+				    <collection property="organizationList" ofType="OrganizationVO">
+				        <id property="orgNo" column="ORG_NO" />
+				        <result property="orgDep" column="ORG_DEP" />
+				        <result property="orgUpdep" column="ORG_UPDEP" />
+				        <result property="orgLevel" column="ORG_LEVEL" />
+				        <result property="orgDf" column="ORG_DF" />
+				    </collection>
+				
+				    <!-- Position List -->
+				    <collection property="positionList" ofType="PositionVO">
+				        <id property="posNo" column="POS_NO" />
+				        <result property="posNm" column="POS_NM" />
+				        <result property="ONEPOSNM" column="ONEPOSNM" />
+				    </collection>
+		    	</association>
+		    	<!-- AtchFile Association -->
+    			<association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+		</association>
+		<collection property="groupEmployeeList" ofType="GroupEmployeeVO" autoMapping="true">
+	    </collection>
+</resultMap>
+	
+
+    
+<!--     <select id="selectGroupList" resultMap="adrgroupMap"> -->
+<!--     	SELECT -->
+<!-- 		    GRP_NO -->
+<!-- 		  , EMP_NO -->
+<!-- 		  , GRP_NM -->
+<!-- 		  , GRP_CM -->
+<!-- 		  , GRP_DATE -->
+<!-- 		  , GRP_DELYN -->
+<!-- 		FROM -->
+<!-- 		    ADRGROUP -->
+<!--             WHERE EMP_NO = #{empNo} -->
+<!--             ORDER BY GRP_NO -->
+      
+<!-- 	</select> -->
+	
+	
+	
+	
+	
+	
+	
+	
+<select id="selectTotalRecord" resultType="int" >
+		SELECT COUNT(DISTINCT g.GRP_NO)
+		FROM ADRGROUP g
+		LEFT JOIN
+            GROUP_EMPLOYEE ge ON g.GRP_NO = ge.GRP_NO
+		<where>
+		g.GRP_DELYN = 'N'
+        AND (g.EMP_NO = #{searchVO.empNo} OR ge.EMP_NO = #{searchVO.empNo})
+        <include refid="searchFrag" />
+		</where>
+</select>
+<!-- 검색 조건 -->
+<sql id="searchFrag">
+		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+		    	AND 
+		    	<choose>
+		    		<when test="simpleCondition.searchType eq 'name'">INSTR(g.GRP_NM, #{simpleCondition.searchWord}) > 0</when>
+		    		<otherwise>
+		    			(INSTR(g.GRP_NM, #{simpleCondition.searchWord}) > 0)
+		    		</otherwise>
+		    	</choose>
+		    </if>
+</sql>
+	
+	
+<select id="selectGroupList" resultMap="adrgroupMap">
+	WITH GroupDetails AS (
+    SELECT
+        g.GRP_NO,
+        g.GRP_NM,
+        g.GRP_CM,
+        g.GRP_DATE,
+        g.GRP_DELYN,
+        (SELECT COUNT(DISTINCT ge.EMP_NO) FROM GROUP_EMPLOYEE ge WHERE ge.GRP_NO = g.GRP_NO) + 1 AS empcount  -- 그룹장 포함
+    FROM
+        ADRGROUP g
+    WHERE
+        g.GRP_DELYN = 'N'
+        AND (g.EMP_NO = #{searchVO.empNo} OR EXISTS (
+            SELECT 1 FROM GROUP_EMPLOYEE ge WHERE ge.GRP_NO = g.GRP_NO AND ge.EMP_NO = #{searchVO.empNo}
+        ))
+        <include refid="searchFrag" />
+),
+OrderedGroupDetails AS (
+    SELECT
+        GD.*,
+        ROW_NUMBER() OVER (ORDER BY GD.GRP_NO) AS rnum
+    FROM
+        GroupDetails GD
+)
+SELECT
+    OGD.GRP_NO,
+    OGD.GRP_NM,
+    OGD.GRP_CM,
+    OGD.GRP_DATE,
+    OGD.GRP_DELYN,
+    OGD.empcount,
+    OGD.rnum
+FROM
+    OrderedGroupDetails OGD
+WHERE
+    OGD.rnum BETWEEN #{firstRecord} AND #{lastRecord}
+ORDER BY
+    OGD.rnum
+
+
+
+	
+</select>
+	
+
+    
+<!-- <select id="selectGroup" parameterType="int" resultMap="adrgroupMap"> -->
+<!-- 		SELECT -->
+<!-- 		    GRP_NO -->
+<!-- 		  , EMP_NO -->
+<!-- 		  , GRP_NM -->
+<!-- 		  , GRP_CM -->
+<!-- 		  , GRP_DATE -->
+<!-- 		  , GRP_DELYN -->
+<!-- 		FROM -->
+<!-- 		    ADRGROUP -->
+<!-- 		WHERE -->
+<!-- 		GRP_NO = #{grpNo} -->
+<!-- </select> -->
+<select id="selectGroup" parameterType="int" resultMap="adrgroupMap">
+		WITH EmployeeDetails AS (
+    SELECT
+        E.EMP_NO,
+        E.COM_NO,
+        E.EMP_PROFILE,
+        E.EMP_NM,
+        E.EMP_AFF,
+        E.EMP_DEP,
+        E.EMP_POS,
+        E.EMP_ONEPOS,
+        E.EMP_COMTEL,
+        E.EMP_TEL,
+        E.EMP_COMMAIL,
+        E.EMP_MAIL,
+        E.EMP_BIR,
+        E.EMP_JOINDATE,
+        E.EMP_YEAR,
+        E.EMP_ID,
+        E.EMP_GENDER,
+        E.EMP_PW,
+        E.EMP_TYPE,
+        E.EMP_DELYN,
+        E.EMP_ROLE,
+        E.EMP_STATE,
+        C.COM_NO AS COMPANY_NO,
+        C.COM_NM,
+        O.ORG_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        P.POS_NO,
+        P.POS_NM,
+        P2.POS_NM AS ONEPOSNM,
+        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID, 
+        AF.CREATE_DT,
+        AF.USE_AT,
+        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID, 
+        AFD.FILE_SN,
+        AFD.FILE_STRE_COURS,
+        AFD.STRE_FILE_NM,
+        AFD.ORIGNL_FILE_NM,
+        AFD.FILE_EXTSN,
+        AFD.FILE_MIME,
+        AFD.FILE_SIZE,
+        AFD.FILE_FANCYSIZE,
+        AFD.FILE_CN,
+        AFD.FILE_DWNCNT
+    FROM
+        EMPLOYEE E
+    LEFT JOIN
+        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+    LEFT JOIN
+        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+    LEFT JOIN
+        COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN
+        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    LEFT JOIN
+        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+    WHERE
+         E.EMP_DELYN = 'N'
+)
+
+SELECT
+    AG.GRP_NO,
+    AG.EMP_NO,
+    AG.GRP_NM,
+    AG.GRP_CM,
+    AG.GRP_DATE,
+    AG.GRP_DELYN,
+    ED.*
+FROM
+    ADRGROUP AG
+LEFT JOIN
+    EmployeeDetails ED ON AG.EMP_NO = ED.EMP_NO
+WHERE
+    AG.GRP_NO = #{grpNo}
+		
+</select>
+	
+	
+	<insert id="insertGroup" parameterType="AdrGroupVO">
+		<selectKey order="BEFORE" resultType="int" keyProperty="grpNo">
+			SELECT GROUP_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		 INSERT INTO ADRGROUP (GRP_NO
+		 		, EMP_NO
+		 		, GRP_NM
+		 		, GRP_CM
+		 		, GRP_DATE
+		 		, GRP_DELYN
+      	)
+    	VALUES (
+    		#{grpNo,jdbcType=NUMERIC}
+    		, #{empNo,jdbcType=NUMERIC}
+    		, #{grpNm,jdbcType=VARCHAR}
+    		, #{grpCm,jdbcType=VARCHAR}
+    		, SYSDATE
+    		, 'N'
+      	)
+	</insert>
+	
+	<update id="updateGroup" parameterType="AdrGroupVO">
+		UPDATE ADRGROUP
+    	SET
+	      GRP_NM = #{grpNm,jdbcType=VARCHAR}
+	      ,GRP_CM = #{grpCm,jdbcType=VARCHAR}
+    	WHERE GRP_NO = #{grpNo,jdbcType=NUMERIC}
+	</update>
+	
+	<update id="deleteGroup" parameterType="AdrGroupVO">
+		UPDATE ADRGROUP
+		SET
+		GRP_DELYN = 'Y'
+		WHERE GRP_NO = #{grpNo,jdbcType=NUMERIC}
+	</update>
+</mapper>

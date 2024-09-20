@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.errboard.dao.ErrBoardMapper">
+  <resultMap id="ErrBoardVO" type="ErrBoardVO">
+    <id column="ERR_NO" jdbcType="NUMERIC" property="errNo" />
+    <id column="MEM_NO" jdbcType="NUMERIC" property="memNo" />
+    <result column="ERR_WORK_PROGRESS" jdbcType="VARCHAR" property="errWorkProgress" />
+    <result column="ERR_TITLE" jdbcType="VARCHAR" property="errTitle" />
+    <result column="ERR_LOC" jdbcType="VARCHAR" property="errLoc" />
+    <result column="ERR_INCIDENT_DESCRIPTION" jdbcType="VARCHAR" property="errIncidentDescription" />
+    <result column="ERR_CONTENT" jdbcType="VARCHAR" property="errContent" />
+    <result column="ERR_DATE" jdbcType="TIMESTAMP" property="errDate" />
+    <result column="NON_ATTACHFILE" jdbcType="NUMERIC" property="errAttachFile" />
+    <association property="atchFile" javaType="AtchFileVO" autoMapping="true">
+        	<collection property="fileDetails" ofType="AtchFileDetailVO" autoMapping="true" />
+        </association>
+  </resultMap>
+  	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+ 		 <id column="ATCH_FILE_ID" jdbcType="NUMERIC" property="atchFileId" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+  <select id="selectErrBoardListPaging" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="ErrBoardVO">
+WITH ERRLIST AS (
+    SELECT 
+        EB.ERR_NO,
+        EB.MEM_NO,
+        EB.ERR_WORK_PROGRESS,
+        EB.ERR_TITLE,
+        EB.ERR_LOC,
+        EB.ERR_INCIDENT_DESCRIPTION,
+        EB.ERR_CONTENT,
+        EB.ERR_ATTACHFILE,
+        EB.ERR_DATE
+    FROM ERR_BOARD EB
+    LEFT JOIN MEMBER M ON EB.MEM_NO = M.MEM_NO
+    <where>
+     EB.MEM_NO = #{searchVO.memNo}  -- 로그인한 사용자 필터링
+ 	<include refid="searchFrag" />    
+    </where>
+    ORDER BY EB.ERR_DATE DESC  -- 등록날짜 기준 내림차순 정렬
+)
+SELECT A.*
+FROM (
+    SELECT ERRLIST.*, ROWNUM RNUM
+    FROM ERRLIST
+) A
+WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+  
+  
+  	<select id="selectTotalRecord" resultType="int" >
+		SELECT COUNT(EB.MEM_NO)
+		FROM ERR_BOARD EB
+		<where>
+		EB.MEM_NO = #{searchVO.memNo}
+		<include refid="searchFrag" />    
+		</where>
+	</select>
+	
+<sql id="searchFrag">
+    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+        AND 
+        <choose>
+            <when test="simpleCondition.searchType eq 'title'">
+                INSTR(EB.ERR_TITLE, #{simpleCondition.searchWord}) > 0
+            </when>
+            <when test="simpleCondition.searchType eq 'content'">
+                INSTR(EB.ERR_CONTENT, #{simpleCondition.searchWord}) > 0
+            </when>
+            <otherwise>
+                INSTR(EB.ERR_TITLE, #{simpleCondition.searchWord}) > 0
+                OR INSTR(EB.ERR_CONTENT, #{simpleCondition.searchWord}) > 0
+            </otherwise>
+        </choose>
+    </if>
+</sql>
+  <delete id="deleteErrBoard" parameterType="map">
+    delete from ERR_BOARD
+    where ERR_NO = #{errNo,jdbcType=NUMERIC}
+      and MEM_NO = #{memNo,jdbcType=NUMERIC}
+  </delete>
+  
+  <insert id="insertErrBoard" parameterType="ErrBoardVO">
+    insert into ERR_BOARD (
+    ERR_NO, 
+    MEM_NO, 
+    ERR_TITLE,
+    ERR_LOC, 
+    ERR_INCIDENT_DESCRIPTION, 
+    ERR_CONTENT,
+    ERR_ATTACHFILE
+      )
+    VALUES 
+    (
+    (SELECT NVL(MAX(ERR_NO)+1 ,1) ERR_NO
+	 FROM ERR_BOARD),
+      #{memNo}, 
+      #{errTitle,jdbcType=VARCHAR}, 
+      #{errLoc,jdbcType=VARCHAR}, 
+      #{errIncidentDescription,jdbcType=VARCHAR}, 
+      #{errContent,jdbcType=VARCHAR},
+      #{atchFileId, jdbcType=NUMERIC}
+      )
+  </insert>
+  
+  <insert id="insertNotAtchErrBoard" parameterType="ErrBoardVO">
+    insert into ERR_BOARD (
+    ERR_NO, 
+    MEM_NO, 
+    ERR_TITLE,
+    ERR_LOC, 
+    ERR_INCIDENT_DESCRIPTION, 
+    ERR_CONTENT
+      )
+    VALUES 
+    (
+    (SELECT NVL(MAX(ERR_NO)+1 ,1) ERR_NO
+	 FROM ERR_BOARD),
+      #{memNo}, 
+      #{errTitle,jdbcType=VARCHAR}, 
+      #{errLoc,jdbcType=VARCHAR}, 
+      #{errIncidentDescription,jdbcType=VARCHAR}, 
+      #{errContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateErrBoard" parameterType="ErrBoardVO">
+    update ERR_BOARD
+    set ERR_WORK_PROGRESS = #{errWorkProgress,jdbcType=VARCHAR},
+      ERR_TITLE = #{errTitle,jdbcType=VARCHAR},
+      ERR_LOC = #{errLoc,jdbcType=VARCHAR},
+      ERR_INCIDENT_DESCRIPTION = #{errIncidentDescription,jdbcType=VARCHAR},
+      ERR_CONTENT = #{errContent,jdbcType=VARCHAR}
+    where ERR_NO = #{errNo,jdbcType=NUMERIC}
+      and MEM_NO = #{memNo,jdbcType=NUMERIC}
+  </update>
+  
+  
+  <select id="selectErrBoard" parameterType="map" resultMap="ErrBoardVO">
+SELECT 
+    EB.ERR_NO, 
+    EB.MEM_NO, 
+    EB.ERR_WORK_PROGRESS, 
+    EB.ERR_TITLE, 
+    EB.ERR_LOC, 
+    EB.ERR_INCIDENT_DESCRIPTION, 
+    EB.ERR_CONTENT,
+    EB.ERR_ATTACHFILE,
+    AF.ATCH_FILE_ID,
+    AFD.FILE_SN,
+    AFD.ORIGNL_FILE_NM,
+    AFD.FILE_SIZE
+FROM 
+    ERR_BOARD EB
+LEFT JOIN 
+    ATCH_FILE AF ON EB.ERR_ATTACHFILE = AF.ATCH_FILE_ID
+LEFT JOIN 
+    ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+WHERE 
+    EB.ERR_NO = #{errNo,jdbcType=NUMERIC}
+  </select>
+  
+  
+  <select id="selectErrBoardList" resultMap="ErrBoardVO">
+    select ERR_NO, MEM_NO, ERR_WORK_PROGRESS, ERR_TITLE, ERR_LOC, ERR_INCIDENT_DESCRIPTION, 
+    ERR_CONTENT,ERR_DATE
+    from ERR_BOARD
+  </select>
+  
+  <update id="updateErrStatus" parameterType="ErrBoardVO">
+    UPDATE ERR_BOARD
+    SET ERR_WORK_PROGRESS = #{errWorkProgress}
+    WHERE ERR_NO = #{errNo}
+</update>
+
+<select id="getErrBoardWithAdmin" resultType="ErrBoardVO">
+    SELECT 
+        eb.ERR_NO,
+        ea.ERR_ADMIN_NO,
+        ea.ERR_CONTENT 
+    FROM 
+        ERR_BOARD eb
+    LEFT JOIN 
+        ERR_ADMIN ea ON eb.ERR_NO = ea.ERR_NO
+    WHERE 
+        eb.ERR_NO = #{errNo}
+</select>
+
+
+  <select id="selectErrBoardAdminListPaging" parameterType="kr.or.ddit.commons.paging.PaginationInfo" resultMap="ErrBoardVO">
+WITH ERRLIST AS (
+    SELECT 
+        EB.ERR_NO,
+        EB.MEM_NO,
+        EB.ERR_WORK_PROGRESS,
+        EB.ERR_TITLE,
+        EB.ERR_LOC,
+        EB.ERR_INCIDENT_DESCRIPTION,
+        EB.ERR_CONTENT,
+        EB.ERR_ATTACHFILE,
+        EB.ERR_DATE
+    FROM ERR_BOARD EB
+    LEFT JOIN MEMBER M ON EB.MEM_NO = M.MEM_NO
+    <where>
+ 	<include refid="searchFrag" />    
+    </where>
+    ORDER BY EB.ERR_DATE DESC  -- 등록날짜 기준 내림차순 정렬
+)
+SELECT A.*
+FROM (
+    SELECT ERRLIST.*, ROWNUM RNUM
+    FROM ERRLIST
+) A
+WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+  	<select id="selectAdminTotalRecord" resultType="int" >
+		SELECT COUNT(EB.MEM_NO)
+		FROM ERR_BOARD EB
+
+	</select>
+
+</mapper>

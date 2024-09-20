@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.msgroom.dao.RecieveMapper">
+  <resultMap id="recieveMap" type="kr.or.ddit.vo.RecieveVO">
+    <id column="RECV_NO" jdbcType="NUMERIC" property="recvNo" />
+    <id column="MSGLOG_NO" jdbcType="NUMERIC" property="msglogNo" />
+    <id column="MSGRM_NO" jdbcType="NUMERIC" property="msgrmNo" />
+    <association property="msgLog" javaType="MsglogVO" autoMapping="true" />
+  </resultMap>
+  <delete id="deleteRecieve" parameterType="map">
+    delete from RECIEVE
+    where RECV_NO = #{recvNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertRecieve" parameterType="kr.or.ddit.vo.RecieveVO">
+    insert into RECIEVE (RECV_NO, MSGLOG_NO, MSGRM_NO, 
+      EMP_NO, RECV_CHECK, RECV_DATE
+      )
+    values (#{recvNo,jdbcType=NUMERIC}, #{msglogNo,jdbcType=NUMERIC}, #{msgrmNo,jdbcType=NUMERIC}, 
+      #{empNo,jdbcType=NUMERIC}, #{recvCheck,jdbcType=VARCHAR}, #{recvDate,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateRecieve" parameterType="kr.or.ddit.vo.RecieveVO">
+    update RECIEVE
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      RECV_CHECK = #{recvCheck,jdbcType=VARCHAR},
+      RECV_DATE = #{recvDate,jdbcType=DATE}
+    where RECV_NO = #{recvNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectRecieve" parameterType="map" resultMap="recieveMap">
+    select RECV_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, RECV_CHECK, RECV_DATE
+    from RECIEVE
+    where RECV_NO = #{recvNo,jdbcType=NUMERIC}
+      and MSGLOG_NO = #{msglogNo,jdbcType=NUMERIC}
+      and MSGRM_NO = #{msgrmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="recieveMap">
+    select RECV_NO, MSGLOG_NO, MSGRM_NO, EMP_NO, RECV_CHECK, RECV_DATE
+    from RECIEVE
+  </select>
+</mapper>

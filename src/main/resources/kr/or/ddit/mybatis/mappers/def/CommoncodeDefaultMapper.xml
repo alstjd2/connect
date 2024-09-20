@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.CommoncodeDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.CommoncodeDefaultVO">
+    <id column="CONMC_NO" jdbcType="VARCHAR" property="conmcNo" />
+    <result column="COMNC_NM" jdbcType="VARCHAR" property="comncNm" />
+    <result column="CONMC_DATE" jdbcType="TIMESTAMP" property="conmcDate" />
+    <result column="COMNC_DELYN" jdbcType="VARCHAR" property="comncDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from COMMONCODE
+    where CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.CommoncodeDefaultVO">
+    insert into COMMONCODE (CONMC_NO, COMNC_NM, CONMC_DATE, 
+      COMNC_DELYN)
+    values (#{conmcNo,jdbcType=VARCHAR}, #{comncNm,jdbcType=VARCHAR}, #{conmcDate,jdbcType=TIMESTAMP}, 
+      #{comncDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.CommoncodeDefaultVO">
+    update COMMONCODE
+    set COMNC_NM = #{comncNm,jdbcType=VARCHAR},
+      CONMC_DATE = #{conmcDate,jdbcType=TIMESTAMP},
+      COMNC_DELYN = #{comncDelyn,jdbcType=VARCHAR}
+    where CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select CONMC_NO, COMNC_NM, CONMC_DATE, COMNC_DELYN
+    from COMMONCODE
+    where CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CONMC_NO, COMNC_NM, CONMC_DATE, COMNC_DELYN
+    from COMMONCODE
+  </select>
+</mapper>

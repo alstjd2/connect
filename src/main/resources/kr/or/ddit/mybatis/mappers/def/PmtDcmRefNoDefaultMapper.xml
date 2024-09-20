@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.PmtDcmRefNoDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.PmtDcmRefNoDefaultVO">
+    <id column="PMT_DCM_REF_NO" jdbcType="NUMERIC" property="pmtDcmRefNo" />
+    <result column="PMT_DCM_NO" jdbcType="NUMERIC" property="pmtDcmNo" />
+    <result column="PMT_DCM_REF_EMP_NO" jdbcType="NUMERIC" property="pmtDcmRefEmpNo" />
+    <result column="PMT_DCM_REF_CMT" jdbcType="VARCHAR" property="pmtDcmRefCmt" />
+    <result column="PMT_DCM_REF_CMT_DATE" jdbcType="TIMESTAMP" property="pmtDcmRefCmtDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PMT_DCM_REF_NO
+    where PMT_DCM_REF_NO = #{pmtDcmRefNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.PmtDcmRefNoDefaultVO">
+    insert into PMT_DCM_REF_NO (PMT_DCM_REF_NO, PMT_DCM_NO, PMT_DCM_REF_EMP_NO, 
+      PMT_DCM_REF_CMT, PMT_DCM_REF_CMT_DATE)
+    values (#{pmtDcmRefNo,jdbcType=NUMERIC}, #{pmtDcmNo,jdbcType=NUMERIC}, #{pmtDcmRefEmpNo,jdbcType=NUMERIC}, 
+      #{pmtDcmRefCmt,jdbcType=VARCHAR}, #{pmtDcmRefCmtDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.PmtDcmRefNoDefaultVO">
+    update PMT_DCM_REF_NO
+    set PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC},
+      PMT_DCM_REF_EMP_NO = #{pmtDcmRefEmpNo,jdbcType=NUMERIC},
+      PMT_DCM_REF_CMT = #{pmtDcmRefCmt,jdbcType=VARCHAR},
+      PMT_DCM_REF_CMT_DATE = #{pmtDcmRefCmtDate,jdbcType=TIMESTAMP}
+    where PMT_DCM_REF_NO = #{pmtDcmRefNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select PMT_DCM_REF_NO, PMT_DCM_NO, PMT_DCM_REF_EMP_NO, PMT_DCM_REF_CMT, PMT_DCM_REF_CMT_DATE
+    from PMT_DCM_REF_NO
+    where PMT_DCM_REF_NO = #{pmtDcmRefNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select PMT_DCM_REF_NO, PMT_DCM_NO, PMT_DCM_REF_EMP_NO, PMT_DCM_REF_CMT, PMT_DCM_REF_CMT_DATE
+    from PMT_DCM_REF_NO
+  </select>
+</mapper>

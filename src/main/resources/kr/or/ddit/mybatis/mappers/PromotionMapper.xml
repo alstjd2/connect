@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.promotion.dao.PromotionMapper">
+
+  <resultMap id="PromotionRMap" type="kr.or.ddit.vo.PromotionVO">
+    <id column="PROMO_NO" jdbcType="NUMERIC" property="promoNo" />
+    <result column="BOARD_NO" jdbcType="NUMERIC" property="boardNo" />
+    <result column="PROMO_STDATE" jdbcType="TIMESTAMP" property="promoStdate" />
+    <result column="PROMO_ENDDATE" jdbcType="TIMESTAMP" property="promoEnddate" />
+    <result column="PROMO_PROGDMET" jdbcType="VARCHAR" property="promoProgdmet" />
+    <result column="PROMO_PROGCHECK" jdbcType="VARCHAR" property="promoProgcheck" />
+    <result column="PROMO_NUM" jdbcType="NUMERIC" property="promoNum" />
+    <result column="TOTAL" jdbcType="NUMERIC" property="total" />
+    <result column="SALE" jdbcType="NUMERIC" property="sale" />
+    <result column="OFFE" jdbcType="NUMERIC" property="offe" />
+    <result column="ONE" jdbcType="NUMERIC" property="one" />
+  	<association property="board" javaType="BoardVO" autoMapping="true" />
+	<association property="common" javaType="CommoncodeDetailVO" autoMapping="true" />
+	<association property="prod" javaType="ProdListVO" autoMapping="true" />
+  </resultMap>
+
+  <delete id="deletePromotion" parameterType="int">
+    DELETE FROM PROMOTION
+    WHERE PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </delete>
+
+  <insert id="insertPromotion" parameterType="kr.or.ddit.vo.PromotionVO">
+    INSERT
+    INTO PROMOTION
+    (
+        PROMO_NO
+        , BOARD_NO
+        , PROMO_STDATE
+        , PROMO_ENDDATE
+        , PROMO_PROGDMET
+        , PROMO_PROGCHECK
+    )
+    VALUES
+    (
+    	#{promoNo,jdbcType=NUMERIC}
+    	, #{boardNo,jdbcType=NUMERIC}
+    	, #{promoStdate,jdbcType=TIMESTAMP}
+    	, #{promoEnddate,jdbcType=TIMESTAMP}
+    	, #{promoProgdmet,jdbcType=VARCHAR}
+    	, #{promoProgcheck,jdbcType=VARCHAR}
+     )
+  </insert>
+
+  <update id="updatePromotionDetail" parameterType="kr.or.ddit.vo.PromotionVO">
+    UPDATE PROMOTION
+    SET
+    	BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+    	, PROMO_STDATE = #{promoStdate,jdbcType=TIMESTAMP}
+      	, PROMO_ENDDATE = #{promoEnddate,jdbcType=TIMESTAMP}
+      	, PROMO_PROGDMET = #{promoProgdmet,jdbcType=VARCHAR}
+     	, PROMO_PROGCHECK = #{promoProgcheck,jdbcType=VARCHAR}
+     	, PROMO_PROGCHECK = #{promoNum,jdbcType=NUMERIC}
+    WHERE
+    	PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </update>
+
+	<sql  id="selectPromoDetail">
+	 SELECT
+	    BOARD.BOARD_NO
+	  , BOARD_TITLE
+	  , BOARD_CONTENT
+	  , BOARD_ATTACHFILE
+	  , BOARD_DATE
+	  , BOARD_DELYN
+	  , BOARD_TYPE
+	  , BOARD_GUIDE_TYPE
+	  , PROMOTION.PROMO_NO
+	  , PROMO_STDATE
+	  , PROMO_ENDDATE
+	  , PROMO_PROGDMET
+	  , PROMO_PROGCHECK
+	  , PROMO_NUM
+	  , OFFEDU.OFFEDU_NO
+	  , OFFEDU_COMNM
+	  , OFFEDU_OFFER_NUM
+	  , CONMCD_CODE
+	  , PROD_NM
+	  , PROD_PRICE
+	  , PROD_EVENT_NM
+	  , PROD_DETAIL_CONTENT1
+	  , PROD_DETAIL_CONTENT2
+	  , PROD_AVAIL
+	  , PROD_CRE_DATE
+	  , PROD_EVEN_START
+	  , PROD_EVN_END
+	  , PROD_USE_DAY
+	  ,	CONMCD_CODE
+	FROM
+	    BOARD
+	    LEFT OUTER JOIN PROMOTION ON ( PROMOTION.BOARD_NO = BOARD.BOARD_NO )
+	    LEFT OUTER JOIN OFFEDU ON ( OFFEDU.PROMO_NO = PROMOTION.PROMO_NO )
+	    LEFT OUTER JOIN COMMONCODE_DETAIL ON ( PROMOTION.PROMO_PROGDMET = CONMCD_NO )
+	    LEFT OUTER JOIN PROD_LIST ON ( PROD_LIST.PROD_EVENT_NM = TO_CHAR(BOARD.BOARD_NO) )
+	</sql>
+
+	<select id ="selectBoardNo" parameterType="int" resultType="int">
+		select board_no
+		from promotion
+		where PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+	</select>
+
+ <select id="selectPromotionDetailPro" parameterType="int" resultMap="PromotionRMap">
+  <include refid="selectPromoDetail"></include>
+	WHERE
+    	BOARD.BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+  </select>
+
+	<select id="selectPromotionList" resultMap="PromotionRMap">
+		SELECT
+		    BOARD.BOARD_NO
+		  , BOARD_TITLE
+		  , BOARD_ATTACHFILE
+		  , BOARD_DATE
+		  , BOARD_DELYN
+		  , BOARD_TYPE
+		  , BOARD_GUIDE_TYPE
+		  , PROMOTION.PROMO_NO
+		  , PROMO_STDATE
+		  , PROMO_ENDDATE
+		  , PROMO_PROGDMET
+		  , PROMO_PROGCHECK
+		  , PROMO_NUM
+		  , CONMCD_CODE
+		FROM
+		    BOARD
+		    LEFT OUTER JOIN PROMOTION ON ( PROMOTION.BOARD_NO = BOARD.BOARD_NO )
+		    LEFT OUTER JOIN COMMONCODE_DETAIL ON ( BOARD.BOARD_TYPE = CONMCD_NO )
+        WHERE
+            BOARD_TYPE LIKE 'EB06%'
+ 	</select>
+
+  <sql id="selectPro">
+   SELECT
+	    BOARD.BOARD_NO
+	  , BOARD_TITLE
+	  , SUBSTR(BOARD_CONTENT,1,30) BOARD_CONTENT
+	  , BOARD_ATTACHFILE
+	  , BOARD_DATE
+	  , BOARD_DELYN
+	  , BOARD_TYPE
+	  , BOARD_GUIDE_TYPE
+	  , PROMOTION.PROMO_NO
+	  , PROMO_STDATE
+	  , PROMO_ENDDATE
+	  , PROMO_PROGDMET
+	  , PROMO_PROGCHECK
+	  , PROMO_NUM
+	  , OFFEDU.OFFEDU_NO
+	  , OFFEDU_COMNM
+	  , OFFEDU_OFFER_NUM
+	  , CONMCD_CODE
+	  , PROD_NM
+	  , PROD_PRICE
+	  , PROD_EVENT_NM
+	  , PROD_DETAIL_CONTENT1
+	  , PROD_DETAIL_CONTENT2
+	  , PROD_AVAIL
+	  , PROD_CRE_DATE
+	  , PROD_EVEN_START
+	  , PROD_EVN_END
+	  , PROD_USE_DAY
+	FROM
+	    BOARD
+	    LEFT OUTER JOIN PROMOTION ON ( PROMOTION.BOARD_NO = BOARD.BOARD_NO )
+	    LEFT OUTER JOIN OFFEDU ON ( OFFEDU.PROMO_NO = PROMOTION.PROMO_NO )
+	    LEFT OUTER JOIN COMMONCODE_DETAIL ON ( PROMOTION.PROMO_PROGDMET = CONMCD_NO )
+	    LEFT OUTER JOIN PROD_LIST ON ( PROD_LIST.PROD_EVENT_NM = TO_CHAR(BOARD.BOARD_NO) )
+	WHERE
+	    PROMO_PROGCHECK NOT LIKE 'N'
+	    AND PROMO_PROGCHECK NOT LIKE 'n'
+	</sql>
+
+  <select id="selectPromotionListEnable" resultMap="PromotionRMap">
+   	 SELECT
+	    BOARD.BOARD_NO
+	  , BOARD_TITLE
+	  , BOARD_CONTENT
+	  , BOARD_ATTACHFILE
+	  , BOARD_DATE
+	  , BOARD_DELYN
+	  , BOARD_TYPE
+	  , BOARD_GUIDE_TYPE
+	  , PROMOTION.PROMO_NO
+	  , PROMO_STDATE
+	  , PROMO_ENDDATE
+	  , PROMO_PROGDMET
+	  , PROMO_PROGCHECK
+	  , PROMO_NUM
+	FROM
+	    BOARD
+	    LEFT OUTER JOIN PROMOTION ON ( PROMOTION.BOARD_NO = BOARD.BOARD_NO )
+	WHERE
+	    BOARD_DELYN NOT LIKE 'Y'
+	    AND BOARD_DELYN NOT LIKE 'y'
+        AND BOARD_TYPE LIKE 'EB061%'
+    ORDER BY BOARD.BOARD_DATE DESC
+  </select>
+
+  <select id="selectPromotionTypeListEnable" parameterType="String" resultMap="PromotionRMap">
+   	SELECT
+	    BOARD.BOARD_NO
+	  , BOARD_TITLE
+	  , BOARD_CONTENT
+	  , BOARD_ATTACHFILE
+	  , BOARD_DATE
+	  , BOARD_DELYN
+	  , BOARD_TYPE
+	  , BOARD_GUIDE_TYPE
+	  , PROMOTION.PROMO_NO
+	  , PROMO_STDATE
+	  , PROMO_ENDDATE
+	  , PROMO_PROGDMET
+	  , PROMO_PROGCHECK
+	  , PROMO_NUM
+	FROM
+	    BOARD
+	    LEFT OUTER JOIN PROMOTION ON ( PROMOTION.BOARD_NO = BOARD.BOARD_NO )
+	WHERE
+	    BOARD_DELYN NOT LIKE 'Y'
+	    AND BOARD_DELYN NOT LIKE 'y'
+        AND BOARD_TYPE LIKE 'EB061%'
+   	AND
+   	BOARD_TYPE LIKE #{conmcd_no,jdbcType=VARCHAR}
+   	ORDER BY PROMOTION.PROMO_STDATE DESC
+  </select>
+
+<select id="selectPromotionCnt" resultMap="PromotionRMap">
+	SELECT
+	    TOTAL
+	    ,SALE
+	    ,OFFE
+	    ,ONE
+	FROM
+	    (
+	        SELECT
+	            COUNT(*) AS TOTAL
+	        FROM
+	            BOARD LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+            WHERE
+	            BOARD_TYPE LIKE 'EB061%'
+	    )
+	  , (
+	        SELECT
+	            COUNT(*) AS SALE
+	        FROM
+	            BOARD  LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06110'
+	    )
+	  , (
+	        SELECT
+	            COUNT(*) AS OFFE
+	        FROM
+	            BOARD  LEFT OUTER JOIN PROMOTION  ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06120'
+	    ), (
+	        SELECT
+	            COUNT(*) AS ONE
+	        FROM
+	            BOARD  LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06130'
+	    )
+</select>
+
+<select id="selectPromotionCntAble" resultMap="PromotionRMap">
+	SELECT
+	    TOTAL
+	  , SALE
+	  , OFFE
+	  , ONE
+	FROM
+	    (
+	        SELECT
+	            COUNT(*) AS TOTAL
+	        FROM
+	            BOARD LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_DELYN LIKE 'N'
+                AND BOARD_TYPE LIKE 'EB061%'
+	    )
+	  , (
+	        SELECT
+	            COUNT(*) AS SALE
+	        FROM
+	            BOARD LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06110'
+	            AND BOARD_DELYN LIKE 'N'
+	    )
+	  , (
+	        SELECT
+	            COUNT(*) AS OFFE
+	        FROM
+	            BOARD LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06120'
+	            AND BOARD_DELYN LIKE 'N'
+	    )
+	  , (
+	        SELECT
+	            COUNT(*) AS ONE
+	        FROM
+	            BOARD LEFT OUTER JOIN PROMOTION ON (BOARD.BOARD_NO = PROMOTION.BOARD_NO )
+	        WHERE
+	            BOARD_TYPE LIKE 'EB06130'
+	            AND BOARD_DELYN LIKE 'N'
+	    )
+</select>
+
+<select id="selectNotInsertPromotion" resultType="int">
+	SELECT COUNT(BOARD.BOARD_NO)
+	FROM
+		(SELECT TO_CHAR(BOARD_NO)BOARD_NO
+			FROM BOARD
+		WHERE BOARD_TYPE LIKE 'EB06110'
+		) BOARD
+		LEFT OUTER JOIN PROD_LIST ON (BOARD.BOARD_NO = PROD_LIST.PROD_EVENT_NM)
+	WHERE PROD_LIST.PROD_NO IS NULL
+</select>
+
+</mapper>

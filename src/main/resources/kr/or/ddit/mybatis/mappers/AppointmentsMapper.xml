@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.appointments.dao.AppointmentsMapper">
+
+  <resultMap id="appointmentsMap" type="kr.or.ddit.vo.AppointmentsVO" autoMapping="true">
+    <id column="APM_NO" jdbcType="NUMERIC" property="apmNo" />
+    <association property="employee" javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true" />
+	<association property="company" javaType="kr.or.ddit.vo.CompanyVO" autoMapping="true" />
+	<association property="organization" javaType="kr.or.ddit.vo.OrganizationVO" autoMapping="true" />
+  </resultMap>
+
+  <delete id="deleteAppointments" parameterType="int">
+    delete from APPOINTMENTS
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertAppointments" parameterType="kr.or.ddit.vo.AppointmentsVO">
+    insert into APPOINTMENTS (APM_NO, EMP_NO, COM_NO,
+      APM_WRITER, APM_DATE, APM_ENDATE,
+      APM_TYPE, APM_CONTENT, APM_DELYN
+      )
+    values (apm_no_seq.NEXTVAL, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC},
+      #{apmWriter,jdbcType=NUMERIC}, #{apmDate,jdbcType=DATE}, #{apmEndate,jdbcType=DATE},
+      #{apmType,jdbcType=VARCHAR}, #{apmContent,jdbcType=VARCHAR}, #{apmDelyn,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateAppointments" parameterType="kr.or.ddit.vo.AppointmentsVO">
+    update APPOINTMENTS
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      APM_WRITER = #{apmWriter,jdbcType=NUMERIC},
+      APM_DATE = #{apmDate,jdbcType=DATE},
+      APM_ENDATE = #{apmEndate,jdbcType=DATE},
+      APM_TYPE = #{apmType,jdbcType=VARCHAR},
+      APM_CONTENT = #{apmContent,jdbcType=VARCHAR},
+      APM_DELYN = #{apmDelyn,jdbcType=VARCHAR}
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectAppointments" parameterType="int" resultMap="appointmentsMap">
+    select APM_NO, EMP_NO, COM_NO, APM_WRITER, APM_DATE, APM_ENDATE, APM_TYPE, APM_CONTENT,
+    APM_DELYN
+    from APPOINTMENTS
+    where APM_NO = #{apmNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="appointmentsMap">
+    SELECT
+	    a.APM_NO,
+	    a.EMP_NO,
+	    a.COM_NO,
+	    e.EMP_NM AS employeeName,    <!--  직원명 -->
+	    a.APM_DATE,
+	    a.APM_ENDATE,
+	    a.APM_CONTENT,
+	    a.APM_TYPE,
+	    d.ORG_DEP AS departmentName,   <!-- 부서명 -->
+	    p.POS_NM AS positionName,      <!-- 직급명 -->
+	    op.POS_NM AS onePositionName,  <!-- 직책명 -->
+	    c.CONMCD_CODE AS apmTypeName,  <!-- 발령구분 코드 (휴직, 퇴직 등) -->
+	    a.APM_DELYN
+	FROM
+	    APPOINTMENTS a
+	LEFT JOIN
+	    EMPLOYEE e ON a.EMP_NO = e.EMP_NO
+	LEFT JOIN
+	    ORGANIZATION d ON e.EMP_DEP = d.ORG_NO     <!-- 부서명 가져오기 -->
+	LEFT JOIN
+	    POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110'  <!--  직급명 가져오기 -->
+	LEFT JOIN
+	    POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120'  <!-- 직책명 가져오기 -->
+	LEFT JOIN
+	    COMMONCODE_DETAIL c ON a.APM_TYPE = c.CONMCD_NO  <!--  발령구분 코드 가져오기 -->
+	WHERE
+	    a.COM_NO = #{comNo}
+	ORDER BY
+        a.APM_ENDATE DESC
+        a.APM_NO DESC
+  </select>
+
+
+
+  <!-- 필터와 페이지네이션을 적용한 인사발령 조회 쿼리 -->
+  <select id="selectAppointmentsWithFilters" resultMap="appointmentsMap">
+    SELECT * FROM (
+      SELECT
+        a.APM_NO,
+        a.EMP_NO,
+        a.COM_NO,
+        e.EMP_NM AS employeeName,
+        a.APM_DATE,
+        a.APM_ENDATE,
+        a.APM_CONTENT,
+        a.APM_TYPE,
+        d.ORG_DEP AS departmentName,
+        p.POS_NM AS positionName,
+        op.POS_NM AS onePositionName,
+        c.CONMCD_CODE AS apmTypeName,
+        a.APM_DELYN,
+        ROW_NUMBER() OVER (ORDER BY a.APM_ENDATE DESC, a.APM_NO DESC) AS row_num
+      FROM
+        APPOINTMENTS a
+      LEFT JOIN EMPLOYEE e ON a.EMP_NO = e.EMP_NO
+      LEFT JOIN ORGANIZATION d ON e.EMP_DEP = d.ORG_NO
+      LEFT JOIN POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110'
+      LEFT JOIN POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120'
+      LEFT JOIN COMMONCODE_DETAIL c ON a.APM_TYPE = c.CONMCD_NO
+      WHERE
+        a.COM_NO = #{comNo}
+      <if test="searchName != null and searchName != ''">
+        AND e.EMP_NM LIKE '%' || #{searchName} || '%'
+      </if>
+      <if test="searchDate != null and searchDate != ''">
+        AND a.APM_DATE = TO_DATE(#{searchDate}, 'YYYY-MM-DD')
+      </if>
+    )
+    WHERE row_num BETWEEN #{offset} + 1 AND #{offset} + #{pageSize}
+    ORDER BY row_num
+  </select>
+
+  <!-- 인사발령 수를 카운트하는 쿼리 -->
+  <select id="countAppointments" resultType="int">
+    SELECT COUNT(*)
+    FROM APPOINTMENTS a
+    LEFT JOIN EMPLOYEE e ON a.EMP_NO = e.EMP_NO
+    WHERE a.COM_NO = #{comNo}
+    <if test="searchName != null and searchName != ''">
+      AND e.EMP_NM LIKE '%' || #{searchName} || '%'
+    </if>
+    <if test="searchDate != null and searchDate != ''">
+      AND a.APM_DATE = TO_DATE(#{searchDate}, 'YYYY-MM-DD')
+    </if>
+  </select>
+
+ <select id="selectAppointmentsDetails" parameterType="int" resultMap="appointmentsMap">
+    SELECT
+        a.APM_NO,
+        a.EMP_NO,
+        a.COM_NO,
+        e.EMP_NM AS employeeName,
+        d.ORG_DEP AS departmentName,
+        p.POS_NM AS positionName,
+        op.POS_NM AS onePositionName,
+        c.CONMCD_CODE AS apmType,  <!-- 공통코드 설명 가져오기 -->
+        a.APM_DATE,
+        a.APM_CONTENT,
+        e.EMP_STATE AS empState,
+        a.APM_ENDATE AS apmEndate
+    FROM
+        APPOINTMENTS a
+    LEFT JOIN
+        EMPLOYEE e ON a.EMP_NO = e.EMP_NO
+    LEFT JOIN
+        ORGANIZATION d ON e.EMP_DEP = d.ORG_NO
+    LEFT JOIN
+        POSITION p ON e.EMP_POS = p.POS_NO AND p.POS_TYPE = 'EB04110'
+    LEFT JOIN
+        POSITION op ON e.EMP_ONEPOS = op.POS_NO AND op.POS_TYPE = 'EB04120'
+    LEFT JOIN
+        COMMONCODE_DETAIL c ON a.APM_TYPE = c.CONMCD_NO  <!-- 공통코드 테이블 조인 -->
+    WHERE
+        a.APM_NO = #{apmNo}
+</select>
+
+<select id="selectApmTypes" resultType="kr.or.ddit.vo.CommoncodeDetailVO">
+    SELECT CONMCD_NO, CONMCD_CODE, CONMCD_CON
+    FROM COMMONCODE_DETAIL
+    WHERE CONMCD_NO IN ('EB01110', 'EB01120', 'EB01130', 'EB01140')
+      AND CONMCD_CODE IN ('부서이동', '휴직', '퇴직', '복직')
+</select>
+
+<select id="selectAppointmentsToUpdate" resultMap="appointmentsMap">
+    SELECT APM_NO, EMP_NO, COM_NO, APM_WRITER, APM_DATE, APM_ENDATE, APM_TYPE, APM_CONTENT, APM_DELYN
+    FROM APPOINTMENTS
+    WHERE APM_DATE = TO_DATE(#{currentDate}, 'YYYY-MM-DD')
+</select>
+
+
+
+
+</mapper>

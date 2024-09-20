@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ColorDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ColorDefaultVO">
+    <id column="COR_NO" jdbcType="NUMERIC" property="corNo" />
+    <result column="COR_NM" jdbcType="VARCHAR" property="corNm" />
+    <result column="COR_HSLA" jdbcType="NUMERIC" property="corHsla" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COLOR
+    where COR_NO = #{corNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ColorDefaultVO">
+    insert into COLOR (COR_NO, COR_NM, COR_HSLA
+      )
+    values (#{corNo,jdbcType=NUMERIC}, #{corNm,jdbcType=VARCHAR}, #{corHsla,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ColorDefaultVO">
+    update COLOR
+    set COR_NM = #{corNm,jdbcType=VARCHAR},
+      COR_HSLA = #{corHsla,jdbcType=NUMERIC}
+    where COR_NO = #{corNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select COR_NO, COR_NM, COR_HSLA
+    from COLOR
+    where COR_NO = #{corNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COR_NO, COR_NM, COR_HSLA
+    from COLOR
+  </select>
+</mapper>

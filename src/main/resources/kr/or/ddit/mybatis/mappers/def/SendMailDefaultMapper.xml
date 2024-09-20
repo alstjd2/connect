@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.SendMailDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.SendMailDefaultVO">
+    <id column="SEND_NO" jdbcType="NUMERIC" property="sendNo" />
+    <id column="MAIL_NO" jdbcType="NUMERIC" property="mailNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="SEND_DATE" jdbcType="TIMESTAMP" property="sendDate" />
+    <result column="MAIL_DEL" jdbcType="VARCHAR" property="mailDel" />
+    <result column="MAIL_DEL_DATE" jdbcType="VARCHAR" property="mailDelDate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from SEND_MAIL
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MAIL_NO = #{mailNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.SendMailDefaultVO">
+    insert into SEND_MAIL (SEND_NO, MAIL_NO, EMP_NO, 
+      SEND_DATE, MAIL_DEL, MAIL_DEL_DATE
+      )
+    values (#{sendNo,jdbcType=NUMERIC}, #{mailNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, 
+      #{sendDate,jdbcType=TIMESTAMP}, #{mailDel,jdbcType=VARCHAR}, #{mailDelDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.SendMailDefaultVO">
+    update SEND_MAIL
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+      MAIL_DEL = #{mailDel,jdbcType=VARCHAR},
+      MAIL_DEL_DATE = #{mailDelDate,jdbcType=VARCHAR}
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MAIL_NO = #{mailNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select SEND_NO, MAIL_NO, EMP_NO, SEND_DATE, MAIL_DEL, MAIL_DEL_DATE
+    from SEND_MAIL
+    where SEND_NO = #{sendNo,jdbcType=NUMERIC}
+      and MAIL_NO = #{mailNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select SEND_NO, MAIL_NO, EMP_NO, SEND_DATE, MAIL_DEL, MAIL_DEL_DATE
+    from SEND_MAIL
+  </select>
+</mapper>

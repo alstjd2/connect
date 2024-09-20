@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.svy.dao.SvyAnsMapper">
+	<resultMap type="kr.or.ddit.vo.SvyAnsVO" id="svyAnsMap"  autoMapping="true">
+		<id column="SVY_ANS_NO" property="svyAnsNo" />
+		<association property="svy" javaType="SvyVO" autoMapping="true" />
+		<association property="employee" javaType="EmployeeVO" autoMapping="true" />
+		<collection property="chiList" ofType="ChiVO" autoMapping="true" />
+		<collection property="clsList" ofType="ClsVO" autoMapping="true" />
+		<collection property="svyAnsListList" ofType="kr.or.ddit.vo.SvyAnsListVO" autoMapping="true" />
+	</resultMap>
+	
+	<select id="selectSvyAnsDetailList" parameterType="SvyAnsVO" resultMap="svyAnsMap">
+		SELECT 
+		    SVY.SVY_NO
+		    , SVY.COM_NO
+		    , SVY_ANS.SVY_ANS_NO
+		    , SVY_ANS.EMP_NO
+		    , EMPLOYEE.EMP_ID
+		    , (SELECT STRE_FILE_NM FROM ATCH_FILE_DETAIL WHERE ATCH_FILE_ID = EMPLOYEE.EMP_PROFILE) PROFILE_IMG
+		    , EMPLOYEE.EMP_NM
+		    , (SELECT ORG_DEP FROM ORGANIZATION WHERE ORG_NO = EMPLOYEE.EMP_DEP) EMP_DEP_NM
+		    , (SELECT POS_NM FROM POSITION WHERE POS_NO = EMPLOYEE.EMP_POS) EMP_POS_NM
+		    , (SELECT POS_NM FROM POSITION WHERE POS_NO = EMPLOYEE.EMP_ONEPOS) EMP_ONEPOS_NM
+		    , EMPLOYEE.EMP_COMMAIL
+		    , SVY_ANS.SVY_ANS_DATE
+		    , CHI.CHI_NO 
+		    , CHI.CHI_NM
+		    , CHI.CHI_OVL_YN
+		    , CLS.CLS_NO
+		    , CLS.CLS_CNT
+		    , CLS.CLS_IMG
+		FROM SVY_ANS
+		JOIN SVY ON  SVY_ANS.SVY_NO = SVY.SVY_NO
+		JOIN EMPLOYEE ON SVY_ANS.EMP_NO = EMPLOYEE.EMP_NO
+		LEFT JOIN SVY_ANS_LIST ON SVY_ANS.SVY_ANS_NO = SVY_ANS_LIST.SVY_ANS_NO
+		JOIN CLS ON SVY_ANS_LIST.CLS_NO = CLS.CLS_NO
+		JOIN CHI ON CLS.CHI_NO = CHI.CHI_NO
+		WHERE SVY_ANS.SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		AND SVY_ANS.EMP_NO = #{empNo,jdbcType=NUMERIC}
+		ORDER BY CHI.CHI_NO ASC
+	</select>
+
+ 	<select id="selectSvyAnsList" resultMap="svyAnsMap">
+		SELECT 
+			SVY_ANS.SVY_ANS_NO
+			, SVY_ANS.SVY_NO
+			, SVY_ANS.EMP_NO
+			, SVY_ANS.SVY_ANS_DATE
+		    , (SELECT STRE_FILE_NM FROM ATCH_FILE_DETAIL WHERE ATCH_FILE_ID = EMPLOYEE.EMP_PROFILE) PROFILE_IMG
+		    , EMPLOYEE.EMP_NM
+		    , (SELECT ORG_DEP FROM ORGANIZATION WHERE ORG_NO = EMPLOYEE.EMP_DEP) EMP_DEP_NM
+		    , (SELECT POS_NM FROM POSITION WHERE POS_NO = EMPLOYEE.EMP_POS) EMP_POS_NM
+		    , (SELECT POS_NM FROM POSITION WHERE POS_NO = EMPLOYEE.EMP_ONEPOS) EMP_ONEPOS_NM
+		FROM SVY_ANS
+		JOIN EMPLOYEE ON SVY_ANS.EMP_NO = EMPLOYEE.EMP_NO
+		WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+	</select>
+	<select id="selectSvyAns" parameterType="int" resultMap="svyAnsMap">
+		SELECT 
+			SVY_ANS_NO
+			, SVY_NO
+			, EMP_NO
+			, SVY_ANS_DATE
+			FROM SVY_ANS
+		WHERE SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+	</select>
+	
+	<select id="selectSvyAnsNo" parameterType="SvyAnsVO" resultMap="svyAnsMap">
+		SELECT SVY_ANS_NO
+		FROM SVY_ANS
+		WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		AND EMP_NO = #{empNo,jdbcType=NUMERIC}
+	</select>
+
+	<insert id="insertSvyAns" parameterType="kr.or.ddit.vo.SvyAnsVO" >
+		<selectKey order="BEFORE" resultType="int" keyProperty="svyAnsNo">
+			SELECT SVYANS_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO SVY_ANS 
+			(
+				SVY_ANS_NO
+				, SVY_NO
+				, EMP_NO
+				, SVY_ANS_DATE
+			)
+		VALUES (#{svyAnsNo,jdbcType=NUMERIC}
+			, #{svyNo,jdbcType=NUMERIC}
+			, #{empNo,jdbcType=NUMERIC}
+			, #{svyAnsDate,jdbcType=DATE}
+			)
+	</insert>
+
+	<update id="updateSvyAns" parameterType="int">
+		UPDATE SVY_ANS
+			SET SVY_ANS_DATE = SYSDATE
+		WHERE SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+	</update>
+
+	<delete id="deleteSvyAns">
+		DELETE from SVY_ANS
+			WHERE SVY_ANS_NO = #{svyAnsNo,jdbcType=NUMERIC}
+	</delete>
+</mapper>

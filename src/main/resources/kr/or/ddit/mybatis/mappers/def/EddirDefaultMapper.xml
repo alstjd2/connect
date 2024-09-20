@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.EddirDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.EddirDefaultVO">
+    <id column="EDDIR_NO" jdbcType="NUMERIC" property="eddirNo" />
+    <id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="EDDIR_NM" jdbcType="VARCHAR" property="eddirNm" />
+    <result column="EDDIR_PATH" jdbcType="VARCHAR" property="eddirPath" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from EDDIR
+    where EDDIR_NO = #{eddirNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.EddirDefaultVO">
+    insert into EDDIR (EDDIR_NO, EMP_NO, EDDIR_NM, 
+      EDDIR_PATH)
+    values (#{eddirNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{eddirNm,jdbcType=VARCHAR}, 
+      #{eddirPath,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.EddirDefaultVO">
+    update EDDIR
+    set EDDIR_NM = #{eddirNm,jdbcType=VARCHAR},
+      EDDIR_PATH = #{eddirPath,jdbcType=VARCHAR}
+    where EDDIR_NO = #{eddirNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select EDDIR_NO, EMP_NO, EDDIR_NM, EDDIR_PATH
+    from EDDIR
+    where EDDIR_NO = #{eddirNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select EDDIR_NO, EMP_NO, EDDIR_NM, EDDIR_PATH
+    from EDDIR
+  </select>
+</mapper>

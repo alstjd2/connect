@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.TdriveDirectoryDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.TdriveDirectoryDefaultVO">
+    <id column="TDDIR_NO" jdbcType="NUMERIC" property="tddirNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="TDDIR_NM" jdbcType="VARCHAR" property="tddirNm" />
+    <result column="TDDIR_PATH" jdbcType="VARCHAR" property="tddirPath" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TDRIVE_DIRECTORY
+    where TDDIR_NO = #{tddirNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.TdriveDirectoryDefaultVO">
+    insert into TDRIVE_DIRECTORY (TDDIR_NO, EMP_NO, TDDIR_NM, 
+      TDDIR_PATH)
+    values (#{tddirNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{tddirNm,jdbcType=VARCHAR}, 
+      #{tddirPath,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.TdriveDirectoryDefaultVO">
+    update TDRIVE_DIRECTORY
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      TDDIR_NM = #{tddirNm,jdbcType=VARCHAR},
+      TDDIR_PATH = #{tddirPath,jdbcType=VARCHAR}
+    where TDDIR_NO = #{tddirNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select TDDIR_NO, EMP_NO, TDDIR_NM, TDDIR_PATH
+    from TDRIVE_DIRECTORY
+    where TDDIR_NO = #{tddirNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select TDDIR_NO, EMP_NO, TDDIR_NM, TDDIR_PATH
+    from TDRIVE_DIRECTORY
+  </select>
+</mapper>

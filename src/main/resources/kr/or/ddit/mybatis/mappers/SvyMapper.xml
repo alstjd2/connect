@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.svy.dao.SvyMapper">
+
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+		  <result property="streFileNm" column="STRE_FILE_NM" />
+		  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+		  <result property="fileExtsn" column="FILE_EXTSN" />
+		  <result property="fileSize" column="FILE_SIZE" />
+		  <result column="COM_CLOGO_STRE_FILE_NM"  property="comClogoStrefileNm" />
+    	<result column="COM_FAVICON_STRE_FILE_NM" property="comFaviconStreFileNm" />
+	</resultMap>
+
+	
+	<resultMap type="SvyVO" id="svyMap" autoMapping="true">
+        <id property="svyNo" column="SVY_NO"/>
+        <association property="company" javaType="CompanyVO" autoMapping="true"/>
+        <association property="employee" javaType="EmployeeVO" autoMapping="true">
+        	<id property="empNo" column="EMP_NO" />
+       		<result property="empNm" column="EMP_NM"/>
+		    <result property="empProfile" column="EMP_PROFILE" />
+			<association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+        </association>
+        <association property="svyAsk" javaType="SvyAskVO" autoMapping="true"/>
+        
+        <collection property="chiList" ofType="ChiVO" autoMapping="true" >
+        	<id property="chiNo" column="CHI_NO"/>
+        	<collection property="clsList" ofType="ClsVO" autoMapping="true">
+        		<id property="clsNo" column="CLS_NO"/> 
+        		<result property="chiNo" column="CHI_NO"/>
+        		<result property="clsCnt" column="CLS_CNT"/>
+        		<result property="clsImg" column="CLS_IMG"/>
+        		<collection property="svyAnsListList" ofType="SvyAnsListVO">
+        			<id property="svyAnsNo" column="SVY_ANS_NO"/>
+        			<id property="clsNo" column="CLS_NO"/>
+        			<result property="svyNo" column="SVY_NO"/>
+        			<association property="svyAns" javaType="SvyAnsVO">
+        				<result property="empNo" column="EMP_NO"/>
+        			</association>
+        		</collection>
+        	</collection>
+        </collection>
+        
+    </resultMap>
+    
+    <select id="selectMyAskSvyList" parameterType="int" resultMap="svyMap">
+    	SELECT 
+		    SVY.SVY_NO,
+		    SVY.COM_NO,
+		    SVY.SVY_TEM_YN,
+		    SVY.SVY_IMP_YN,
+		    SVY.SVY_ANY_YN,
+		    SVY.SVY_ALL_YN,
+		    SVY.SVY_NM,
+		    SVY.SVY_STR_DATE,
+		    SVY.SVY_END_DATE,
+		    SVY.SVY_STATUS,
+		    SVY_ASK.EMP_NO,
+		    EMP.EMP_PROFILE, 
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT,
+		    COUNT(DISTINCT SVY_ANS.EMP_NO) AS TOTAL_ANSWEREES, 
+		    COUNT(DISTINCT CASE WHEN SVY_ANS.SVY_ANS_DATE IS NOT NULL THEN SVY_ANS.EMP_NO END) AS ACTUAL_RESPONDENTS
+		FROM 
+		    SVY 
+		JOIN 
+		    SVY_ASK ON SVY.SVY_NO = SVY_ASK.SVY_NO
+		JOIN
+		    EMPLOYEE EMP ON SVY_ASK.EMP_NO = EMP.EMP_NO
+	    LEFT JOIN
+	        ATCH_FILE ON EMP.EMP_PROFILE = ATCH_FILE.ATCH_FILE_ID
+	    LEFT JOIN
+	        ATCH_FILE_DETAIL ON ATCH_FILE.ATCH_FILE_ID = ATCH_FILE_DETAIL.ATCH_FILE_ID
+		LEFT JOIN 
+		    SVY_ANS ON SVY.SVY_NO = SVY_ANS.SVY_NO
+		WHERE SVY_ASK.EMP_NO = #{svyAsk.empNo,jdbcType=NUMERIC}
+		GROUP BY 
+		    SVY.SVY_NO, 
+		    SVY.COM_NO, 
+		    SVY.SVY_TEM_YN, 
+		    SVY.SVY_IMP_YN, 
+		    SVY.SVY_ANY_YN, 
+		    SVY.SVY_ALL_YN, 
+		    SVY.SVY_NM, 
+		    SVY.SVY_STR_DATE, 
+		    SVY.SVY_END_DATE, 
+		    SVY.SVY_STATUS, 
+		    SVY_ASK.EMP_NO, 
+		    EMP.EMP_PROFILE,
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT
+    </select>
+    
+    <select id="selectMyAnsSvyList" parameterType="int" resultMap="svyMap">
+    	SELECT 
+		    SVY.SVY_NO,
+		    SVY.COM_NO,
+		    SVY.SVY_TEM_YN,
+		    SVY.SVY_IMP_YN,
+		    SVY.SVY_ANY_YN,
+		    SVY.SVY_ALL_YN,
+		    SVY.SVY_NM,
+		    SVY.SVY_STR_DATE,
+		    SVY.SVY_END_DATE,
+		    SVY.SVY_STATUS,
+		    SVY_ASK.EMP_NO,
+		    EMP.EMP_PROFILE, 
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT,
+		    COUNT(DISTINCT SVY_ANS.EMP_NO) AS TOTAL_ANSWEREES, 
+		    COUNT(DISTINCT CASE WHEN SVY_ANS.SVY_ANS_DATE IS NOT NULL THEN SVY_ANS.EMP_NO END) AS ACTUAL_RESPONDENTS
+		FROM 
+		    SVY 
+		JOIN 
+		    SVY_ASK ON SVY.SVY_NO = SVY_ASK.SVY_NO
+		JOIN
+		    EMPLOYEE EMP ON SVY_ASK.EMP_NO = EMP.EMP_NO
+	    LEFT JOIN
+	        ATCH_FILE ON EMP.EMP_PROFILE = ATCH_FILE.ATCH_FILE_ID
+	    LEFT JOIN
+	        ATCH_FILE_DETAIL ON ATCH_FILE.ATCH_FILE_ID = ATCH_FILE_DETAIL.ATCH_FILE_ID
+		LEFT JOIN 
+		    SVY_ANS ON SVY.SVY_NO = SVY_ANS.SVY_NO
+		WHERE SVY_ANS.EMP_NO = #{svyAns.empNo,jdbcType=NUMERIC}
+		GROUP BY 
+		    SVY.SVY_NO, 
+		    SVY.COM_NO, 
+		    SVY.SVY_TEM_YN, 
+		    SVY.SVY_IMP_YN, 
+		    SVY.SVY_ANY_YN, 
+		    SVY.SVY_ALL_YN, 
+		    SVY.SVY_NM, 
+		    SVY.SVY_STR_DATE, 
+		    SVY.SVY_END_DATE, 
+		    SVY.SVY_STATUS, 
+		    SVY_ASK.EMP_NO, 
+		    EMP.EMP_PROFILE,
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT
+		ORDER BY ACTUAL_RESPONDENTS ASC, SVY.SVY_END_DATE ASC
+    </select>
+    
+    <select id="selectComSvyList" parameterType="int" resultMap="svyMap">
+        SELECT 
+		    SVY.SVY_NO,
+		    SVY.COM_NO,
+		    SVY.SVY_TEM_YN,
+		    SVY.SVY_IMP_YN,
+		    SVY.SVY_ANY_YN,
+		    SVY.SVY_ALL_YN,
+		    SVY.SVY_NM,
+		    SVY.SVY_STR_DATE,
+		    SVY.SVY_END_DATE,
+		    SVY.SVY_STATUS,
+		    SVY_ASK.EMP_NO,
+		    EMP.EMP_PROFILE, 
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT,
+		    COUNT(DISTINCT SVY_ANS.EMP_NO) AS TOTAL_ANSWEREES, 
+		    COUNT(DISTINCT CASE WHEN SVY_ANS.SVY_ANS_DATE IS NOT NULL THEN SVY_ANS.EMP_NO END) AS ACTUAL_RESPONDENTS
+		FROM 
+		    SVY 
+		JOIN 
+		    SVY_ASK ON SVY.SVY_NO = SVY_ASK.SVY_NO
+		JOIN
+		    EMPLOYEE EMP ON SVY_ASK.EMP_NO = EMP.EMP_NO
+	    LEFT JOIN
+	        ATCH_FILE ON EMP.EMP_PROFILE = ATCH_FILE.ATCH_FILE_ID
+	    LEFT JOIN
+	        ATCH_FILE_DETAIL ON ATCH_FILE.ATCH_FILE_ID = ATCH_FILE_DETAIL.ATCH_FILE_ID
+		LEFT JOIN 
+		    SVY_ANS ON SVY.SVY_NO = SVY_ANS.SVY_NO
+		WHERE SVY.COM_NO = #{comNo,jdbcType=NUMERIC}
+		GROUP BY 
+		    SVY.SVY_NO, 
+		    SVY.COM_NO, 
+		    SVY.SVY_TEM_YN, 
+		    SVY.SVY_IMP_YN, 
+		    SVY.SVY_ANY_YN, 
+		    SVY.SVY_ALL_YN, 
+		    SVY.SVY_NM, 
+		    SVY.SVY_STR_DATE, 
+		    SVY.SVY_END_DATE, 
+		    SVY.SVY_STATUS, 
+		    SVY_ASK.EMP_NO, 
+		    EMP.EMP_PROFILE,
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT
+	</select>
+    
+    <select id="selectSvyList" parameterType="int" resultMap="svyMap">
+	    WITH SVY_ANS_LIST_LIST AS(
+	    	SELECT 
+		        SVY_ANS_LIST.SVY_ANS_NO, 
+		        SVY_ANS_LIST.CLS_NO, 
+		        SVY_ANS.EMP_NO
+		    FROM SVY_ANS_LIST 
+		    JOIN SVY_ANS ON SVY_ANS_LIST.SVY_ANS_NO = SVY_ANS.SVY_ANS_NO
+		)SELECT *
+		FROM SVY
+		LEFT JOIN CHI ON SVY.SVY_NO = CHI.SVY_NO
+		LEFT JOIN CLS ON CHI.CHI_NO = CLS.CHI_NO
+		LEFT JOIN SVY_ANS_LIST_LIST ON CLS.CLS_NO = SVY_ANS_LIST_LIST.CLS_NO
+		WHERE SVY.SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		ORDER BY CLS.CLS_NO ASC
+	</select>
+
+    
+    <select id="selectSvyInsertContent" parameterType="int" resultMap="svyMap">
+	    SELECT *
+		FROM SVY
+		LEFT JOIN CHI ON SVY.SVY_NO = CHI.SVY_NO
+		LEFT JOIN CLS ON CHI.CHI_NO = CLS.CHI_NO
+		WHERE SVY.SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		ORDER BY CLS.CLS_NO ASC
+	</select>
+    
+	<select id="selectSvy" parameterType="int" resultMap="svyMap">
+		SELECT 
+		    SVY.SVY_NO,
+		    SVY.COM_NO,
+		    SVY.SVY_TEM_YN,
+		    SVY.SVY_IMP_YN,
+		    SVY.SVY_ANY_YN,
+		    SVY.SVY_ALL_YN,
+		    SVY.SVY_NM,
+		    SVY.SVY_STR_DATE,
+		    SVY.SVY_END_DATE,
+		    SVY.SVY_STATUS,
+		    SVY_ASK.EMP_NO,
+		    EMP.EMP_PROFILE, 
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT,
+		    COUNT(DISTINCT SVY_ANS.EMP_NO) AS TOTAL_ANSWEREES, 
+		    COUNT(DISTINCT CASE WHEN SVY_ANS.SVY_ANS_DATE IS NOT NULL THEN SVY_ANS.EMP_NO END) AS ACTUAL_RESPONDENTS
+		FROM 
+		    SVY 
+		JOIN 
+		    SVY_ASK ON SVY.SVY_NO = SVY_ASK.SVY_NO
+		JOIN
+		    EMPLOYEE EMP ON SVY_ASK.EMP_NO = EMP.EMP_NO
+	    LEFT JOIN
+	        ATCH_FILE ON EMP.EMP_PROFILE = ATCH_FILE.ATCH_FILE_ID
+	    LEFT JOIN
+	        ATCH_FILE_DETAIL ON ATCH_FILE.ATCH_FILE_ID = ATCH_FILE_DETAIL.ATCH_FILE_ID
+		LEFT JOIN 
+		    SVY_ANS ON SVY.SVY_NO = SVY_ANS.SVY_NO
+		WHERE SVY.SVY_NO = #{svyNo,jdbcType=NUMERIC}
+		GROUP BY 
+		    SVY.SVY_NO, 
+		    SVY.COM_NO, 
+		    SVY.SVY_TEM_YN, 
+		    SVY.SVY_IMP_YN, 
+		    SVY.SVY_ANY_YN, 
+		    SVY.SVY_ALL_YN, 
+		    SVY.SVY_NM, 
+		    SVY.SVY_STR_DATE, 
+		    SVY.SVY_END_DATE, 
+		    SVY.SVY_STATUS, 
+		    SVY_ASK.EMP_NO, 
+		    EMP.EMP_PROFILE,
+		    EMP.EMP_NM, 
+		    SVY_ASK.SVY_ASK_DATE,
+	        ATCH_FILE.ATCH_FILE_ID,
+	        ATCH_FILE.CREATE_DT,
+	        ATCH_FILE.USE_AT,
+	        ATCH_FILE_DETAIL.ATCH_FILE_ID,
+	        ATCH_FILE_DETAIL.FILE_SN,
+	        ATCH_FILE_DETAIL.FILE_STRE_COURS,
+	        ATCH_FILE_DETAIL.STRE_FILE_NM,
+	        ATCH_FILE_DETAIL.ORIGNL_FILE_NM,
+	        ATCH_FILE_DETAIL.FILE_EXTSN,
+	        ATCH_FILE_DETAIL.FILE_MIME,
+	        ATCH_FILE_DETAIL.FILE_SIZE,
+	        ATCH_FILE_DETAIL.FILE_FANCYSIZE,
+	        ATCH_FILE_DETAIL.FILE_DWNCNT
+	</select>
+	
+	<insert id="insertSvy" parameterType="SvyVO" >
+		<selectKey order="BEFORE" resultType="int" keyProperty="svyNo">
+			SELECT SVY_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO SVY (
+			SVY_NO
+			, COM_NO
+			, SVY_TEM_YN
+			, SVY_IMP_YN
+		    , SVY_ANY_YN
+		    , SVY_ALL_YN
+		    , SVY_NM
+		    , SVY_STR_DATE
+		    , SVY_END_DATE
+		    , SVY_STATUS
+     	 )
+    	VALUES (
+    		#{svyNo,jdbcType=NUMERIC}
+	    	, #{comNo,jdbcType=NUMERIC}
+	    	, #{svyTemYn,jdbcType=VARCHAR}
+	    	, #{svyImpYn,jdbcType=VARCHAR}
+	    	, #{svyAnyYn,jdbcType=VARCHAR}
+	    	, #{svyAllYn,jdbcType=VARCHAR}
+	    	, #{svyNm,jdbcType=VARCHAR}
+	        , #{svyStrDate,jdbcType=TIMESTAMP}
+	        , #{svyEndDate,jdbcType=TIMESTAMP}
+	        , #{svyStatus,jdbcType=VARCHAR}
+      	)
+      	
+	</insert>
+	
+	<update id="updateSvy" parameterType="int">
+		UPDATE SVY
+    		SET SVY_STATUS = '종료'
+   		 WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+	</update>
+	
+	<update id="updateSvyList">
+		UPDATE SVY
+		SET SVY_STATUS = CASE
+		    WHEN SVY_STR_DATE > SYSDATE THEN '대기'
+		    WHEN SVY_END_DATE IS NULL OR SVY_END_DATE > SYSDATE THEN '진행중'
+		    WHEN SVY_END_DATE = SVY_STR_DATE THEN '진행중'
+		    ELSE '종료'
+		END
+	</update>
+	
+	<delete id="deleteSvy" >
+     DELETE FROM SVY
+    	WHERE SVY_NO = #{svyNo,jdbcType=NUMERIC}
+  </delete>
+    
+    
+</mapper>

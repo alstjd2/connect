@@ -1,0 +1,744 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" type="text/css" href="assets/vendor/css/rtl/theme-semi-dark.css">
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+
+
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo fs-2 fw-bold">
+                            A
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            Admin
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="company.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-buildings'></i>
+                            <div class="text-truncate" data-i18n="기업관리">기업관리</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="인사관리">인사관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="personnel-organization.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="조직관리">조직관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-employee.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="직원관리">직원관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-certificate.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="증명서관리">증명서관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-transfer-alt'></i>
+                            <div class="text-truncate" data-i18n="근태관리">근태관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="attendance-time.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태 시간 현황">근태 시간 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 일정 조회">부재 일정 조회</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-application.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 신청 현황">부재 신청 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-category.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 항목 관리">부재 항목 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-file'></i>
+                            <div class="text-truncate" data-i18n="문서관리">문서관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="document-number.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서 번호 관리">문서 번호 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-list.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="전체 문서함">전체 문서함</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-customize'></i>
+                            <div class="text-truncate" data-i18n="서비스관리">서비스관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="mail.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메일 관리">메일 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="message.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">메시지 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더 관리">캘린더 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="board.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 관리">게시판 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="survey.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="설문 관리">설문 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="drive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 관리">드라이브 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-doughnut-chart'></i>
+                            <div class="text-truncate" data-i18n="사용통계">사용통계</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 사용용량">드라이브 사용용량</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">구성원 증감 추세</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="보낸 메일 수">보낸 메일 수</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 사용현황">게시판 사용현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="회의 진행 통계">회의 진행 통계</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <div class="col-lg-3 col-12 position-lg-sticky">
+                                <div class="card mb-6">
+                                    <h4 class="card-header fw-bold pb-2">
+                                        <span class="card-title fw-bold text-primary mb-3">조직도 관리</span>
+                                        <p class="fs-6 fw-medium mb-0 pt-1 pb-2" style="line-height: 1.2em;">오른쪽 버튼을
+                                            클릭하여 조직을
+                                            추가하거나 수정하거나 삭제할 수 있습니다. (조직전체 제외) </p>
+                                        <p class="fs-6 fw-medium mb-0 pb-8" style="line-height: 1.2em;">조직내부의 순서는 가능하나
+                                            조직의 뎁스를 변경 할 수 없습니다.</p>
+                                    </h4>
+                                    <div class="card-body">
+                                        <div id="organization" class="overflow-auto p-3 border"></div>
+                                        <div class="py-10 text-center">
+                                            <button type="button" id="sendData" class="btn btn-dark">적용하기</button>
+                                            <button type="button" id="" class="btn btn-secondary">리셋</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-12">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title m-0 me-2">인사발령</h5>
+                                        <div class="dropdown">
+                                            <button class="btn text-muted p-0" type="button" id="teamMemberList"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="bx bx-dots-vertical-rounded bx-lg"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="teamMemberList">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i
+                                                        class='bx bx-download'></i> EXCEL</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="table-responsive">
+                                        <div class="d-flex mb-6 mx-8">
+                                            <form action="" class="d-flex">
+                                                <div class="input-group input-group-merge p-0 m-0 me-2">
+                                                    <span class="input-group-text" id="basic-addon-search31"><i
+                                                            class="bx bx-search"></i></span>
+                                                    <input type="text" class="form-control" placeholder="직원명"
+                                                        aria-label="직원명" aria-describedby="basic-addon-search31">
+                                                </div>
+                                                <input type="date" class="form-control me-2" placeholder="0000-00-00"
+                                                    aria-label="0000-00-00" value="2024-08-14"
+                                                    aria-describedby="basic-addon-search32" id="input-date">
+                                                <button type="submit" class="btn btn-dark">검색</button>
+                                            </form>
+                                            <a href="javascript:;" class="btn btn-primary ms-auto" role="button" data-bs-toggle="modal" data-bs-target="#addPerson">
+                                                <i class='bx bxs-user-account pe-2'></i>
+                                                발령추가
+                                            </a>
+                                        </div>
+                                        <table class="table table-borderless table-sm">
+                                            <thead>
+                                                <tr class="border-bottom border-top">
+                                                    <th class="ps-6">직원정보</th>
+                                                    <th>발령일</th>
+                                                    <th>발령조직</th>
+                                                    <th class="pe-6">발령종류</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-bottom">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start align-items-center btn"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentMethods">
+                                                            <!-- 이미지가 있는경우 -->
+                                                            <!-- <div class="avatar me-3">
+                                                                <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
+                                                            </div> -->
+                                                            <!-- 이미지가 없는 경우 -->
+                                                            <div class="avatar me-2">
+                                                                <span
+                                                                    class="avatar-initial rounded-circle bg-label-secondary">정</span>
+                                                            </div>
+                                                            <div class="d-flex flex-column text-start">
+                                                                <h6 class="mb-0 text-truncate">정윤지</h6>
+                                                                <small
+                                                                    class="text-truncate text-body">jyj9632@naver.com</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        2024.08.06
+                                                    </td>
+                                                    <td>
+                                                        개발 1팀
+                                                    </td>
+                                                    <td>
+                                                        휴직
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start align-items-center btn"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentMethods">
+                                                            <!-- 이미지가 있는경우 -->
+                                                            <!-- <div class="avatar me-3">
+                                                                <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
+                                                            </div> -->
+                                                            <!-- 이미지가 없는 경우 -->
+                                                            <div class="avatar me-2">
+                                                                <span
+                                                                    class="avatar-initial rounded-circle bg-label-secondary">정</span>
+                                                            </div>
+                                                            <div class="d-flex flex-column text-start">
+                                                                <h6 class="mb-0 text-truncate">정윤지</h6>
+                                                                <small
+                                                                    class="text-truncate text-body">jyj9632@naver.com</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        2024.08.06
+                                                    </td>
+                                                    <td>
+                                                        개발 1팀
+                                                    </td>
+                                                    <td>
+                                                        휴직
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start align-items-center btn"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentMethods">
+                                                            <!-- 이미지가 있는경우 -->
+                                                            <!-- <div class="avatar me-3">
+                                                                <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
+                                                            </div> -->
+                                                            <!-- 이미지가 없는 경우 -->
+                                                            <div class="avatar me-2">
+                                                                <span
+                                                                    class="avatar-initial rounded-circle bg-label-secondary">정</span>
+                                                            </div>
+                                                            <div class="d-flex flex-column text-start">
+                                                                <h6 class="mb-0 text-truncate">정윤지</h6>
+                                                                <small
+                                                                    class="text-truncate text-body">jyj9632@naver.com</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        2024.08.06
+                                                    </td>
+                                                    <td>
+                                                        개발 1팀
+                                                    </td>
+                                                    <td>
+                                                        휴직
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start align-items-center btn"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentMethods">
+                                                            <!-- 이미지가 있는경우 -->
+                                                            <!-- <div class="avatar me-3">
+                                                                <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
+                                                            </div> -->
+                                                            <!-- 이미지가 없는 경우 -->
+                                                            <div class="avatar me-2">
+                                                                <span
+                                                                    class="avatar-initial rounded-circle bg-label-secondary">정</span>
+                                                            </div>
+                                                            <div class="d-flex flex-column text-start">
+                                                                <h6 class="mb-0 text-truncate">정윤지</h6>
+                                                                <small
+                                                                    class="text-truncate text-body">jyj9632@naver.com</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        2024.08.06
+                                                    </td>
+                                                    <td>
+                                                        개발 1팀
+                                                    </td>
+                                                    <td>
+                                                        휴직
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start align-items-center btn"
+                                                            data-bs-toggle="modal" data-bs-target="#paymentMethods">
+                                                            <!-- 이미지가 있는경우 -->
+                                                            <!-- <div class="avatar me-3">
+                                                                <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
+                                                            </div> -->
+                                                            <!-- 이미지가 없는 경우 -->
+                                                            <div class="avatar me-2">
+                                                                <span
+                                                                    class="avatar-initial rounded-circle bg-label-secondary">정</span>
+                                                            </div>
+                                                            <div class="d-flex flex-column text-start">
+                                                                <h6 class="mb-0 text-truncate">정윤지</h6>
+                                                                <small
+                                                                    class="text-truncate text-body">jyj9632@naver.com</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        2024.08.06
+                                                    </td>
+                                                    <td>
+                                                        개발 1팀
+                                                    </td>
+                                                    <td>
+                                                        휴직
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination pagination-rounded justify-content-center py-10">
+                                                <li class="page-item first">
+                                                    <a class="page-link" href="javascript:void(0);"><i
+                                                            class="tf-icon bx bx-chevrons-left bx-sm"></i></a>
+                                                </li>
+                                                <li class="page-item prev">
+                                                    <a class="page-link" href="javascript:void(0);"><i
+                                                            class="tf-icon bx bx-chevron-left bx-sm"></i></a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="javascript:void(0);">1</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="javascript:void(0);">2</a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="javascript:void(0);">3</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="javascript:void(0);">4</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="javascript:void(0);">5</a>
+                                                </li>
+                                                <li class="page-item next">
+                                                    <a class="page-link" href="javascript:void(0);"><i
+                                                            class="tf-icon bx bx-chevron-right bx-sm"></i></a>
+                                                </li>
+                                                <li class="page-item last">
+                                                    <a class="page-link" href="javascript:void(0);"><i
+                                                            class="tf-icon bx bx-chevrons-right bx-sm"></i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="paymentMethods" tabindex="-1" style="display: none;"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-md modal-simple modal-pricing">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                                <div class="text-center mb-6">
+                                                    <h4 class="mb-2">인사 발령 내용</h4>
+                                                    <p>기존에 인사 발령된 내용을 확인 가능합니다.</p>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-between align-items-center border-bottom py-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">대상자</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">정윤지</p>
+                                                </div>
+                                                <div
+                                                    class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">발령부서</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">개발부</p>
+                                                </div>
+                                                <div
+                                                    class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">직급</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">과장</p>
+                                                </div>
+                                                <div
+                                                    class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">직책</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">관리직</p>
+                                                </div>
+                                                <div
+                                                    class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">재직상태</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">재직중</p>
+                                                </div>
+                                                <div
+                                                    class="d-flex justify-content-sm-between align-items-center border-bottom pb-4 mb-4">
+                                                    <div class="d-flex gap-4 align-items-center">
+                                                        <h6 class="m-0">발령일자</h6>
+                                                    </div>
+                                                    <p class="m-0 d-none d-sm-block">2024-08-14</p>
+                                                </div>
+                                            </div>
+                                            <!--/ Pricing Plans -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Share Project Modal -->
+                                <div class="modal fade" id="addPerson" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-simple modal-enable-otp modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <div class="text-center">
+                                                    <h4 class="mb-2">인사발령 추가</h4>
+                                                    <p>인사 발령을 진행할 수 있습니다.</p>
+                                                </div>
+                                            </div>
+                                            <form action="">                                            
+                                                <div class="mb-6 mx-4 mx-md-0 px-md-6">
+                                                    <label for="select2Basic" class="form-label">대상자</label>
+                                                    <select id="select2Basic" class="form-select form-select-lg share-project-select" data-allow-clear="true">
+                                                        <option data-name="정윤지" selected>정윤지</option>
+                                                        <option data-name="이희진" >이희진</option>
+                                                        <option data-name="이성훈" >이성훈</option>
+                                                        <option data-name="황혜원" >황혜원</option>
+                                                    </select>
+                                                </div>
+                                                <div class="row mb-6 mx-0 mx-md-0 px-md-6">
+                                                    <label class="form-label p-0">발령종류</label>
+                                                    <div class="row p-0">
+                                                        <div class="col-md-3">
+                                                            <div class="form-check custom-option custom-option-basic checked">
+                                                                <label class="form-check-label custom-option-content" for="customRadioTemp1">
+                                                                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioTemp1" checked="">
+                                                                    <span class="custom-option-header">
+                                                                        <span class="h6 mb-0">조직이동</span>
+                                                                    </span>
+                                                                    <span class="custom-option-body">
+                                                                        <small>조직이동에 대한 설명을 작성해주세요.</small>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-check custom-option custom-option-basic">
+                                                                <label class="form-check-label custom-option-content" for="customRadioTemp2">
+                                                                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioTemp2">
+                                                                    <span class="custom-option-header">
+                                                                        <span class="h6 mb-0">휴직</span>
+                                                                    </span>
+                                                                    <span class="custom-option-body">
+                                                                        <small>휴직에 대한 설명을 작성해주세요.</small>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-check custom-option custom-option-basic">
+                                                                <label class="form-check-label custom-option-content" for="customRadioTemp3">
+                                                                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioTemp3">
+                                                                    <span class="custom-option-header">
+                                                                        <span class="h6 mb-0">퇴직</span>
+                                                                    </span>
+                                                                    <span class="custom-option-body">
+                                                                        <small>퇴직에 대한 설명을 작성해주세요</small>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-check custom-option custom-option-basic">
+                                                                <label class="form-check-label custom-option-content" for="customRadioTemp4">
+                                                                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioTemp4">
+                                                                    <span class="custom-option-header">
+                                                                        <span class="h6 mb-0">복직</span>
+                                                                    </span>
+                                                                    <span class="custom-option-body">
+                                                                        <small>복직에 대한 설명을 작성해주세요.</small>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-6 mx-4 mx-md-0 px-md-6">
+                                                    <label for="form-date-input" class="form-label">발령일자</label>
+                                                    <input class="form-control" type="date" value="2021-06-18" id="form-date-input">
+                                                </div>
+                                                <div class="mb-6 mt-10 text-center">
+                                                    <button class="btn btn-primary">
+                                                        <i class='bx bx-send bx-sm me-2'></i>
+                                                        발령처리
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Share Project Modal -->
+
+
+                                <!-- Modal for Adding/Editing Nodes -->
+                                <div class="modal fade" id="nodeModal" tabindex="-1" aria-labelledby="nodeModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="nodeModalLabel">조직관리</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="nodeForm">
+                                                    <div class="form-group">
+                                                        <label for="nodeText">조직이름</label>
+                                                        <input type="text" class="form-control" id="nodeText" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="nodeRepresentative">조직대표</label>
+                                                        <input type="text" class="form-control" id="nodeRepresentative">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="saveNode"
+                                                    class="btn btn-primary">저장하기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+    <script defer src="assets/js/organization-treeview.js"></script>
+    <script defer src="assets/js/appointment-modal.js"></script>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

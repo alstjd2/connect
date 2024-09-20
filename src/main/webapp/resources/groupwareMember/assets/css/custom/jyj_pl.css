@@ -1,0 +1,244 @@
+@charset "UTF-8";
+.ck-editor__main, .ck-editor__editable{
+	min-height: 300px;
+}
+
+.dcm.custom-option {
+  border: 0px solid #e4e6e8;
+}
+
+.dcmPage .table th {
+    background-color: rgb(219, 222, 224) !important;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    border-color: rgb(197, 201, 205);
+}
+.dcmPage .table :is(th,td) {
+    word-break: keep-all;
+}
+
+
+.swal2-modal {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.swal2-modal.swal2-popup .swal2-icon{
+	margin-top:10px;
+}
+:where(.light-style, .dark-style ) .swal2-modal.swal2-popup .swal2-title {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 900;
+    margin-bottom: 0;
+    margin-top:0;
+}
+
+.card-datatable.table-responsive.rec tbody tr td:nth-of-type(6) {
+	border-right: 1px solid #e4e6e8;
+}
+
+.light-style tr.group, .light-style tr.group:hover {
+    background-color: rgba(34, 48, 62, 0.1) !important;
+}
+
+.dark-style tr.group, .dark-style tr.group:hover {
+    background-color: rgba(230, 230, 241, 0.1) !important;
+}
+
+.w200p{
+	width: 200px !important;	
+}
+.w10{
+	width: 10% !important;
+}
+.w15{
+	width: 15% !important;
+}
+.w20{
+	width: 20% !important;
+}
+.w30{
+	width: 30% !important;
+}
+
+.main-title i{
+	transition: margin-left 0.3s;
+	margin-left: 0; 
+}
+.main-title:hover i{
+	margin-left: 8px; 
+}
+
+#app-addr{
+	height: 83vh !important;
+    overflow-y: auto;
+}
+#app-addr > .row{
+	flex-wrap: nowrap !important;
+    height: 100%;
+}
+
+#app-addr.layout-act{
+	overflow-y: hidden;
+}
+
+.card-datatable .rounded-pill.btn-sm{
+	padding: 1px 4px;
+}
+
+.surber div.dataTables_wrapper .dataTables_filter#example_filter,
+.surber div.dataTables_wrapper .dataTables_filter#example_filter *{
+	margin:0;
+	height: 100%;
+}
+
+.report-list .report-list-item {
+  padding: 0.75rem 1rem;
+}
+.report-list .report-list-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.vehicles-progress-labels .vehicles-progress-label {
+  position: relative;
+  padding-bottom: 15px;
+}
+.vehicles-progress-labels .vehicles-progress-label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: inline-block;
+  height: 10px;
+  width: 2px;
+}
+[dir=rtl] .vehicles-progress-labels .vehicles-progress-label::after {
+  left: unset;
+  right: 0;
+}
+
+.vehicles-overview-progress .bg-gray-900 {
+  color: #fff;
+}
+
+#shipmentStatisticsChart .apexcharts-legend-series,
+#carrierPerformance .apexcharts-legend-series {
+  padding: 4px 12px;
+  padding-inline-start: 17px;
+  border-radius: 0.375rem;
+  height: 83%;
+}
+
+.light-style .report-list .report-list-item {
+  background-color: rgba(34, 48, 62, 0.06);
+}
+.light-style .report-list .report-list-icon {
+  background-color: #fff;
+  border-radius: 0.375rem;
+}
+.light-style .vehicles-progress-labels .vehicles-progress-label::after {
+  background-color: #e4e6e8;
+}
+.light-style .vehicles-overview-progress .snackbar {
+  background-color: #22303e;
+}
+.light-style #shipmentStatisticsChart .apexcharts-legend-series,
+.light-style #carrierPerformance .apexcharts-legend-series {
+  border: 1px solid #e4e6e8;
+}
+
+.dark-style .report-list .report-list-item {
+  background-color: rgba(230, 230, 241, 0.06);
+}
+.dark-style .report-list .report-list-icon {
+  background-color: #2b2c40;
+  border-radius: 0.375rem;
+}
+.dark-style .vehicles-progress-labels .vehicles-progress-label::after {
+  background-color: #4e4f6c;
+}
+.dark-style .vehicles-overview-progress .snackbar {
+  background-color: #e6e6f1;
+}
+.dark-style #shipmentStatisticsChart .apexcharts-legend-series,
+.dark-style #carrierPerformance .apexcharts-legend-series {
+  border: 1px solid #4e4f6c;
+}
+.outlien .card:hover{
+	background-color: rgb(43, 44, 64);
+	color: #fff !important;
+}
+
+/* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999999;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.preloader-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.preloader-icon {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    padding: 0px;
+}
+
+.preloader-icon span {
+    position: absolute;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background: #16a6df;
+    -webkit-animation: preloader-fx 1.6s linear infinite;
+    animation: preloader-fx 1.6s linear infinite;
+}
+
+.preloader-icon span:last-child {
+    animation-delay: -0.8s;
+    -webkit-animation-delay: -0.8s;
+}
+
+@keyframes preloader-fx {
+    0% {
+        -webkit-transform: scale(0, 0);
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes preloader-fx {
+    0% {
+        -webkit-transform: scale(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        -webkit-transform: scale(1, 1);
+        opacity: 0;
+    }
+}

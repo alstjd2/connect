@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.member.dao.MemberMapper">
+
+	<resultMap type="MemberVO" id="memberAuthMap" autoMapping="true" >
+		<association property="company" javaType="CompanyVO" autoMapping="true" />
+	</resultMap>
+
+	<select id="selectMemberAuth" parameterType="String" resultMap="memberAuthMap">
+		SELECT
+		    MEMBER.MEM_NO
+		  , MEMBER.MEM_ID
+		  , MEMBER.MEM_PW
+		  , MEMBER.MEM_NM
+		  , MEMBER.MEM_PHONE
+		  , MEMBER.MEM_ROLE
+		  , COMPANY.COM_NO
+		  , COMPANY.COM_NM
+		FROM
+		    MEMBER LEFT OUTER JOIN COMPANY ON (MEMBER.MEM_NO = COMPANY.MEM_NO)
+		WHERE
+		    MEMBER.MEM_ID = #{memId} AND MEMBER.MEM_DELYN='N'
+	</select>
+
+	<sql id="searchFrag">
+		<where>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+					INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+<!-- 					<when test="simpleCondition.searchType eq 'address'"> -->
+<!-- 					INSTR(MEM_ADD1, #{simpleCondition.searchWord}) > 0 -->
+<!-- 					</when> -->
+					<otherwise>
+					INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+<!-- 					OR -->
+<!-- 					INSTR(MEM_ADD1, #{simpleCondition.searchWord}) > 0 -->
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+	<select id="selectTotalMember" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_TYPE = 'FA01120'
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+					AND INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+					AND INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+	</select>
+	<select id="selsctMemberListP" resultType="MemberVO">
+		WITH ORDEREDMEMBER AS
+		(SELECT
+            MEM_NO
+		  , MEM_ID
+		  , MEM_PW
+		  , MEM_NM
+		  , MEM_BIR
+		  , MEM_EMAIL
+		  , MEM_PHONE
+		  , MEM_DELYN
+		  , MEM_GENDER
+		  , MEM_TYPE
+		  , MEM_ROLE
+		  , MEM_DATE
+		FROM MEMBER
+		<include refid="searchFrag" />
+        ORDER BY ROWID DESC)
+		SELECT A.*
+		FROM (
+		SELECT  ROWNUM RNUM, ORDEREDMEMBER.*
+		FROM ORDEREDMEMBER
+		) A
+		<![CDATA[
+ 			where RNUM between #{firstRecord} and #{lastRecord}
+		]]>
+	</select>
+
+	<select id="selsctMemberList" resultType="MemberVO">
+		SELECT
+		    MEM_NO
+		  , MEM_ID
+		  , MEM_PW
+		  , MEM_NM
+		  , MEM_BIR
+		  , MEM_EMAIL
+		  , MEM_PHONE
+		  , MEM_DELYN
+		  , MEM_GENDER
+		  , MEM_TYPE
+		  , MEM_ROLE
+		  , MEM_DATE
+		FROM
+		    MEMBER
+		WHERE
+			MEM_TYPE = 'FA01120'
+	</select>
+
+	<select id="selectMemberDetail" parameterType="int" resultType="MemberVO">
+		SELECT
+		    MEM_NO
+		  , MEM_ID
+		  , MEM_PW
+		  , MEM_NM
+		  , MEM_BIR
+		  , MEM_EMAIL
+		  , MEM_PHONE
+		  , MEM_DELYN
+		  , MEM_GENDER
+		  , MEM_TYPE
+		  , MEM_ROLE
+		  , MEM_DATE
+		FROM
+		    MEMBER
+		WHERE
+		    MEM_NO = #{memNo} AND MEM_DELYN = 'N' AND MEM_TYPE = 'FA01120'
+	</select>
+
+	<insert id="insertMember" parameterType="MemberVO">
+  		 INSERT INTO MEMBER(
+	          MEM_NO
+			  , MEM_ID
+			  , MEM_PW
+			  , MEM_NM
+			  , MEM_BIR
+			  , MEM_EMAIL
+			  , MEM_PHONE
+			  , MEM_DELYN
+			  , MEM_GENDER
+			  , MEM_TYPE
+			  , MEM_ROLE
+			  , MEM_DATE
+     	  )VALUES(
+	            (SELECT MAX(MEM_NO)+1
+			    FROM MEMBER
+			    WHERE MEM_NO NOT BETWEEN 9991 AND 9997)
+				, #{memId, jdbcType=VARCHAR}
+				, #{memPw, jdbcType=VARCHAR}
+				, #{memNm, jdbcType=VARCHAR}
+				, #{memBir, jdbcType=VARCHAR}
+				, #{memEmail, jdbcType=VARCHAR}
+				, #{memPhone, jdbcType=VARCHAR}
+				, 'N'
+				, #{memGender, jdbcType=VARCHAR}
+				, 'FA01120'
+				, 'ROLE_MEMBER'
+				, SYSDATE
+          )
+	</insert>
+
+	<update id="updateMember" parameterType="MemberVO">
+		UPDATE MEMBER
+		SET
+			MEM_NM=#{memNm, jdbcType=VARCHAR}
+			, MEM_BIR=#{memBir, jdbcType=VARCHAR}
+			, MEM_EMAIL=#{memEmail, jdbcType=VARCHAR}
+			, MEM_PHONE=#{memPhone, jdbcType=VARCHAR}
+			, MEM_GENDER=#{memGender, jdbcType=VARCHAR}
+		WHERE MEM_NO = #{memNo}
+	</update>
+
+   <update id="deleteMember" parameterType="int">
+		UPDATE MEMBER
+		SET
+			MEM_DELYN = 'Y'
+		WHERE MEM_NO = #{memNo}
+   </update>
+
+   <resultMap type="MemberVO" id="memberHasBuyview" autoMapping="true">
+   		<association property="company" javaType="CompanyVO" autoMapping="true" />
+   </resultMap>
+
+   <select id="selectMemberListByProviderPage" resultMap="memberHasBuyview">
+	   WITH BUYVIEW AS (
+	        SELECT COM_NO
+	            , CASE WHEN MAX(CEIL(TO_DATE(BUY_USE_END_DATE)-SYSDATE)) > 0 THEN '구독중'
+	                      WHEN MAX(CEIL(TO_DATE(BUY_USE_END_DATE)-SYSDATE)) &lt;= 0 THEN '구독중지'
+                          END AS END
+	        FROM BUY_LIST
+	        WHERE BUY_REFN = 'N'
+	        GROUP BY COM_NO)
+		, MEMBERSHIP AS (SELECT
+		    MEMBER.MEM_NO
+		  , MEMBER.MEM_ID
+		  , MEMBER.MEM_NM
+		  , MEMBER.MEM_BIR
+		  , MEMBER.MEM_EMAIL
+		  , MEMBER.MEM_PHONE
+		  , MEMBER.MEM_DELYN
+		  , MEMBER.MEM_DATE
+		  , COMPANY.COM_NO
+		  , NVL(COMPANY.COM_NM, '미등록') AS COM_NM
+		  , NVL(BUYVIEW.END, '미구독' ) AS STATUS
+		FROM
+		    MEMBER LEFT OUTER JOIN COMPANY ON (MEMBER.MEM_NO = COMPANY.MEM_NO)
+		                LEFT OUTER JOIN BUYVIEW ON (COMPANY.COM_NO = BUYVIEW.COM_NO)
+		WHERE MEMBER.MEM_DELYN = 'N' AND MEMBER.MEM_TYPE = 'FA01120'
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+					AND INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+					AND INSTR(MEM_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			ORDER BY MEMBER.MEM_NO)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, MEMBERSHIP.*
+		        FROM MEMBERSHIP) A
+     	 WHERE RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+   </select>
+
+   <select id="selectMemberMypage" parameterType="int" resultMap="memberHasBuyview">
+   		WITH BUYVIEW AS (
+	        SELECT COM_NO
+	            , CASE WHEN MAX(CEIL(TO_DATE(BUY_USE_END_DATE)-SYSDATE)) > 0 THEN MAX(CEIL(TO_DATE(BUY_USE_END_DATE)-SYSDATE))
+	                    ELSE 0
+	            END AS END_DATE
+	        FROM BUY_LIST
+	        WHERE BUY_REFN = 'N'
+	        GROUP BY COM_NO)
+		SELECT
+		    MEMBER.MEM_NO
+		  , MEMBER.MEM_ID
+		  , MEMBER.MEM_NM
+		  , MEMBER.MEM_BIR
+		  , MEMBER.MEM_EMAIL
+		  , MEMBER.MEM_PHONE
+		  , MEMBER.MEM_DATE
+		  , COMPANY.COM_NM
+          , COMPANY.COM_BSNO
+          , COMPANY.COM_ADR
+          , COMPANY.COM_TEL
+          , COMPANY.COM_SAPR
+          , COMPANY.COM_NO
+		  , BUYVIEW.END_DATE
+		FROM
+		    MEMBER LEFT OUTER JOIN COMPANY ON (MEMBER.MEM_NO = COMPANY.MEM_NO)
+		                LEFT OUTER JOIN BUYVIEW ON (COMPANY.COM_NO = BUYVIEW.COM_NO)
+		WHERE
+		    MEMBER.MEM_DELYN = 'N'
+		    AND MEMBER.MEM_TYPE = 'FA01120'
+		    AND MEMBER.MEM_NO = #{memNo}
+		ORDER BY
+			MEMBER.MEM_NO
+   </select>
+
+   <select id="selectMemberById" parameterType="String" resultType="MemberVO">
+   		SELECT
+		    MEM_NO
+		  , MEM_ID
+		  , MEM_PW
+		  , MEM_NM
+		  , MEM_BIR
+		  , MEM_EMAIL
+		  , MEM_PHONE
+		  , MEM_DELYN
+		  , MEM_GENDER
+		  , MEM_TYPE
+		  , MEM_ROLE
+		  , MEM_DATE
+		FROM
+		    MEMBER
+		WHERE
+		    MEM_ID = #{memId} AND MEM_DELYN = 'N'
+   </select>
+
+   	<select id="memberIdFind" parameterType="MemberVO" resultType="String">
+		SELECT
+			MEM_ID
+		FROM
+			MEMBER
+		WHERE
+			MEM_TYPE = 'FA01120'
+			AND MEM_DELYN = 'N'
+			AND MEM_NM = #{memNm}
+			AND MEM_EMAIL = #{memEmail}
+	</select>
+
+	<select id="memberPwFind" parameterType="MemberVO" resultType="Integer" >
+		SELECT
+			MEM_NO
+		FROM
+			MEMBER
+		WHERE
+			MEM_TYPE = 'FA01120'
+			AND MEM_DELYN = 'N'
+			AND MEM_ID = #{memId}
+			AND MEM_EMAIL = #{memEmail}
+	</select>
+
+	<update id="memberPwFindChange" parameterType="MemberVO">
+		UPDATE
+			MEMBER
+		SET
+			MEM_PW = #{memPw}
+		WHERE
+			MEM_NO = #{memNo}
+	</update>
+	
+	<select id="selectMemberFindGroupwareId" parameterType="int" resultType="String">
+		SELECT 
+			EMP_ID
+		FROM 
+			EMPLOYEE
+		WHERE
+			EMP_ROLE = 'ROLE_ADMIN' AND COM_NO = #{comNo}
+	</select>
+	
+	<select id="selectGroupwareIdChk" parameterType="String" resultType="String">
+		SELECT
+			EMP_ID
+		FROM
+			EMPLOYEE
+		WHERE
+			EMP_ID = #{empId}
+	</select>
+
+</mapper>

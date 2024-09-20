@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.BuyListDefaultMapper">
+  
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.BuyListDefaultVO">
+    <result column="BUY_NO" jdbcType="NUMERIC" property="buyNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="PROD_NO" jdbcType="NUMERIC" property="prodNo" />
+    <result column="BUY_DATE" jdbcType="VARCHAR" property="buyDate" />
+    <result column="BUY_USE_START_DATE" jdbcType="VARCHAR" property="buyUseStartDate" />
+    <result column="BUY_USE_END_DATE" jdbcType="VARCHAR" property="buyUseEndDate" />
+    <result column="BUY_REFN" jdbcType="VARCHAR" property="buyRefn" />
+    <result column="BUY_CARD_NO" jdbcType="VARCHAR" property="buyCardNo" />
+    <result column="BUY_BANK_NM" jdbcType="VARCHAR" property="buyBankNm" />
+    <result column="BUY_CARD_NM" jdbcType="VARCHAR" property="buyCardNm" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.BuyListDefaultVO">
+    insert into BUY_LIST (BUY_NO, COM_NO, PROD_NO, 
+      BUY_DATE, BUY_USE_START_DATE, BUY_USE_END_DATE, 
+      BUY_REFN, BUY_CARD_NO, BUY_BANK_NM, 
+      BUY_CARD_NM)
+    values (#{buyNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{prodNo,jdbcType=NUMERIC}, 
+      #{buyDate,jdbcType=VARCHAR}, #{buyUseStartDate,jdbcType=VARCHAR}, #{buyUseEndDate,jdbcType=VARCHAR}, 
+      #{buyRefn,jdbcType=VARCHAR}, #{buyCardNo,jdbcType=VARCHAR}, #{buyBankNm,jdbcType=VARCHAR}, 
+      #{buyCardNm,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select BUY_NO, COM_NO, PROD_NO, BUY_DATE, BUY_USE_START_DATE, BUY_USE_END_DATE, BUY_REFN, 
+    BUY_CARD_NO, BUY_BANK_NM, BUY_CARD_NM
+    from BUY_LIST
+  </select>
+  
+</mapper>

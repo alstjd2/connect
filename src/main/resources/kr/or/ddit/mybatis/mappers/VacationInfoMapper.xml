@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.vacation.dao.VacationInfoMapper">
+	<resultMap id="vacationMap" type="VacationInfoVO"
+		autoMapping="true">
+		<id column="VACI_NO" jdbcType="NUMERIC" property="vaciNo" />
+		<association property="company" javaType="CompanyVO"
+			autoMapping="true" />
+		<collection property="application" javaType="ApplicationVO"
+			autoMapping="true" />
+	</resultMap>
+
+	<select id="selectVacationInfo" parameterType="int">
+		select VACI_NO
+		,
+		COM_NO
+		, VACI_NM
+		, VACI_DATE
+		, VACI_DAY
+		, VACI_TYPE
+		, VACI_DELYN
+		FROM
+		VACATION_INFO
+		WHERE VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+	</select>
+
+	<select id="selectRepList" parameterType="int">
+		SELECT
+			VACI_NO
+			, COM_NO
+			, VACI_NM
+			, VACI_DELYN
+			, VACI_DAY
+			, VACI_TYPE
+			FROM VACATION_INFO
+			WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+			AND VACI_DELYN = 'N'
+			AND VACI_TYPE = 'BB02120'
+	</select>
+
+	<select id="selectSpeList" parameterType="int">
+		SELECT
+			VACI_NO
+			, COM_NO
+			, VACI_NM
+			, VACI_DELYN
+			FROM VACATION_INFO
+			WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+			AND VACI_DELYN = 'N'
+			AND VACI_TYPE = 'BB02130'
+	</select>
+
+	<resultMap type="EmployeeVO" id="empMap" autoMapping="true">
+		<id property="empNo" jdbcType="NUMERIC" column="EMP_NO" />
+		<result column="POS_NM" jdbcType="VARCHAR"
+			property="empPosName" />
+		<result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+		<result column="EMP_NM" jdbcType="NUMERIC" property="empNm" />
+		<result column="ORG_DEP" jdbcType="VARCHAR"
+			property="empDepName" />
+		<result column="POSITION" jdbcType="VARCHAR"
+			property="empOneposName" />
+		<collection property="applicationList"
+			ofType="ApplicationVO" autoMapping="true">
+			<result property="temEmpNm" jdbcType="VARCHAR"
+				column="TEMEMP_NM" />
+			<result column="CNT" property="cnt" jdbcType="NUMERIC" />
+			<result property="roveNm" jdbcType="VARCHAR" column="ROVE_NM" />
+			<association property="vacationInfo"
+				javaType="VacationInfoVO" autoMapping="true" />
+		</collection>
+	</resultMap>
+
+	<select id="selectVacCnt" parameterType="int" resultMap="empMap">
+		SELECT
+		VACI_NO,
+		EMP_NM,
+		VACI_NM,
+		VACI_DAY,
+		VACI_TYPE
+		FROM EMPLOYEE EMP
+		INNER JOIN VACATION_INFO VAC ON (EMP.COM_NO =
+		VAC.COM_NO)
+		WHERE EMP.EMP_NO = #{empNo,jdbcType=NUMERIC}
+		AND VAC.EMP_YEAR = CASE
+		WHEN EMP.EMP_YEAR >= 24 THEN 24
+		ELSE EMP.EMP_YEAR
+		END
+
+	</select>
+
+	<select id="selectUseVacCnt" parameterType="int"
+		resultMap="empMap">
+
+		SELECT SUM(TO_DATE(APP_ENDDATE, 'YYYY-MM-DD') - TO_DATE(APP_STRDATE, 'YYYY-MM-DD') + 1) AS cnt
+			FROM EMPLOYEE EMP
+			LEFT OUTER JOIN APPLICATION APP ON EMP.EMP_NO = APP.EMP_NO
+			INNER JOIN VACATION_INFO VAC ON APP.VACI_NO = VAC.VACI_NO
+			WHERE EMP.EMP_NO = #{empNo,jdbcType=NUMERIC}
+			AND APP_STATE = 'BB01120'
+			AND VAC.VACI_TYPE = 'BB02110'
+
+
+
+	</select>
+
+
+
+	<select id="selectVacationInfoList" parameterType="int">
+		SELECT
+		VACI_NO,
+		COM_NO,
+		VACI_NM,
+		VACI_DATE,
+		VACI_DAY,
+		VACI_TYPE,
+		VACI_DELYN,
+		EMP_YEAR
+		FROM VACATION_INFO
+		WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+		AND
+		VACI_DELYN = 'N'
+		AND VACI_TYPE= 'BB02110'
+		ORDER BY EMP_YEAR
+	</select>
+
+	<select id="selectAllVacationList" parameterType="int">
+
+		SELECT
+		VACI_NO
+		,
+		COM_NO
+		, VACI_NM
+		, VACI_DATE
+		, VACI_DAY
+		, VACI_TYPE
+		, VACI_DELYN
+		, EMP_YEAR
+		FROM VACATION_INFO
+		WHERE COM_NO = #{comNo,jdbcType=NUMERIC}
+		AND
+		VACI_DELYN = 'N'
+		ORDER BY EMP_YEAR
+
+	</select>
+
+
+
+<insert id="insertVacationInfo" parameterType="java.util.List">
+    INSERT INTO VACATION_INFO
+    (
+        VACI_NO,
+        COM_NO,
+        VACI_NM,
+        VACI_DATE,
+        VACI_DAY,
+        VACI_TYPE,
+        VACI_DELYN,
+        EMP_YEAR,
+        EMP_NO
+    )
+    SELECT VAC_SEQ.nextval, A.*
+    FROM
+    (
+        <foreach collection="list" item="item" separator="UNION ALL">
+            SELECT #{item.comNo,jdbcType=NUMERIC} AS COM_NO
+                , '연차' AS VACI_NM
+                , SYSDATE AS VACI_DATE
+                , #{item.vaciDay,jdbcType=NUMERIC} AS VACI_DAY
+                , 'BB02110' AS VACI_TYPE
+                , 'N' AS VACI_DELYN
+                , #{item.empYear,jdbcType=NUMERIC} AS EMP_YEAR
+                , NULL
+            FROM DUAL
+        </foreach>
+    ) A
+</insert>
+
+	<insert id="insertSpectialVacation"
+		parameterType="kr.or.ddit.vo.VacationInfoVO">
+		INSERT INTO VACATION_INFO (
+		VACI_NO
+		, COM_NO
+		, VACI_NM
+		, VACI_DATE
+		, VACI_DAY
+		, VACI_TYPE
+		, VACI_DELYN
+		, EMP_YEAR
+		) VALUES (
+		VAC_SEQ.NEXTVAL
+		, #{comNo,jdbcType=NUMERIC}
+		, #{vaciNm,jdbcType=VARCHAR}
+		, SYSDATE
+		, #{vaciDay,jdbcType=NUMERIC}
+		, 'BB02130'
+		, 'N'
+		,
+		#{empYear,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertRepeaterVacation"
+		parameterType="kr.or.ddit.vo.VacationInfoVO">
+		INSERT INTO VACATION_INFO (
+		VACI_NO
+		, COM_NO
+		, VACI_NM
+		,
+		VACI_DATE
+		, VACI_DAY
+		, VACI_TYPE
+		, VACI_DELYN
+		, EMP_YEAR
+		) VALUES (
+		VAC_SEQ.NEXTVAL
+		, #{comNo,jdbcType=NUMERIC}
+		, #{vaciNm,jdbcType=VARCHAR}
+		, SYSDATE
+		, #{vaciDay,jdbcType=NUMERIC}
+		, 'BB02120'
+		, 'N'
+		,
+		#{empYear,jdbcType=VARCHAR}
+		)
+
+	</insert>
+
+	<update id="updateVacationInfo"
+		parameterType="kr.or.ddit.vo.VacationInfoVO">
+		UPDATE
+			VACATION_INFO
+		SET
+			COM_NO = #{comNo,jdbcType=NUMERIC}
+			, VACI_NM = #{vaciNm,jdbcType=VARCHAR}
+			, VACI_DATE = #{vaciDate,jdbcType=TIMESTAMP}
+			, VACI_DAY = #{vaciDay,jdbcType=NUMERIC}
+			, VACI_TYPE = #{vaciType,jdbcType=VARCHAR}
+			, VACI_DELYN = #{vaciDelyn,jdbcType=VARCHAR}
+		WHERE VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+	</update>
+
+
+	<update id="updateComVacation" parameterType="java.util.List">
+		UPDATE VACATION_INFO
+		SET
+		VACI_DATE = #{vaciDate,jdbcType=VARCHAR},
+		VACI_TYPE = #{vaciType,jdbcType=VARCHAR},
+		VACI_DELYN = 'N' ,
+		VACI_DAY =
+		DECODE(VACI_NO
+		<foreach collection="list" item="vacationList" close=", null)">
+			,#{vaciNo}, #{vaciDay}
+		</foreach>
+		WHERE
+		COM_NO = #{comNo}
+		AND VACI_NM = '연차'
+		AND VACI_TYPE = 'BB02110'
+		AND
+		VACI_DELYN = 'N'
+
+	</update>
+
+
+	<update id="deleteVacationInfo" parameterType="int">
+		UPDATE VACATION_INFO
+		SET VACI_DELYN = 'Y'
+		WHERE VACI_NO = #{vaciNo,jdbcType=NUMERIC}
+	</update>
+
+</mapper>

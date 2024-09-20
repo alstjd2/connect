@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.ComdcmNumDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.ComdcmNumDefaultVO">
+    <id column="COMDCM_NUM_NO" jdbcType="NUMERIC" property="comdcmNumNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="DCM_NUM_CNF_NO" jdbcType="VARCHAR" property="dcmNumCnfNo" />
+    <result column="DATE_CNF_NO" jdbcType="VARCHAR" property="dateCnfNo" />
+    <result column="DCM_DIS_CNF_NO" jdbcType="VARCHAR" property="dcmDisCnfNo" />
+    <result column="DCM_NUM_LEN" jdbcType="VARCHAR" property="dcmNumLen" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COMDCM_NUM
+    where COMDCM_NUM_NO = #{comdcmNumNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.ComdcmNumDefaultVO">
+    insert into COMDCM_NUM (COMDCM_NUM_NO, COM_NO, DCM_NUM_CNF_NO, 
+      DATE_CNF_NO, DCM_DIS_CNF_NO, DCM_NUM_LEN
+      )
+    values (#{comdcmNumNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{dcmNumCnfNo,jdbcType=VARCHAR}, 
+      #{dateCnfNo,jdbcType=VARCHAR}, #{dcmDisCnfNo,jdbcType=VARCHAR}, #{dcmNumLen,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.ComdcmNumDefaultVO">
+    update COMDCM_NUM
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      DCM_NUM_CNF_NO = #{dcmNumCnfNo,jdbcType=VARCHAR},
+      DATE_CNF_NO = #{dateCnfNo,jdbcType=VARCHAR},
+      DCM_DIS_CNF_NO = #{dcmDisCnfNo,jdbcType=VARCHAR},
+      DCM_NUM_LEN = #{dcmNumLen,jdbcType=VARCHAR}
+    where COMDCM_NUM_NO = #{comdcmNumNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select COMDCM_NUM_NO, COM_NO, DCM_NUM_CNF_NO, DATE_CNF_NO, DCM_DIS_CNF_NO, DCM_NUM_LEN
+    from COMDCM_NUM
+    where COMDCM_NUM_NO = #{comdcmNumNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COMDCM_NUM_NO, COM_NO, DCM_NUM_CNF_NO, DATE_CNF_NO, DCM_DIS_CNF_NO, DCM_NUM_LEN
+    from COMDCM_NUM
+  </select>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.AddressDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.AddressDefaultVO">
+    <id column="ADR_NO" jdbcType="NUMERIC" property="adrNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="ADR_NM" jdbcType="VARCHAR" property="adrNm" />
+    <result column="ADR_ONEPOS" jdbcType="VARCHAR" property="adrOnepos" />
+    <result column="ADR_POS" jdbcType="VARCHAR" property="adrPos" />
+    <result column="ADR_DEP" jdbcType="VARCHAR" property="adrDep" />
+    <result column="ADR_AFF" jdbcType="VARCHAR" property="adrAff" />
+    <result column="ADR_MAIL" jdbcType="VARCHAR" property="adrMail" />
+    <result column="ADR_TEL" jdbcType="VARCHAR" property="adrTel" />
+    <result column="ADR_DELYN" jdbcType="VARCHAR" property="adrDelyn" />
+    <result column="ADR_MARKYN" jdbcType="VARCHAR" property="adrMarkyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ADDRESS
+    where ADR_NO = #{adrNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.AddressDefaultVO">
+    insert into ADDRESS (ADR_NO, EMP_NO, ADR_NM, 
+      ADR_ONEPOS, ADR_POS, ADR_DEP, 
+      ADR_AFF, ADR_MAIL, ADR_TEL, 
+      ADR_DELYN, ADR_MARKYN)
+    values (#{adrNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{adrNm,jdbcType=VARCHAR}, 
+      #{adrOnepos,jdbcType=VARCHAR}, #{adrPos,jdbcType=VARCHAR}, #{adrDep,jdbcType=VARCHAR}, 
+      #{adrAff,jdbcType=VARCHAR}, #{adrMail,jdbcType=VARCHAR}, #{adrTel,jdbcType=VARCHAR}, 
+      #{adrDelyn,jdbcType=VARCHAR}, #{adrMarkyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.AddressDefaultVO">
+    update ADDRESS
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      ADR_NM = #{adrNm,jdbcType=VARCHAR},
+      ADR_ONEPOS = #{adrOnepos,jdbcType=VARCHAR},
+      ADR_POS = #{adrPos,jdbcType=VARCHAR},
+      ADR_DEP = #{adrDep,jdbcType=VARCHAR},
+      ADR_AFF = #{adrAff,jdbcType=VARCHAR},
+      ADR_MAIL = #{adrMail,jdbcType=VARCHAR},
+      ADR_TEL = #{adrTel,jdbcType=VARCHAR},
+      ADR_DELYN = #{adrDelyn,jdbcType=VARCHAR},
+      ADR_MARKYN = #{adrMarkyn,jdbcType=VARCHAR}
+    where ADR_NO = #{adrNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ADR_NO, EMP_NO, ADR_NM, ADR_ONEPOS, ADR_POS, ADR_DEP, ADR_AFF, ADR_MAIL, ADR_TEL, 
+    ADR_DELYN, ADR_MARKYN
+    from ADDRESS
+    where ADR_NO = #{adrNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ADR_NO, EMP_NO, ADR_NM, ADR_ONEPOS, ADR_POS, ADR_DEP, ADR_AFF, ADR_MAIL, ADR_TEL, 
+    ADR_DELYN, ADR_MARKYN
+    from ADDRESS
+  </select>
+</mapper>

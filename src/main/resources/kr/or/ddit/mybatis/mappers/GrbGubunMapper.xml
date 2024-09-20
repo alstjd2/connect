@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.grboard.dao.GrbGubunMapper">
+  <resultMap id="GrbGubunVO" type="GrbGubunVO">
+    <id column="GRB_GUBUN_NO" jdbcType="NUMERIC" property="grbGubunNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="GRB_GUBUN_TITLE" jdbcType="VARCHAR" property="grbGubunTitle" />
+    <result column="GRB_DELYN" jdbcType="VARCHAR" property="grbDelyn" />
+     <result column="GRBCOUNT" jdbcType="NUMERIC" property="grbCount" />
+     <result column="GRB_GUBUN_DATE" jdbcType="NUMERIC" property="gubunDate" />
+  </resultMap>
+  
+  <update id="updateGrbGubun" parameterType="GrbGubunVO">
+    update GRB_GUBUN
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      GRB_GUBUN_TITLE = #{grbGubunTitle,jdbcType=VARCHAR},
+      GRB_DELYN = #{grbDelyn,jdbcType=VARCHAR}
+    where GRB_GUBUN_NO = #{grbGubunNo,jdbcType=NUMERIC}
+  </update>
+  
+<select id="selectGrbGubunBoardList"
+	parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+	resultMap="GrbGubunVO">
+WITH GRBOARDLIST AS (
+    SELECT 
+        GG.GRB_GUBUN_NO,
+        GG.COM_NO,
+        GG.GRB_GUBUN_TITLE,
+        GG.GRB_DELYN,
+        GG.GRB_GUBUN_DATE,
+        COUNT(G.GRB_NO) AS grbCount -- 각 게시판의 게시글 수를 계산
+    FROM 
+        GRB_GUBUN GG
+    LEFT JOIN 
+        GRBOARD G 
+        ON GG.GRB_GUBUN_NO = G.GRB_GUBUN_NO 
+        AND G.GRB_DELYN = 'N' -- 게시글이 삭제되지 않은 것만 포함
+    <where>
+        GG.GRB_DELYN = 'N' -- 게시판이 삭제되지 않은 것만 포함
+        AND GG.COM_NO = #{searchVO.comNo} -- 로그인한 사용자의 COM_NO만 포함
+    <include refid="searchFrag" />
+    </where>
+	GROUP BY 
+        GG.GRB_GUBUN_NO, GG.COM_NO, GG.GRB_GUBUN_TITLE, GG.GRB_DELYN, GG.GRB_GUBUN_DATE -- GROUP BY 필드들
+    ORDER BY 
+        GG.GRB_GUBUN_NO
+)
+	SELECT A.*
+	FROM (
+	SELECT GRBOARDLIST.*, ROWNUM RNUM
+	FROM GRBOARDLIST
+	) A
+	WHERE
+	RNUM BETWEEN #{firstRecord} AND #{lastRecord}
+</select>
+
+
+<select id="getGubunListByComNo"
+parameterType="int"
+	resultMap="GrbGubunVO">
+        SELECT
+        GG.GRB_GUBUN_NO,
+        GG.COM_NO,
+        GG.GRB_GUBUN_TITLE,
+       GG.GRB_DELYN
+    FROM 
+        GRB_GUBUN GG
+    WHERE 
+        GG.COM_NO = #{comNo}
+    ORDER BY 
+        GRB_GUBUN_NO
+</select>
+
+<select id="retrieveGrbGubunDetail"
+parameterType="int"
+resultMap="GrbGubunVO">
+SELECT 
+    GG.GRB_GUBUN_NO,
+    GG.GRB_GUBUN_TITLE,
+    G.GRB_NO,
+    G.GRB_TITLE,
+    G.GRB_CONTENT
+FROM 
+    GRB_GUBUN GG
+LEFT JOIN 
+    GRBOARD G 
+    ON GG.GRB_GUBUN_NO = G.GRB_GUBUN_NO 
+    AND G.GRB_DELYN = 'N' -- 게시글이 삭제되지 않은 것만 포함
+WHERE 
+    GG.GRB_DELYN = 'N' -- 게시판이 삭제되지 않은 것만 포함
+    AND GG.GRB_GUBUN_NO = #{grbGubunNo} -- 특정 게시판(GRB_GUBUN_NO)의 게시글만 포함
+ORDER BY 
+    G.GRB_NO
+</select>
+
+	<select id="countGubun" resultType="int">
+		SELECT COUNT(G.GRB_GUBUN_NO)
+		FROM GRB_GUBUN G
+		WHERE G.GRB_DELYN = 'N' 
+		AND G.COM_NO = #{searchVO.comNo}
+</select>
+
+	<select id="selectGrbGubun" resultMap= "GrbGubunVO">
+		SELECT GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, GRB_DELYN
+		FROM GRB_GUBUN
+		WHERE GRB_GUBUN_NO = #{grbGubunNo}
+	</select>
+
+
+  <select id="selectGrbGubunList" resultMap="GrbGubunVO">
+    select 
+    GRB_GUBUN_NO, 
+    COM_NO, 
+    GRB_GUBUN_TITLE, 
+    GRB_DELYN
+    from GRB_GUBUN
+  </select>
+  
+  
+  <update id="deleteGrbGubun" parameterType="GrbGubunVO">
+    UPDATE SET GRB_DELYN = #{grbDelyn,jdbcType=VARCHAR}
+    where GRB_GUBUN_NO = #{grbGubunNo,jdbcType=NUMERIC}
+  </update>
+  
+  
+<sql id="searchFrag">
+    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+        AND 
+        <choose>
+            <!-- 제목으로 검색 -->
+            <when test="simpleCondition.searchType eq 'title'">
+                INSTR(GG.GRB_GUBUN_TITLE, #{simpleCondition.searchWord}) > 0
+            </when>
+        </choose>
+    </if>
+</sql>
+
+	<select id="selectGrbGubunBoardCount" resultType="map">
+    SELECT 
+        GG.GRB_GUBUN_NO AS gubunNo, 
+        COUNT(G.GRB_NO) AS grbCount 
+    FROM 
+        GRB_GUBUN GG
+    LEFT JOIN 
+        GRBOARD G
+        ON GG.GRB_GUBUN_NO = G.GRB_GUBUN_NO
+        AND G.GRB_DELYN = 'N'  -- 게시글이 삭제되지 않은 것만 포함
+    WHERE 
+        GG.GRB_DELYN = 'N'  -- 게시판이 삭제되지 않은 것만 포함
+    GROUP BY 
+        GG.GRB_GUBUN_NO
+</select>
+	
+	  <insert id="insertGrbGubun" parameterType="map" useGeneratedKeys="true" keyProperty="grbGubunNo">
+        <selectKey keyProperty="grbGubunNo" resultType="int" order="BEFORE">
+            SELECT GRB_GUBUN_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+       INSERT INTO GRB_GUBUN 
+         (GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, GRB_DELYN)
+        VALUES 
+        (#{grbGubunNo}, #{comNo}, #{grbGubunTitle}, 'N')
+    </insert>
+	
+	<select id="selectGubunByComNo" parameterType="int" resultMap="GrbGubunVO">
+select GRB_GUBUN_NO, COM_NO, GRB_GUBUN_TITLE, GRB_DELYN
+from grb_gubun
+where com_no= #{comNo}
+and GRB_DELYN = 'N'
+</select>
+
+   <update id="updateGrbGubunDelynToY">
+    UPDATE GRB_GUBUN
+    SET GRB_DELYN = 'Y'
+    WHERE GRB_GUBUN_NO = #{grbGubunNo}
+	</update>
+
+</mapper>

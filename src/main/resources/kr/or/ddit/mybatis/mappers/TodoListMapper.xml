@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.todolist.dao.TodoListMapper">
+	<resultMap id="todoList" type="TodoListVO" autoMapping="true">
+		<id column="TODO_NO" jdbcType="NUMERIC" property="todoNo" />
+		<id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+		<association property="employee"
+			javaType="kr.or.ddit.vo.EmployeeVO" autoMapping="true" />
+		<association property="todoCate"
+			javaType="kr.or.ddit.vo.TodoListCateGoryVO" autoMapping="true" />
+	</resultMap>
+
+
+
+	<select id="selectTodoList">
+		select TODO_NO
+		, EMP_NO
+		, TODO_CODE
+		, TODO_TITLE
+		, TODO_CONTENT
+		, TODO_DATE
+		, TODO_STATE
+		, TODO_START
+		, TODO_END
+		, TODO_ROOM
+		, TODO_CONNO
+		, TODO_DELYN
+		, TODOCATE_NO
+		from TODO_LIST
+		<!-- WHERE TODO_NO -->
+		<!-- = #{todoNo,jdbcType=NUMERIC} -->
+		<!-- and EMP_NO = #{empNo,jdbcType=NUMERIC} -->
+		<!-- AND TODO_DELYN = 'N' -->
+
+	</select>
+
+	<select id="todayoneTodoList" parameterType="int" resultMap="todoList">
+		SELECT
+		    TODO_NO
+		    , TODO.EMP_NO
+		    , TODO.TODOCATE_NO
+		    , NVL(TODOCATE.TODOCATE_TITLE, '카테고리 없음') AS TODOCATE_TITLE
+		    , TODO_CODE
+		    , TODO_TITLE
+		    , TODO_CONTENT
+		    , TODO_DATE
+		    , TODO_STATE
+		    , TODO_ATTACHFILE
+		    , TODO_START
+		    , TODO_END
+		    , TODO_ROOM
+		    , TODO_CONNO
+		    , TODO_DELYN
+		    , TODO_INNER
+		    , TODO_BACKGROUND_COLOR
+		FROM TODO_LIST TODO
+		LEFT OUTER JOIN TODOLIST_CATEGORY TODOCATE ON TODO.TODOCATE_NO = TODOCATE.TODOCATE_NO
+		WHERE TODO.EMP_NO = #{empNo}
+		AND TODO_DELYN = 'N'
+		AND TO_CHAR(TO_DATE(NVL(TODO_START, '1900-01-01'),
+		    CASE
+		        WHEN TODO_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI'
+		        ELSE 'YYYY-MM-DD'
+		    END
+		), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(NVL(TODO_START, '1900-01-01'),
+		    CASE
+		        WHEN TODO_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI'
+		        ELSE 'YYYY-MM-DD'
+		    END
+		), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(NVL(TODO_START, '1900-01-01'),
+		    CASE
+		        WHEN TODO_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI'
+		        ELSE 'YYYY-MM-DD'
+		    END
+		), 'DD') = EXTRACT(DAY FROM SYSDATE)
+		AND TODO_CODE = 'BB04110'
+		ORDER BY TO_DATE(TODO_START,
+		    CASE
+		        WHEN TODO_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI'
+		        ELSE 'YYYY-MM-DD'
+		    END
+		) ASC
+
+
+	</select>
+	<select id="todayoneDepTodoList"  parameterType="int" resultMap="todoList">
+		SELECT
+			ROWNUM RNUM,
+			TODO.TODO_NO,
+			TODO.EMP_NO,
+			TODO.TODO_CODE,
+			TODO.TODO_TITLE,
+			TODO.TODO_CONTENT,
+			TODO.TODO_DATE,
+			TODO.TODO_STATE,
+			TODO.TODO_ATTACHFILE,
+			TODO.TODO_START,
+			TODO.TODO_END,
+			TODO.TODO_ROOM,
+			TODO.TODO_DELYN,
+			EMP.EMP_NO,
+			EMP.EMP_DEP
+			FROM
+			TODO_LIST TODO
+			INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+			WHERE
+			EMP.EMP_DEP = #{empDep}
+			AND TODO.TODO_CODE = 'BB04120'
+			AND TODO.TODO_DELYN = 'N'
+	        AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+	    AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+	    AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'DD') = EXTRACT(DAY FROM SYSDATE)
+	</select>
+
+	<select id="todayoneComTodoList"  parameterType="int" resultMap="todoList">
+		SELECT
+		    ROW_NUMBER() OVER (ORDER BY TODO_START DESC) AS RNUM,
+		    TODO.TODO_NO,
+		    TODO.EMP_NO,
+		    TODO.TODO_CODE,
+		    TODO.TODO_TITLE,
+		    TODO.TODO_CONTENT,
+		    TODO.TODO_DATE,
+		    TODO.TODO_STATE,
+		    TODO.TODO_ATTACHFILE,
+		    TODO.TODO_START,
+		    TODO.TODO_END,
+		    TODO.TODO_ROOM,
+		    TODO.TODO_DELYN,
+		    COM.COM_NO,
+		    COM.COM_NM
+		FROM
+		    TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		INNER JOIN COMPANY COM ON EMP.COM_NO = COM.COM_NO
+		WHERE
+		    COM.COM_NO = #{comNo,jdbcType=NUMERIC}
+		    AND TODO.TODO_CODE = 'BB04130'
+		    AND TODO.TODO_DELYN ='N'
+		    AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+		    AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+		    AND TO_CHAR(TO_DATE(TODO_START, 'YYYY/MM/DD HH24:MI:SS'), 'DD') = EXTRACT(DAY FROM SYSDATE)
+
+
+	</select>
+
+
+	<select id="todayTodoList" parameterType="int" resultMap="todoList">
+		SELECT DISTINCT
+		    TODO_NO
+			        , TODO.EMP_NO
+			        , TODO.TODOCATE_NO
+			        , NVL(TODOCATE.TODOCATE_TITLE, '카테고리 없음') AS TODOCATE_TITLE
+			        , TODO_CODE
+			        , TODO_TITLE
+			        , TODO_CONTENT
+			        , TODO_DATE
+			        , TODO_STATE
+			        , TODO_ATTACHFILE
+			        , TODO_START
+			        , TODO_END
+			        , TODO_ROOM
+			        , TODO_CONNO
+			        , TODO_DELYN
+			        , TODO_INNER
+			        , TODO_BACKGROUND_COLOR
+		FROM
+		    TODO_LIST TODO
+		LEFT OUTER JOIN TODOLIST_CATEGORY TODOCATE ON TODO.TODOCATE_NO = TODOCATE.TODOCATE_NO
+		WHERE
+		     TODO.EMP_NO = #{empNo}
+		    AND TODO_CODE = 'BB04110'
+		    AND TODO.TODO_DELYN = 'N'
+		    AND (
+		        TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		        OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		    )AND (
+		    TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		    OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		)
+	</select>
+
+
+	<select id="todayDepTodoList" parameterType="int" resultMap="todoList">
+		SELECT DISTINCT
+		    TODO.TODO_NO,
+		    TODO.EMP_NO,
+		    TODO.TODO_CODE,
+		    TODO.TODO_TITLE,
+		    TODO.TODO_CONTENT,
+		    TODO.TODO_DATE,
+		    TODO.TODO_STATE,
+		    TODO.TODO_ATTACHFILE,
+		    TODO.TODO_START,
+		    TODO.TODO_END,
+		    TODO.TODO_ROOM,
+		    TODO.TODO_DELYN,
+		    COM.COM_NO,
+		    COM.COM_NM
+		FROM
+		    TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		INNER JOIN COMPANY COM ON EMP.COM_NO = COM.COM_NO
+		WHERE
+		    EMP.EMP_DEP = #{empDep}
+		    AND TODO.TODO_CODE = 'BB04120'
+		    AND TODO.TODO_DELYN = 'N'
+		    AND (
+		        TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		        OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		    )AND (
+		    TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		    OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		)
+
+	</select>
+
+
+	<select id="todayComTodoList" parameterType="int" resultMap="todoList">
+		SELECT DISTINCT
+		    TODO.TODO_NO,
+		    TODO.EMP_NO,
+		    TODO.TODO_CODE,
+		    TODO.TODO_TITLE,
+		    TODO.TODO_CONTENT,
+		    TODO.TODO_DATE,
+		    TODO.TODO_STATE,
+		    TODO.TODO_ATTACHFILE,
+		    TODO.TODO_START,
+		    TODO.TODO_END,
+		    TODO.TODO_ROOM,
+		    TODO.TODO_DELYN,
+		    COM.COM_NO,
+		    COM.COM_NM
+		FROM
+		    TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		INNER JOIN COMPANY COM ON EMP.COM_NO = COM.COM_NO
+		WHERE
+		    COM.COM_NO = #{comNo}
+		    AND TODO.TODO_CODE = 'BB04130'
+		    AND TODO.TODO_DELYN = 'N'
+		    AND (
+		        TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		        OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') >= TRUNC(SYSDATE)
+		    )AND (
+		    TO_DATE(TODO_START, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		    OR TO_DATE(TODO_END, 'YYYY-MM-DD HH24:MI:SS') <![CDATA[<]]>= TRUNC(SYSDATE) + 1
+		)
+
+	</select>
+
+	<select id="selectTodo" parameterType="map" resultMap="todoList">
+
+
+		SELECT
+		TODO.EMP_NO
+		, TODO.TODO_NO
+		, TODO.TODO_TITLE
+		, TODO.TODO_CONTENT
+		,
+		TODO.TODO_START
+		, TODO.TODO_END
+		, TODO.TODO_DATE
+		, TODO.TODOCATE_NO
+		, TODOCATE.TODOCATE_NO
+		, TODOCATE.TODOCATE_TITLE
+		, TODOCATE.TODOCATE_DATE
+		, TODOCATE.TODOCATE_DELYN
+		FROM TODO_LIST TODO LEFT OUTER JOIN
+		TODOLIST_CATEGORY TODOCATE ON (TODO.TODOCATE_NO =
+		TODOCATE.TODOCATE_NO)
+		WHERE TODO.TODO_CODE = 'BB04110'
+		AND TODO.TODO_NO = #{todoNo,jdbcType=NUMERIC}
+		AND TODO.EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+		AND TODO.TODO_DELYN ='N'
+
+
+	</select>
+
+	<select id="selectDepTodoDetail" parameterType="int">
+		SELECT
+		    TODO_NO,
+		    EMP_NO,
+		    TODO_CODE,
+		    TODO_TITLE,
+		    TODO_CONTENT,
+		    TODO_DATE,
+		    TODO_STATE,
+		    TODO_ATTACHFILE,
+		    TODO_START,
+		    TODO_END,
+		    TODO_ROOM,
+		    TODO_CONNO,
+		    TODO_DELYN,
+		    TODOCATE_NO,
+		    TODO_INNER,
+		    TODO_BACKGROUND_COLOR
+		FROM
+		    TODO_LIST
+		    WHERE TODO_NO = #{todoNo,jdbcType=NUMERIC}
+		    AND TODO_STATE = 'BB03120'
+		    AND TODO_DELYN = 'N'
+
+
+	</select>
+
+
+	<select id="selectDepTodo" parameterType="map"
+		resultMap="todoList">
+		SELECT
+		TODO.EMP_NO
+		, TODO.TODO_NO
+		, TODO.TODO_TITLE
+		, TODO.TODO_CONTENT
+		,
+		TODO.TODO_START
+		, TODO.TODO_END
+		, TODO.TODO_DATE
+		, TODO.TODOCATE_NO
+		, TODOCATE.TODOCATE_NO
+		, TODOCATE.TODOCATE_TITLE
+		, TODOCATE.TODOCATE_DATE
+		, TODOCATE.TODOCATE_DELYN
+		FROM TODO_LIST TODO LEFT OUTER JOIN
+		TODOLIST_CATEGORY TODOCATE ON (TODO.TODOCATE_NO =
+		TODOCATE.TODOCATE_NO)
+		WHERE TODO.TODO_CODE = 'BB04120'
+		AND TODO.TODO_NO = #{todoNo,jdbcType=NUMERIC}
+		AND TODO.EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+		AND TODO.TODO_DELYN ='N'
+
+
+	</select>
+
+
+	<insert id="insertTodoList"
+		parameterType="kr.or.ddit.vo.TodoListVO">
+		insert into TODO_LIST (
+		TODO_NO
+		, EMP_NO
+		, TODO_CODE
+		,
+		TODO_TITLE
+		, TODO_CONTENT
+		, TODO_DATE
+		, TODO_STATE
+		, TODO_START
+		, TODO_END
+		, TODO_ROOM
+		, TODO_CONNO
+		)
+		values (
+		#{todoNo,jdbcType=NUMERIC}
+		,
+		#{empNo,jdbcType=NUMERIC}
+		, #{todoCode,jdbcType=VARCHAR}
+		,
+		#{todoTitle,jdbcType=VARCHAR}
+		, #{todoContent,jdbcType=VARCHAR}
+		,
+		#{todoDate,jdbcType=DATE}
+		, #{todoState,jdbcType=VARCHAR}
+		,
+		#{todoStart,jdbcType=DATE}
+		, #{todoEnd,jdbcType=DATE}
+		,
+		#{todoRoom,jdbcType=NUMERIC}
+		, #{todoConno,jdbcType=NUMERIC}
+		)
+
+
+	</insert>
+
+	<insert id="insertEmpTodo"
+		parameterType="kr.or.ddit.vo.TodoListVO">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="todoNo">
+			SELECT TODOLIST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TODO_LIST(
+		TODO_NO
+		, EMP_NO
+		, TODO_TITLE
+		, TODO_CONTENT
+		,
+		TODO_START
+		, TODO_END
+		, TODO_DATE
+		, TODO_CODE
+		, TODO_STATE
+		, TODO_DELYN
+		,
+		TODOCATE_NO
+		)VALUES(
+		#{todoNo,jdbcType=NUMERIC}
+		,
+		#{empNo,jdbcType=NUMERIC}
+		, #{todoTitle,jdbcType=VARCHAR}
+		,
+		#{todoContent,jdbcType=VARCHAR}
+		, #{todoStart,jdbcType=DATE}
+		,
+		#{todoEnd,jdbcType=DATE}
+		, TO_CHAR(SYSDATE, 'YY-MM-DD')
+		, 'BB04110'
+		,
+		'BB03120'
+		, 'N'
+		, #{todoCate.todocateNo,jdbcType=NUMERIC}
+		)
+	</insert>
+
+	<insert id="insertDetTodo"
+		parameterType="kr.or.ddit.vo.TodoListVO">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="todoNo">
+			SELECT TODOLIST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TODO_LIST(
+		TODO_NO
+		, EMP_NO
+		, TODO_TITLE
+		, TODO_CONTENT
+		,
+		TODO_START
+		, TODO_END
+		, TODO_DATE
+		, TODO_CODE
+		, TODO_STATE
+		, TODO_ROOM
+		,
+		TODO_CONNO
+		)VALUES(
+		#{todoNo,jdbcType=NUMERIC}
+		,
+		#{empNo,jdbcType=NUMERIC}
+		, #{todoTitle,jdbcType=VARCHAR}
+		,
+		#{todoContent,jdbcType=VARCHAR}
+		, #{todoStart,jdbcType=DATE}
+		,
+		#{todoEnd,jdbcType=DATE}
+		, TO_CHAR(SYSDATE, 'YY-MM-DD')
+		, 'BB04120'
+		,
+		'BB03120'
+		, NULL
+		, NULL
+		)
+
+	</insert>
+
+	<insert id="insertCompanyTodo"
+		parameterType="kr.or.ddit.vo.TodoListVO">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="todoNo">
+			SELECT TODOLIST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TODO_LIST(
+		TODO_NO
+		, EMP_NO
+		, TODO_TITLE
+		, TODO_CONTENT
+		,
+		TODO_START
+		, TODO_END
+		, TODO_DATE
+		, TODO_CODE
+		, TODO_STATE
+		)VALUES(
+		#{todoNo,jdbcType=NUMERIC}
+		, #{empNo,jdbcType=NUMERIC}
+		,
+		#{todoTitle,jdbcType=VARCHAR}
+		, #{todoContent,jdbcType=VARCHAR}
+		,
+		#{todoStart,jdbcType=DATE}
+		, #{todoEnd,jdbcType=DATE}
+		, TO_CHAR(SYSDATE,
+		'YY-MM-DD')
+		, 'BB04130'
+		, 'BB03120'
+		)
+
+	</insert>
+
+
+	<update id="updateTodoList" parameterType="TodoListVO">
+		update
+		TODO_LIST
+		set
+		TODO_TITLE = #{todoTitle,jdbcType=VARCHAR},
+		TODO_CONTENT = #{todoContent,jdbcType=VARCHAR},
+		TODO_START = #{todoStart,jdbcType=VARCHAR},
+		TODO_END = #{todoEnd,jdbcType=VARCHAR},
+		TODO_DATE = #{todoDate,jdbcType=DATE},
+		TODOCATE_NO = #{todoCate.todocateNo,jdbcType=NUMERIC}
+		where TODO_NO =
+		#{todoNo,jdbcType=NUMERIC}
+		and EMP_NO = #{empNo,jdbcType=NUMERIC}
+	</update>
+
+	<update id="updateState" parameterType="map">
+		update
+		TODO_LIST
+		set
+		TODO_STATE = #{newState}
+		where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+
+
+	</update>
+
+
+	<update id="updateComTodoList" parameterType="TodoListVO">
+		UPDATE
+		TODO_LIST
+		SET
+		TODO_TITLE = #{todoTitle,jdbcType=VARCHAR},
+		TODO_CONTENT = #{todoContent,jdbcType=VARCHAR},
+		TODO_START = #{todoStart,jdbcType=VARCHAR},
+		TODO_END = #{todoEnd,jdbcType=VARCHAR},
+		TODO_DATE = #{todoDate,jdbcType=DATE},
+		TODOCATE_NO = #{todoCate.todocateNo,jdbcType=NUMERIC}
+		WHERE TODO_NO = #{todoNo,jdbcType=NUMERIC}
+
+
+	</update>
+
+
+	<update id="deleteTodoList">
+		UPDATE TODO_LIST
+		SET TODO_DELYN = 'Y'
+		WHERE TODO_NO = #{todoNo,jdbcType=NUMERIC}
+	</update>
+	<update id="deleteComTodoList">
+		UPDATE TODO_LIST
+		SET TODO_DELYN = 'Y'
+		WHERE TODO_NO = #{todoNo,jdbcType=NUMERIC}
+	</update>
+
+
+	<select id="selectempTodoCate" parameterType="map"
+		resultMap="todoList">
+		SELECT
+		TODO.EMP_NO,
+		TODO.TODO_NO,
+		TODO.TODO_STATE,
+		TODO.TODO_CODE,
+		TODO.TODO_TITLE,
+		TODO.TODO_ATTACHFILE,
+		TODO.TODO_STATE,
+		TODO.TODO_START,
+		TODO.TODO_END,
+		TOCA.TODOCATE_TITLE,
+		TOCA.TODOCATE_DATE
+		FROM
+		TODO_LIST TODO
+		INNER JOIN TODOLIST_CATEGORY_DETAIL TOCAD ON TODO.TODO_NO =
+		TOCAD.TODO_NO
+		INNER JOIN TODOLIST_CATEGORY TOCA ON TOCAD.TODOCATE_NO =
+		TOCA.TODOCATE_NO
+		WHERE
+		TODO.EMP_NO = #{empNo}
+		AND TOCAD.TODOCATE_NO =
+		#{todocateNo}
+		AND TODO_CODE = 'BB04110'
+
+
+	</select>
+
+	<resultMap type="TodoListCateGoryVO" id="todoCate"
+		autoMapping="true">
+		<id property="todocateNo" column="TODOCATE_NO" />
+		<id property="empNo" column="EMP_NO" />
+		<collection property="todoList" ofType="TodoListVO"
+			autoMapping="true"></collection>
+	</resultMap>
+
+	<select id="selectempTodo" parameterType="int"
+		resultMap="todoList">
+
+		SELECT
+		TODO.EMP_NO
+		, TODO.TODO_NO
+		, TODO.TODO_TITLE
+		, TODO.TODO_CODE
+		, TODO.TODO_CONTENT
+		, TODO.TODO_STATE
+		, TODO.TODO_START
+		, TODO.TODO_END
+		, TODO.TODO_DATE
+		, TODO.TODO_BACKGROUND_COLOR
+		, TODO.TODOCATE_NO TODOCATE_NO
+		, TODOCATE.TODOCATE_TITLE
+		, TODOCATE.TODOCATE_DATE
+		, TODOCATE.TODOCATE_DELYN
+		FROM TODO_LIST TODO LEFT OUTER JOIN
+		TODOLIST_CATEGORY TODOCATE ON (TODO.TODOCATE_NO =
+		TODOCATE.TODOCATE_NO)
+		WHERE TODO.TODO_CODE = 'BB04110'
+		AND TODO.EMP_NO =
+		#{empNo}
+		AND TODO.TODO_DELYN ='N'
+        AND (TODOCATE.TODOCATE_DELYN = 'N' OR TODOCATE.TODOCATE_NO IS NULL)
+
+	</select>
+
+	<select id="selectCateEmpTodo" parameterType="int"
+		resultMap="todoCate">
+		SELECT
+		TODO.EMP_NO
+		, TODO.TODO_NO
+		, TODO.TODO_TITLE
+		, TODO.TODO_CONTENT
+		, TODO.TODO_STATE
+		, TODO.TODO_START
+		, TODO.TODO_END
+		, TODO.TODO_DATE
+		, TODO.TODOCATE_NO TODOCATE_NO
+		, TODOCATE.TODOCATE_TITLE
+		, TODOCATE.TODOCATE_DATE
+		, TODOCATE.TODOCATE_DELYN
+		FROM TODO_LIST TODO LEFT OUTER JOIN
+		TODOLIST_CATEGORY TODOCATE ON (TODO.TODOCATE_NO =
+		TODOCATE.TODOCATE_NO)
+		WHERE TODO.TODO_CODE = 'BB04110'
+		AND TODO.EMP_NO = #{empNo}
+		AND TODO.TODO_DELYN ='N'
+		AND (TODOCATE.TODOCATE_DELYN = 'N' OR TODOCATE.TODOCATE_NO IS NULL)
+	</select>
+
+	<select id="selecttodoCateList" parameterType="int"
+		resultMap="todoList">
+		SELECT
+		TODOC.TODOCATE_TITLE
+		FROM
+		TODO_LIST TODO
+		INNER JOIN
+		TODOLIST_CATEGORY_DETAIL TODODE ON TODO.TODO_NO = TODODE.TODO_NO
+		INNER
+		JOIN TODOLIST_CATEGORY TODOC ON TODODE.TODOCATE_NO =
+		TODOC.TODOCATE_NO
+		WHERE
+		TODO.EMP_NO = #{empNo}
+		GROUP BY
+		TODOC.TODOCATE_TITLE
+
+	</select>
+
+	<select id="selectComTodoList" parameterType="int"
+		resultMap="todoList">
+
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY TODO_START DESC) AS RNUM,
+		TODO.TODO_NO,
+		TODO.EMP_NO,
+		TODO.TODO_CODE,
+		TODO.TODO_TITLE,
+		TODO.TODO_CONTENT,
+		TODO.TODO_DATE,
+		TODO.TODO_STATE,
+		TODO.TODO_ATTACHFILE,
+		TODO.TODO_START,
+		TODO.TODO_END,
+		TODO.TODO_ROOM,
+		TODO.TODO_DELYN,
+		COM.COM_NO,
+		COM.COM_NM
+		FROM
+		TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		INNER JOIN
+		COMPANY COM ON EMP.COM_NO = COM.COM_NO
+		WHERE
+		COM.COM_NO = #{comNo}
+		AND TODO.TODO_CODE = 'BB04130'
+		AND TODO.TODO_DELYN = 'N'
+		ORDER BY TODO_START DESC
+
+
+	</select>
+	<select id="selectDepTodoList" parameterType="int"
+		resultMap="todoList">
+		SELECT
+		ROWNUM RNUM,
+		TODO.TODO_NO,
+		TODO.EMP_NO,
+		TODO.TODO_CODE,
+		TODO.TODO_TITLE,
+		TODO.TODO_CONTENT,
+		TODO.TODO_DATE,
+		TODO.TODO_STATE,
+		TODO.TODO_ATTACHFILE,
+		TODO.TODO_START,
+		TODO.TODO_END,
+		TODO.TODO_ROOM,
+		TODO.TODO_DELYN,
+		EMP.EMP_NO,
+		EMP.EMP_DEP
+		FROM
+		TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		WHERE
+		EMP.EMP_DEP = #{empDep}
+		AND TODO.TODO_CODE = 'BB04120'
+		AND TODO.TODO_DELYN = 'N'
+
+
+	</select>
+
+	<select id="selectComTodo" parameterType="map"
+		resultMap="todoList">
+		SELECT
+		TODO.TODO_NO,
+		TODO.EMP_NO,
+		TODO.TODO_CODE,
+		TODO.TODO_TITLE,
+		TODO.TODO_CONTENT,
+		TODO.TODO_DATE,
+		TODO.TODO_STATE,
+		TODO.TODO_ATTACHFILE,
+		TODO.TODO_START,
+		TODO.TODO_END,
+		TODO.TODO_ROOM,
+		TODO.TODO_DELYN,
+		COM.COM_NM
+		FROM
+		TODO_LIST TODO
+		INNER JOIN EMPLOYEE EMP ON TODO.EMP_NO = EMP.EMP_NO
+		INNER JOIN
+		COMPANY COM ON EMP.COM_NO = COM.COM_NO
+		WHERE
+		COM.COM_NO = #{comNo}
+		AND TODO.TODO_CODE = 'BB04130'
+		AND TODO.TODO_NO = #{todoNo}
+		AND TODO.TODO_DELYN ='N'
+	</select>
+
+</mapper>

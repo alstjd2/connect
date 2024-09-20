@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.RefnList.dao.RefnListMapper">
+  <resultMap id="RefnRMap" type="kr.or.ddit.vo.RefnListVO">
+    <id column="BUY_NO" jdbcType="NUMERIC" property="buyNo" />
+    <result column="REFN_DATE" jdbcType="VARCHAR" property="refnDate" />
+    <result column="REFN_CHK_DATE" jdbcType="VARCHAR" property="refnChkDate" />
+    <result column="REFN_DETAIL_CONTENT" jdbcType="VARCHAR" property="refnDetailContent" />
+    <result column="REFN_STATUS" jdbcType="VARCHAR" property="refnStatus" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <association property="buyDetail" javaType="BuyListVO" autoMapping="true"></association>
+  </resultMap>
+
+  <delete id="updateRefnStatus" parameterType="int">
+    UPDATE REFN_LIST
+    SET
+    	refn_status = #{refnStatus,jdbcType=VARCHAR};
+  </delete>
+
+  <insert id="insertRefnList" parameterType="kr.or.ddit.vo.RefnListVO">
+    INSERT
+    INTO REFN_LIST
+    (
+        BUY_NO
+        , REFN_DATE
+        , REFN_CHK_DATE
+        , COM_NO
+    )
+    VALUES
+    (
+    	#{buyNo,jdbcType=NUMERIC}
+    	, #{refnDate,jdbcType=VARCHAR}
+    	, #{refnChkDate,jdbcType=VARCHAR}
+    	, #{refnDetailContent,jdbcType=VARCHAR}
+    	, #{refnStatus,jdbcType=VARCHAR}
+    	, #{comNo,jdbcType=NUMERIC}
+     )
+  </insert>
+
+  <update id="updateRefnListDetail" parameterType="kr.or.ddit.vo.RefnListVO">
+	UPDATE REFN_LIST
+	SET
+		REFN_DATE = #{refnDate,jdbcType=VARCHAR},
+		REFN_CHK_DATE = #{refnChkDate,jdbcType=VARCHAR},
+		REFN_DETAIL_CONTENT = #{refnDetailContent,jdbcType=VARCHAR},
+		REFN_STATUS = #{refnStatus,jdbcType=VARCHAR},
+		COM_NO = #{comNo,jdbcType=NUMERIC}
+	WHERE BUY_NO = #{buyNo,jdbcType=NUMERIC}
+  </update>
+
+  <select id="selectRefnListDetail" parameterType="int" resultMap="RefnRMap">
+    SELECT
+	    BUY_NO
+	  , COM_NO
+	  , PROD_NO
+	  , BUY_DATE
+	  , BUY_USE_START_DATE
+	  , BUY_USE_END_DATE
+	  , BUY_REFN
+	  , BUY_CARD_NO
+	  , BUY_BANK_NM
+	  , BUY_CARD_NM
+	  , REFN_DATE
+	  , REFN_CHK_DATE
+	  , REFN_DETAIL_CONTENT
+	  , REFN_STATUS
+	  , COM_NO
+	FROM
+	         BUY_LIST
+	    NATURAL JOIN REFN_LIST
+	    WHERE BUY_NO = #{buyNo,jdbcType=NUMERIC}
+  </select>
+
+  <select id="selectRefnListAll" resultMap="RefnRMap">
+	SELECT
+	    BUY_NO
+	  , COM_NO
+	  , PROD_NO
+	  , BUY_DATE
+	  , BUY_USE_START_DATE
+	  , BUY_USE_END_DATE
+	  , BUY_REFN
+	  , BUY_CARD_NO
+	  , BUY_BANK_NM
+	  , BUY_CARD_NM
+	  , REFN_DATE
+	  , REFN_CHK_DATE
+	  , REFN_DETAIL_CONTENT
+	  , REFN_STATUS
+	  , COM_NO
+	FROM BUY_LIST NATURAL JOIN REFN_LIST
+  </select>
+
+	<select id="selectContentCnt" resultType="int" >
+		SELECT  COUNT(REFN_DETAIL_CONTENT) REFN_DETAIL_CONTENT
+		FROM REFN_LIST
+		WHERE REFN_DETAIL_CONTENT LIKE  #{refnDetailContent,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

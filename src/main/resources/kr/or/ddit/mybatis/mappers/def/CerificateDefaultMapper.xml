@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.CerificateDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.CerificateDefaultVO">
+    <id column="CERT_NO" jdbcType="NUMERIC" property="certNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="CERT_KIND" jdbcType="VARCHAR" property="certKind" />
+    <result column="CERT_IDATE" jdbcType="TIMESTAMP" property="certIdate" />
+    <result column="CERT_AMT" jdbcType="VARCHAR" property="certAmt" />
+    <result column="CERT_ISSCON" jdbcType="VARCHAR" property="certIsscon" />
+    <result column="CERT_PORP" jdbcType="VARCHAR" property="certPorp" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CERIFICATE
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.CerificateDefaultVO">
+    insert into CERIFICATE (CERT_NO, EMP_NO, COM_NO, 
+      CERT_KIND, CERT_IDATE, CERT_AMT, 
+      CERT_ISSCON, CERT_PORP)
+    values (#{certNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, 
+      #{certKind,jdbcType=VARCHAR}, #{certIdate,jdbcType=TIMESTAMP}, #{certAmt,jdbcType=VARCHAR}, 
+      #{certIsscon,jdbcType=VARCHAR}, #{certPorp,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.CerificateDefaultVO">
+    update CERIFICATE
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      COM_NO = #{comNo,jdbcType=NUMERIC},
+      CERT_KIND = #{certKind,jdbcType=VARCHAR},
+      CERT_IDATE = #{certIdate,jdbcType=TIMESTAMP},
+      CERT_AMT = #{certAmt,jdbcType=VARCHAR},
+      CERT_ISSCON = #{certIsscon,jdbcType=VARCHAR},
+      CERT_PORP = #{certPorp,jdbcType=VARCHAR}
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select CERT_NO, EMP_NO, COM_NO, CERT_KIND, CERT_IDATE, CERT_AMT, CERT_ISSCON, CERT_PORP
+    from CERIFICATE
+    where CERT_NO = #{certNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CERT_NO, EMP_NO, COM_NO, CERT_KIND, CERT_IDATE, CERT_AMT, CERT_ISSCON, CERT_PORP
+    from CERIFICATE
+  </select>
+</mapper>

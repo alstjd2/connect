@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.drive.dao.EdriveMapper">
+
+	<select id="selectEdriveLogListByEmpNo" parameterType="int" resultType="EdriveLogVO">
+		SELECT
+		    EDRIVELOG.EDRIVELOG_NO
+		  , EDRIVELOG.EDRIVELOG_DATE
+		  , EDRIVELOG.EDRIVELOG_CON
+		  , EDRIVELOG.EMP_NO
+		  , EDRIVELOG.EDRIVELOG_STATE
+		  , EDRIVELOG.EDRIVELOG_FILE_NM
+		  , EDRIVELOG.EDRIVELOG_FILE_EXTSN
+		  , EDRIVELOG.EDRIVELOG_FILE_FANCYSIZE
+		  , EDRIVELOG.EDRIVELOG_VIEWPATH
+		  , COMMONCODE_DETAIL.CONMCD_CODE as edriveLogStateNm
+		FROM
+		    EDRIVELOG INNER JOIN COMMONCODE_DETAIL ON (EDRIVELOG.EDRIVELOG_STATE =  COMMONCODE_DETAIL.CONMCD_NO)
+		WHERE
+		    EDRIVELOG.EMP_NO = #{empNo}
+		ORDER BY
+			EDRIVELOG.EDRIVELOG_NO DESC
+	</select>
+	
+	<insert id="insertEdrivelogByFile" parameterType="EdrivelogVO" >
+		INSERT INTO EDRIVELOG (
+		    EDRIVELOG_NO
+		    , EDRIVELOG_DATE
+		    , EMP_NO
+		    , EDRIVELOG_STATE
+		    , EDRIVELOG_FILE_NM
+		    , EDRIVELOG_FILE_EXTSN
+		    , EDRIVELOG_FILE_FANCYSIZE
+		    , EDRIVELOG_VIEWPATH
+		    , EDRIVELOG_CON
+		) VALUES (
+		    (SELECT NVL(MAX(EDRIVELOG_NO)+1, 1)
+		    FROM EDRIVELOG)
+		  , SYSDATE
+		  , #{empNo, jdbcType=NUMERIC}
+		  , #{edrivelogState, jdbcType=VARCHAR}
+		  , #{edrivelogFileNm, jdbcType=VARCHAR}
+		  , #{edrivelogFileExtsn, jdbcType=VARCHAR}
+		  , #{edrivelogFileFancysize, jdbcType=VARCHAR}
+		  , #{edrivelogViewpath, jdbcType=VARCHAR}
+		  , #{edrivelogCon, jdbcType=VARCHAR}
+		)
+	</insert>
+
+</mapper>

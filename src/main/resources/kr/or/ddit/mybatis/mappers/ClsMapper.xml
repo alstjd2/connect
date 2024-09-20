@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.cls.dao.ClsMapper">
+	<resultMap type="ClsVO" id="clsMap" autoMapping="true">
+        <id property="clsNo" column="CLS_NO"/>
+        <association property="chi" javaType="ChiVO" autoMapping="true" />
+        <collection property="svyAnsListList" ofType="SvyAnsListVO" autoMapping="true" />
+    </resultMap>
+    
+    <select id="selectClsList" resultMap="clsMap">
+    	SELECT CLS_NO
+    		, CHI_NO
+    		, CLS_CNT
+    		, CLS_IMG
+    	FROM CLS
+	</select>
+
+    
+	<select id="selectCls" parameterType="int"
+		resultMap="clsMap">
+		SELECT CLS_NO
+			, CHI_NO
+			, CLS_CNT
+			, CLS_IMG
+	    FROM CLS
+	    WHERE CLS_NO = #{clsNo,jdbcType=NUMERIC}
+	</select>
+	
+	<insert id="insertCls" parameterType="ClsVO" >
+		<selectKey order="BEFORE" resultType="int" keyProperty="clsNo">
+			SELECT CLS_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+      	INSERT INTO CLS (
+      		CLS_NO
+      		, CHI_NO
+      		, CLS_CNT
+      		, CLS_IMG)
+    	VALUES (#{clsNo,jdbcType=NUMERIC}
+    		, #{chiNo,jdbcType=NUMERIC}
+    		, #{clsCnt,jdbcType=VARCHAR}
+    		, #{clsImg,jdbcType=NUMERIC})
+      	
+	</insert>
+	
+	<update id="updateCls" parameterType="ClsVO">
+   		UPDATE CLS
+    	SET CHI_NO = #{chiNo,jdbcType=NUMERIC}
+    			, CLS_CNT = #{clsCnt,jdbcType=VARCHAR}
+    			, CLS_IMG = #{clsImg,jdbcType=NUMERIC}
+    	WHERE CLS_NO = #{clsNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteCls" >
+	    DELETE FROM CLS
+    	WHERE CLS_NO = #{clsNo,jdbcType=NUMERIC}
+  </delete>
+</mapper>

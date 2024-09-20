@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.TodolistCategoryDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.TodolistCategoryDefaultVO">
+    <id column="TODOCATE_NO" jdbcType="NUMERIC" property="todocateNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="TODOCATE_TITLE" jdbcType="VARCHAR" property="todocateTitle" />
+    <result column="TODOCATE_DATE" jdbcType="TIMESTAMP" property="todocateDate" />
+    <result column="TODOCATE_DELYN" jdbcType="VARCHAR" property="todocateDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TODOLIST_CATEGORY
+    where TODOCATE_NO = #{todocateNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.TodolistCategoryDefaultVO">
+    insert into TODOLIST_CATEGORY 
+	    (TODOCATE_NO
+	    , EMP_NO
+	    , TODOCATE_TITLE, 
+	      TODOCATE_DATE
+	      , TODOCATE_DELYN)
+	    values (#{todocateNo,jdbcType=NUMERIC}
+	    , #{empNo,jdbcType=NUMERIC}
+	    , #{todocateTitle,jdbcType=VARCHAR}
+	    , #{todocateDate,jdbcType=TIMESTAMP}
+	    , #{todocateDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.TodolistCategoryDefaultVO">
+    update TODOLIST_CATEGORY
+    set EMP_NO = #{empNo,jdbcType=NUMERIC},
+      TODOCATE_TITLE = #{todocateTitle,jdbcType=VARCHAR},
+      TODOCATE_DATE = #{todocateDate,jdbcType=TIMESTAMP},
+      TODOCATE_DELYN = #{todocateDelyn,jdbcType=VARCHAR}
+    where TODOCATE_NO = #{todocateNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select TODOCATE_NO, EMP_NO, TODOCATE_TITLE, TODOCATE_DATE, TODOCATE_DELYN
+    from TODOLIST_CATEGORY
+    where TODOCATE_NO = #{todocateNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select TODOCATE_NO, EMP_NO, TODOCATE_TITLE, TODOCATE_DATE, TODOCATE_DELYN
+    from TODOLIST_CATEGORY
+  </select>
+</mapper>

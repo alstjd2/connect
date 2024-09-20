@@ -1,0 +1,113 @@
+<span class="container flex-grow-1 container-p-y bg-white">
+    <div>
+        <!-- 문서 헤더 시작-->
+        <table class="table">
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>차량렌탈신청서</th>
+                    <th>[결재선]</th>
+                </tr>
+            </thead>
+        </table>
+        <!-- 문서 헤더 끝-->
+
+        <!-- 문서 정보 시작-->
+        <table class="table" id="approvalTable">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>문서번호</th>
+                    <td>문서번호</td>
+                    <th>보안등급</th>
+                    <td>보안등급</td>
+                    <th>기안일시</th>
+                    <td>기안일</td>
+                </tr>
+                <tr>
+                    <th>기안자</th>
+                    <td>기안자</td>
+                    <th>부서</th>
+                    <td>기안부서</td>
+                    <th>보존연한</th>
+                    <td>보존연한</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 문서 정보 끝-->
+
+        <!-- 차량렌탈 신청서 시작-->
+        <table class="table">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>제목</th>
+                    <td colspan="2"><input class="form-control bg-white" type="text"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">아래와 같이 차량렌탈을 신청합니다.</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">신청인</th>
+                    <th>부서명</th>
+                    <td><input class="form-control bg-white" type="text"></td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td><input class="form-control bg-white" type="text"></td>
+                </tr>
+                <tr>
+                    <th rowspan="4">신청내역</th>
+                    <th>신청기간</th>
+                    <td>
+                        <input class="form-control bg-white" type="text">
+                        <select>
+                            <option value="00" selected="selected">00</option>
+                            <option value="01">01</option>
+                        </select>시
+                        <select>
+                            <option value="00" selected="selected">00</option>
+                            <option value="01">01</option>
+                        </select>분부터
+                        <input class="form-control bg-white" type="text">
+                        <select>
+                            <option value="00" selected="selected">00</option>
+                            <option value="01">01</option>
+                        </select>시
+                        <select>
+                            <option value="00" selected="selected">00</option>
+                            <option value="01">01</option>
+                        </select>분까지
+                    </td>
+                </tr>
+                <tr>
+                    <th>신청사유</th>
+                    <td><input class="form-control bg-white" type="text"></td>
+                </tr>
+                <tr>
+                    <th>희망차종</th>
+                    <td><input class="form-control bg-white" type="text"></td>
+                </tr>
+                <tr>
+                    <th>기타</th>
+                    <td><input class="form-control bg-white" type="text"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 차량렌탈 신청서 끝-->
+    </div>
+</span>

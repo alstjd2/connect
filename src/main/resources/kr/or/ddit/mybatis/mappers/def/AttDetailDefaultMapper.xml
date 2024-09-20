@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.AttDetailDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.AttDetailDefaultVO">
+    <id column="ATTD_NO" jdbcType="NUMERIC" property="attdNo" />
+    <id column="ATT_NO" jdbcType="NUMERIC" property="attNo" />
+    <result column="ATTD_QRINM" jdbcType="VARCHAR" property="attdQrinm" />
+    <result column="ATTD_SAVENM" jdbcType="VARCHAR" property="attdSavenm" />
+    <result column="ATTD_PATH" jdbcType="VARCHAR" property="attdPath" />
+    <result column="ATTD_EXE" jdbcType="VARCHAR" property="attdExe" />
+    <result column="ATTD_SIZE" jdbcType="VARCHAR" property="attdSize" />
+    <result column="ATTD_DELYN" jdbcType="VARCHAR" property="attdDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from ATT_DETAIL
+    where ATTD_NO = #{attdNo,jdbcType=NUMERIC}
+      and ATT_NO = #{attNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.AttDetailDefaultVO">
+    insert into ATT_DETAIL (ATTD_NO, ATT_NO, ATTD_QRINM, 
+      ATTD_SAVENM, ATTD_PATH, ATTD_EXE, 
+      ATTD_SIZE, ATTD_DELYN)
+    values (#{attdNo,jdbcType=NUMERIC}, #{attNo,jdbcType=NUMERIC}, #{attdQrinm,jdbcType=VARCHAR}, 
+      #{attdSavenm,jdbcType=VARCHAR}, #{attdPath,jdbcType=VARCHAR}, #{attdExe,jdbcType=VARCHAR}, 
+      #{attdSize,jdbcType=VARCHAR}, #{attdDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.AttDetailDefaultVO">
+    update ATT_DETAIL
+    set ATTD_QRINM = #{attdQrinm,jdbcType=VARCHAR},
+      ATTD_SAVENM = #{attdSavenm,jdbcType=VARCHAR},
+      ATTD_PATH = #{attdPath,jdbcType=VARCHAR},
+      ATTD_EXE = #{attdExe,jdbcType=VARCHAR},
+      ATTD_SIZE = #{attdSize,jdbcType=VARCHAR},
+      ATTD_DELYN = #{attdDelyn,jdbcType=VARCHAR}
+    where ATTD_NO = #{attdNo,jdbcType=NUMERIC}
+      and ATT_NO = #{attNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select ATTD_NO, ATT_NO, ATTD_QRINM, ATTD_SAVENM, ATTD_PATH, ATTD_EXE, ATTD_SIZE, 
+    ATTD_DELYN
+    from ATT_DETAIL
+    where ATTD_NO = #{attdNo,jdbcType=NUMERIC}
+      and ATT_NO = #{attNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ATTD_NO, ATT_NO, ATTD_QRINM, ATTD_SAVENM, ATTD_PATH, ATTD_EXE, ATTD_SIZE, 
+    ATTD_DELYN
+    from ATT_DETAIL
+  </select>
+</mapper>

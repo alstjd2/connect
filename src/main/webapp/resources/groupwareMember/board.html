@@ -1,0 +1,684 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-addr.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="assets\img\branding\symbol.png" alt="symbol">
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            connect
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-user'></i>
+                            <div class="text-truncate" data-i18n="개인정보">개인정보</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="myInfo-modify.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="정보수정">정보수정</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="휴가관리">휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="myInfo-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태현황">근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="부서 근태">부서 근태</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="department-vacation.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 휴가관리">부서 휴가관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="department-commute.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부서 근태현황">부서 근태현황</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-spreadsheet'></i>
+                            <div class="text-truncate" data-i18n="문서결재">문서결재</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div class="  text-truncate" data-i18n="결재문서">결재문서</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="대기">대기</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="예정">예정</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="처리">처리</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="완료">완료</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="" class="menu-link">
+                                            <div class="text-truncate" data-i18n="전체">전체</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-new.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서생성">문서생성</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-ref.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="참조문서">참조문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-receive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="수신문서">수신문서</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-storage.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="임시보관">임시보관</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="addressBook.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bxs-user-detail'></i>
+                            <div class="text-truncate" data-i18n="주소록">주소록</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="mail.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-envelope'></i>
+                            <div class="text-truncate" data-i18n="메일">메일</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="message.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-chat'></i>
+                            <div class="text-truncate" data-i18n="메시지">메시지</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="board.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-clipboard'></i>
+                            <div class="text-truncate" data-i18n="게시판">게시판</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-calendar-check'></i>
+                            <div class="text-truncate" data-i18n="일정관리">일정관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더">캘린더</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="일정">일정</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="survey.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-message-square-check'></i>
+                            <div class="text-truncate" data-i18n="설문">설문</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="webCam.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx bx-camera-home'></i>
+                            <div class="text-truncate" data-i18n="화상회의">화상회의</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="drive.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-cloud-upload'></i>
+                            <div class="text-truncate" data-i18n="드라이브">드라이브</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="bell.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-bell'></i>
+                            <div class="text-truncate" data-i18n="알림">알림설정</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-md"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <i class="bx bx-md"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-start dropdown-styles">
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                                            <span><i class="bx bx-sun bx-md me-3"></i>Light</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                                            <span><i class="bx bx-moon bx-md me-3"></i>Dark</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                                            <span><i class="bx bx-desktop bx-md me-3"></i>System</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">John Doe</h6>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"> <i
+                                                class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <span class="d-flex align-items-center align-middle">
+                                                <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i><span
+                                                    class="flex-grow-1 align-middle ms-1">Billing Plan</span>
+                                                <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider my-1"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="app-email card">
+                        <div class="row g-0">
+                            <!-- 게시글 사이드바 -->
+                            <div class="col app-email-sidebar border-end flex-grow-0" id="app-email-sidebar">
+                                <div class="btn-compost-wrapper d-grid">
+                                    <button class="btn btn-primary btn-compose" >
+                                        <i class='bx bx-edit pe-2'></i>
+                                        새 게시글 작성
+                                    </button>
+                                </div>
+                                <!-- 게시글 필터 -->
+                                <div class="email-filters pt-4 pb-2">
+                                    <!-- 게시글 필터: 폴더 -->
+                                    <ul class="email-filter-folders list-unstyled">
+                                        <li class="d-flex mb-1 active">
+                                            <a href="addressBook-group.html"
+                                                class="d-flex flex-wrap align-items-center">
+                                                <i class='bx bxs-file-plus'></i>
+                                                <span class="align-middle ms-2">최신글</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-flex mb-1">
+                                            <a href="addressBook-mark.html" class="d-flex flex-wrap align-items-center">
+                                                <i class='bx bxs-user-badge'></i>
+                                                <span class="align-middle ms-2">내게시글</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-flex mb-1">
+                                            <a href="addressBook-out.html" class="d-flex flex-wrap align-items-center">
+                                                <i class='bx bx-error-alt'></i>
+                                                <span class="align-middle ms-2">필독</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-flex mb-1">
+                                            <a href="addressBook-trash.html"
+                                                class="d-flex flex-wrap align-items-center">
+                                                <i class='bx bx-star'></i>
+                                                <span class="align-middle ms-2">중요</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-flex mb-1">
+                                            <a href="addressBook-trash.html"
+                                                class="d-flex flex-wrap align-items-center">
+                                                <i class="bx bx-trash"></i>
+                                                <span class="align-middle ms-2">휴지통</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--/ 게시글 사이드바 -->
+
+                            <!-- 게시글 목록 -->
+                            <div class="col app-emails-list">
+                                <div class="card shadow-none border-0 rounded-0">
+                                    <div class="card-body emails-list-header p-3 py-2">
+                                        <!-- 게시글 목록: 검색 -->
+                                        <div class="d-flex justify-content-between align-items-center px-3 mt-2">
+                                            <div class="d-flex align-items-center w-100">
+                                                <i class="bx bx-menu bx-lg cursor-pointer d-block d-lg-none me-4 mb-4" data-bs-toggle="sidebar" data-target="#app-email-sidebar" data-overlay></i>
+                                                <div class="mb-4 w-100">
+                                                    <div class="input-group input-group-merge shadow-none">
+                                                        <span class="input-group-text border-0 p-0 pe-4" id="email-search">
+                                                            <i class="bx bx-search bx-md text-body"></i>
+                                                        </span>
+                                                        <input type="text"
+                                                            class="form-control email-search-input border-0 py-0"
+                                                            placeholder="게시글 검색" aria-label="게시글 검색"
+                                                            aria-describedby="email-search" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="mx-n3 emails-list-header-hr mb-2" />
+                                        <!-- 게시글 목록: 액션 -->
+                                        <div class="d-flex justify-content-end align-items-center ps-1">
+                                            <div class="d-flex align-items-center">
+                                                <span class="btn btn-icon me-1">
+                                                    <i class="bx bx-refresh bx-md scaleX-n1-rtl cursor-pointer email-refresh"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="container-m-nx m-0" />
+                                    <!-- Email List: Items -->
+                                    <div class="email-list pt-0">
+                                        <ul class="list-unstyled m-0">
+                                            <li class="email-list-item email-marked-read d-flex align-items-center" data-starred="true" data-bs-toggle="sidebar" data-target="#app-email-view">
+                                                <div class="d-flex align-items-center w-100">
+                                                    <div class="form-check mb-0 ms-2">
+                                                        <input class="email-list-item-input form-check-input"
+                                                            type="checkbox" id="email-1" />
+                                                        <label class="form-check-label" for="email-1"></label>
+                                                    </div>
+                                                    <span class="ms-sm-3 me-4 d-sm-inline-block d-none"><i
+                                                            class="email-list-item-bookmark bx bx-star bx-md cursor-pointer ms-1"></i></span>
+                                                    <img src="assets/img/avatars/1.png" alt="사용자 아바타"
+                                                        class="d-block flex-shrink-0 rounded-circle me-sm-2 me-0"
+                                                        height="32" width="32" />
+                                                    <div class="email-list-item-content ms-2 ms-sm-0 me-2">
+                                                        <span class="email-list-item-username me-2 text-heading">챈들러
+                                                            빙</span>
+                                                        <small
+                                                            class="email-list-item-subject d-xl-inline-block d-block">
+                                                            GitHub 프로젝트의 주요 이슈들에 대한 집중적인 영향</small>
+                                                    </div>
+                                                    <div class="email-list-item-meta ms-auto d-flex align-items-center">
+                                                        <span class="email-list-item-attachment bx bx-paperclip bx-md cursor-pointer me-2 float-end float-sm-none"></span>
+                                                        <small class="email-list-item-time text-muted">08:40 AM</small>
+                                                        <ul class="list-inline email-list-item-actions">
+                                                            <li class="list-inline-item email-delete btn btn-icon">
+                                                                <i class="bx bx-trash bx-md"></i>
+                                                            </li>
+                                                            <li class="list-inline-item email-unread btn btn-icon">
+                                                                <i class="bx bx-envelope bx-md"></i>
+                                                            </li>
+                                                            <li class="list-inline-item btn btn-icon"><i
+                                                                    class="bx bx-info-circle bx-md"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled m-0">
+                                            <li class="email-list-item email-marked-read d-flex align-items-center" 
+                                            data-starred="true" data-bs-toggle="sidebar" data-target="#app-email-view">
+                                                <div class="d-flex align-items-center w-100">
+                                                    <div class="form-check mb-0 ms-2">
+                                                        <input class="email-list-item-input form-check-input"
+                                                            type="checkbox" id="email-1" />
+                                                        <label class="form-check-label" for="email-1"></label>
+                                                    </div>
+                                                    <span class="ms-sm-3 me-4 d-sm-inline-block d-none"><i
+                                                            class="email-list-item-bookmark bx bx-star bx-md cursor-pointer ms-1"></i></span>
+                                                    <img src="assets/img/avatars/1.png" alt="사용자 아바타"
+                                                        class="d-block flex-shrink-0 rounded-circle me-sm-2 me-0"
+                                                        height="32" width="32" />
+                                                    <div class="email-list-item-content ms-2 ms-sm-0 me-2">
+                                                        <span class="email-list-item-username me-2 text-heading">챈들러
+                                                            빙</span>
+                                                        <small
+                                                            class="email-list-item-subject d-xl-inline-block d-block">
+                                                            GitHub 프로젝트의 주요 이슈들에 대한 집중적인 영향33</small>
+                                                    </div>
+                                                    <div class="email-list-item-meta ms-auto d-flex align-items-center">
+                                                        <span class="email-list-item-attachment bx bx-paperclip bx-md cursor-pointer me-2 float-end float-sm-none"></span>
+                                                        <small class="email-list-item-time text-muted">08:40 AM</small>
+                                                        <ul class="list-inline email-list-item-actions">
+                                                            <li class="list-inline-item email-delete btn btn-icon">
+                                                                <i class="bx bx-trash bx-md"></i>
+                                                            </li>
+                                                            <li class="list-inline-item email-unread btn btn-icon">
+                                                                <i class="bx bx-envelope bx-md"></i>
+                                                            </li>
+                                                            <li class="list-inline-item btn btn-icon"><i
+                                                                    class="bx bx-info-circle bx-md"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled m-0">
+                                            <li class="email-list-empty text-center d-none">No items found.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="app-overlay"></div>
+                            </div>
+                            <!-- /Emails List -->
+
+                            <!-- 게시글 보기 -->
+                            <div class="col app-email-view flex-grow-0 bg-lighter" id="app-email-view">
+                                <div class="card shadow-none border-0 rounded-0 app-email-view-header p-5 pt-md-4">
+                                    <!-- 게시글 보기 : 제목 바 -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center overflow-hidden">
+                                            <span class="ms-sm-2 me-4">
+                                                <i class="bx bx-chevron-left bx-md cursor-pointer" data-bs-toggle="sidebar" data-target="#app-email-view"></i>
+                                            </span>
+                                            <h5 class="text-truncate mb-0 me-2 fw-bold">중요한 영향력 있는 열려있는 문제들</h5>
+                                            <span class="badge bg-label-warning">중요</span>
+                                        </div>
+                                        <!-- 게시글 보기 : 액션 바 -->
+                                        <div class="d-flex align-items-center">
+                                            <span class="btn btn-icon p-0 me-2 text-muted">
+                                                <i class="bx bx-chevron-left bx-md"></i>
+                                            </span>
+                                            <span class="btn btn-icon p-0">
+                                                <i class="bx bx-chevron-right bx-md"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0" />
+                                <!-- 게시글 보기 : 내용 -->
+                                <div class="app-email-view-content py-4">
+                                    <!-- 게시글 보기 : 마지막 메일 -->
+                                    <div class="card  mx-sm-6 mx-3 mt-4">
+                                        <div
+                                            class="card-header d-flex justify-content-between align-items-center flex-wrap border-bottom">
+                                            <div class="d-flex align-items-center mb-sm-0 mb-3">
+                                                <img src="assets/img/avatars/1.png" alt="user-avatar"
+                                                    class="flex-shrink-0 rounded-circle me-4" height="38" width="38" />
+                                                <div class="flex-grow-1 ms-1">
+                                                    <h6 class="m-0 fw-normal">챈들러 빙</h6>
+                                                    <small class="text-body">iAmAhoot@email.com</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <p class="mb-0 me-4 text-muted">2020년 6월 20일, 오전 08:10</p>
+                                                <span class="btn btn-icon"><i class="bx bx-paperclip bx-md cursor-pointer"></i></span>
+                                                <span class="btn btn-icon"><i class="email-list-item-bookmark bx bx-star bx-md cursor-pointer"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-6">
+                                            <p class="fw-medium">안녕하세요!</p>
+                                            <p>
+                                                페이지의 레이아웃을 볼 때 독자는 읽을 수 있는 내용에 방해받는 것이 오랫동안 정립된 사실입니다. Lorem Ipsum을 사용하는
+                                                이유는 문자 분포가 대략 정규 분포를 갖기 때문입니다. '여기 내용, 여기 내용'을 사용하는 대신 더 읽기 쉬운 영어처럼 보이게
+                                                합니다.
+                                            </p>
+                                            <p>
+                                                Lorem Ipsum의 많은 변형이 있지만, 대부분은 어떤 형태로든 변경되었거나, 우스갯소리 또는 랜덤한 단어가 포함되어 있으며,
+                                                그로 인해 전혀 믿을 수 없는 것처럼 보입니다.
+                                            </p>
+                                            <p class="mb-0">진심으로,</p>
+                                            <p class="fw-medium mb-0">Envato 디자인 팀</p>
+                                            <hr />
+                                            <p class="text-muted mb-2">첨부파일</p>
+                                            <div class="cursor-pointer">
+                                                <i class="bx bx-file"></i>
+                                                <span class="align-middle ms-1">report.xlsx</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 게시글 보기 : 회신 메일 -->
+                                    <div class="email-reply card mt-4 mx-sm-6 mx-3 mb-4">
+                                        <h6 class="card-header border-0 fw-normal pb-4">답변쓰기</h6>
+                                        <div class="card-body pt-0 ps-3">
+                                            <div class="d-flex justify-content-start">
+                                                <div class="email-reply-toolbar border-0 w-100 ps-0 pb-4">
+                                                    <span class="ql-formats me-0">
+                                                        <button class="ql-bold"></button>
+                                                        <button class="ql-italic"></button>
+                                                        <button class="ql-underline"></button>
+                                                        <button class="ql-list" value="ordered"></button>
+                                                        <button class="ql-list" value="bullet"></button>
+                                                        <button class="ql-link"></button>
+                                                        <button class="ql-image"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="email-reply-editor"></div>
+                                            <div class="d-flex justify-content-end align-items-center mt-4">
+                                                <div class="cursor-pointer btn btn-text-secondary text-secondary me-4">
+                                                    <i class="bx bx-paperclip bx-16px text-heading me-2"></i>
+                                                    <span class="align-middle">첨부파일</span>
+                                                </div>
+                                                <button class="btn btn-primary">
+                                                    <span class="align-middle">작성하기</span>
+                                                    <i class="bx bx-paper-plane bx-sm ms-2 scaleX-n1-rtl"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 게시글 보기 -->
+                        </div>
+
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <!-- Page JS -->
+
+<!--     <script defer src="assets/js/app-email.js"></script> -->
+
+    <!-- Core JS -->
+<!--     build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/locale/ko.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

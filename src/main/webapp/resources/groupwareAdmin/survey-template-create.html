@@ -1,0 +1,462 @@
+<!doctype html>
+
+<html lang="ko" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+    data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-starter"
+    data-style="light">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Connect</title>
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/font.css" />
+
+    <!-- Font-icon -->
+    <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" />
+    <link rel="stylesheet" type="text/css" href="assets/vendor/css/rtl/theme-semi-dark.css">
+    <link rel="stylesheet" href="assets/css/connect.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css">
+    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/tagify/tagify.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jstree/jstree.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-invoice.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-logistics-dashboard.css" />
+    <link rel="stylesheet" href="assets/vendor/css/pages/app-email.css" />
+
+
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <!--! 템플릿 커스터마이저 & 테마 구성 파일은 <head> 섹션의 핵심 스타일시트와 helper.js 뒤에 포함되어야 합니다 -->
+    <!--? 템플릿 커스터마이저: 커스터마이저 세트를 숨기려면 config.js에서 Customizer 값을 false로 표시합니다.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config: 필수 테마 구성 파일에 글로벌 var & 기본 테마 옵션이 포함되어 있습니다. 이 파일에서 선호하는 테마 옵션을 설정하십시오  -->
+    <script src="assets/js/config.js"></script>
+
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo fs-2 fw-bold">
+                            A
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bold ms-2">
+                            Admin
+                        </span>
+                    </a>
+
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm d-flex align-items-center justify-content-center"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Page -->
+                    <li class="menu-item">
+                        <a href="company.html" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-buildings'></i>
+                            <div class="text-truncate" data-i18n="기업관리">기업관리</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-group'></i>
+                            <div class="text-truncate" data-i18n="인사관리">인사관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="personnel-organization.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="조직관리">조직관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-employee.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="직원관리">직원관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="personnel-certificate.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="증명서관리">증명서관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-transfer-alt'></i>
+                            <div class="text-truncate" data-i18n="근태관리">근태관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="attendance-time.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="근태 시간 현황">근태 시간 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-schedule.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 일정 조회">부재 일정 조회</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-application.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 신청 현황">부재 신청 현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="attendance-category.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="부재 항목 관리">부재 항목 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-file'></i>
+                            <div class="text-truncate" data-i18n="문서관리">문서관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="document-number.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="문서 번호 관리">문서 번호 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="document-list.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="전체 문서함">전체 문서함</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-customize'></i>
+                            <div class="text-truncate" data-i18n="서비스관리">서비스관리</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="mail.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메일 관리">메일 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="message.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">메시지 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="calendar.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="캘린더 관리">캘린더 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="board.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 관리">게시판 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="survey-template.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="설문 관리">설문 관리</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="drive.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 관리">드라이브 관리</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-doughnut-chart'></i>
+                            <div class="text-truncate" data-i18n="사용통계">사용통계</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="드라이브 사용용량">드라이브 사용용량</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="메시지 관리">구성원 증감 추세</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="보낸 메일 수">보낸 메일 수</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="게시판 사용현황">게시판 사용현황</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="statistics.html" class="menu-link">
+                                    <div class="text-truncate" data-i18n="회의 진행 통계">회의 진행 통계</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="layout-page">
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <!-- <div class="col-md-12">
+                            <div class="nav-align-top">
+                                <ul class="nav nav-pills flex-column flex-sm-row mb-6">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="javascript:void(0);">
+                                            <i class='bx bx-check-square bx-sm me-1_5'></i>
+                                            설문 탬플릿 관리
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="pages-profile-teams.html">
+                                            <i class='bx bx-list-check bx-sm me-1_5'></i>
+                                            설문 전체
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                        <div class="col-md-6 m-auto">
+                            <form action="">
+                                <div class="card">
+                                    <h5 class="card-header">
+                                        템플릿 생성
+                                    </h5>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">설문지 제목</label>
+                                            <input type="text" class="form-control" id="" placeholder="설문지 제목을 입력하세요">
+                                        </div>
+                                        <div class="mb-4 pb-2 d-flex gap-5 flex-wrap border-bottom px-2">
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="" checked="">
+                                                <label class="form-check-label" for="">중요 설문 여부 </label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="" checked="">
+                                                <label class="form-check-label" for="">익명 투표 여부 </label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="" checked="">
+                                                <label class="form-check-label" for="">응답자 모두 응답 여부 </label>
+                                            </div>
+                                        </div>
+                                        <table class="w-100 ">
+                                            <tbody id="survey-list" class="pb-5">
+                                                <tr class="survey-container border-white border-bottom-10" id="survey-1">
+                                                    <td class=" p-5 bg-light-subtle rounded">
+                                                        <div class="form-check form-switch mb-3">
+                                                            <input class="form-check-input" type="checkbox" id="survey-1-multi-select">
+                                                            <label class="form-check-label" for="survey-1-multi-select">복수 선택 여부</label>
+                                                        </div>
+                                                        <input type="text" class="form-control bg-white mb-4" id="" name="survey-1-title" placeholder="설문1 | 제목을 입력하세요.">
+                                                        <div class="questions-list" id="questions-list-1">
+                                                            <div class="question-container mb-2 ms-0 row w-100">
+                                                                <label for="question-1-1" class="col-md-1 col-form-label text-center fw-bold p-0">1</label>
+                                                                <div class="col-md-11 p-0">
+                                                                    <input type="text" name="survey-1-question-1" id="question-1-1" class="form-control bg-white" placeholder="항목을 입력하세요">
+                                                                </div>
+                                                            </div>
+                                                            <div class="question-container mb-2 ms-0 row w-100">
+                                                                <label for="question-1-2" class="col-md-1 col-form-label text-center fw-bold p-0">2</label>
+                                                                <div class="col-md-11 p-0">
+                                                                    <input type="text" name="survey-1-question-2" id="question-1-2" class="form-control bg-white" placeholder="항목을 입력하세요">
+                                                                </div>
+                                                            </div>
+                                                            <!-- 항목이 추가되는 영역 -->
+                                                        </div>
+                                                        <button type="button" class="btn  btn-label-secondary btn-sm w-100" onclick="addQuestion(1)">
+                                                            <span class='tf-icons bx bx-plus bx-18px me-2'></span>
+                                                            항목 추가
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <!-- 설문 폼이 추가되는 영역 -->
+                                            </tbody>
+                                            <tfoot class="w-100">
+                                                <tr class="survey-container">
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="addSurvey()">
+                                                            <span class='tf-icons bx bx-plus bx-18px me-2'></span>
+                                                            설문 추가
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary w-100">생성하기</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+        <script>
+            let surveyCount = 1;
+            const maxSurveys = 10;
+            const maxQuestions = 15;
+    
+            function addSurvey() {
+                if (surveyCount >= maxSurveys) {
+                    alert('설문은 최대 10개까지 추가할 수 있습니다.');
+                    return;
+                }
+                surveyCount++;
+                const surveyContainer = document.createElement('tr');
+                surveyContainer.className = 'survey-container border-white border-bottom-10';
+                surveyContainer.id = `survey-${surveyCount}`;
+    
+                surveyContainer.innerHTML = `
+                    <td class=" p-5 bg-light-subtle rounded">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="survey-1-multi-select">
+                            <label class="form-check-label" for="survey-1-multi-select">복수 선택 여부</label>
+                        </div>
+                        <input type="text" class="form-control bg-white mb-4" id="" name="survey-${surveyCount}-title" placeholder="설문${surveyCount} | 제목을 입력하세요.">
+                        <div class="questions-list" id="questions-list-${surveyCount}">
+                            <div class="question-container mb-2 ms-0 row w-100">
+                                <label for="question-${surveyCount}-1" class="col-md-1 col-form-label text-center fw-bold p-0">1</label>
+                                <div class="col-md-11 p-0">
+                                    <input type="text" name="survey-${surveyCount}-question-1" id="question-${surveyCount}-1" class="form-control bg-white" placeholder="항목을 입력하세요">
+                                </div>
+                            </div>
+                            <div class="question-container mb-2 ms-0 row w-100">
+                                <label for="question-${surveyCount}-2" class="col-md-1 col-form-label text-center fw-bold p-0">2</label>
+                                <div class="col-md-11 p-0">
+                                    <input type="text" name="survey-${surveyCount}-question-2" id="question-${surveyCount}-2" class="form-control bg-white" placeholder="항목을 입력하세요">
+                                </div>
+                            </div>
+                            <!-- 항목이 추가되는 영역 -->
+                        </div>
+                        <button type="button" class="btn  btn-label-secondary btn-sm w-100" onclick="addQuestion(${surveyCount})">
+                            <span class='tf-icons bx bx-plus bx-18px me-2'></span>
+                            항목 추가
+                        </button>
+                    </td>
+                `;
+    
+                document.getElementById('survey-list').appendChild(surveyContainer);
+            }
+    
+            function addQuestion(surveyId) {
+                const questionsList = document.getElementById(`questions-list-${surveyId}`);
+                const questionCount = questionsList.children.length + 1;
+                if (questionCount > maxQuestions) {
+                    alert('항목은 설문당 최대 15개까지 추가할 수 있습니다.');
+                    return;
+                }
+                
+                const questionContainer = document.createElement('div');
+                questionContainer.className = 'question-container mb-2 ms-0 row w-100';
+    
+                questionContainer.innerHTML = `
+                    <label for="question-${surveyId}-${questionCount}" class="col-md-1 col-form-label text-center fw-bold p-0">${questionCount}</label>
+                    <div class="col-md-11 p-0">
+                        <input type="text" name="survey-${surveyId}-question-${questionCount}" id="question-${surveyId}-${questionCount}" class="form-control bg-white" placeholder="항목을 입력하세요">
+                    </div>
+                `;
+    
+                questionsList.appendChild(questionContainer);
+            }
+        </script>
+    </div>
+    <!-- Page JS -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/quill/katex.js"></script>
+    <script src="assets/vendor/libs/quill/quill.js"></script>
+    <script src="assets/vendor/libs/select2/select2.js"></script>
+    <script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script src="assets/vendor/libs/@form-validation/popular.js"></script>
+    <script src="assets/vendor/libs/@form-validation/bootstrap5.js"></script>
+    <script src="assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="assets/vendor/libs/autosize/autosize.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+    <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="assets/vendor/libs/moment/moment.js"></script>
+    <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="assets/vendor/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/libs/tagify/tagify.js"></script>
+    <script src="assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/libs/bloodhound/bloodhound.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

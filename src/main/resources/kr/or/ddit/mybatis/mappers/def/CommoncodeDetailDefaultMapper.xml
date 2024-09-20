@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.CommoncodeDetailDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.CommoncodeDetailDefaultVO">
+    <id column="CONMCD_NO" jdbcType="VARCHAR" property="conmcdNo" />
+    <id column="CONMC_NO" jdbcType="VARCHAR" property="conmcNo" />
+    <result column="CONMCD_CODE" jdbcType="VARCHAR" property="conmcdCode" />
+    <result column="CONMCD_CON" jdbcType="VARCHAR" property="conmcdCon" />
+    <result column="CONMCD_DATE" jdbcType="TIMESTAMP" property="conmcdDate" />
+    <result column="CONMCD_DELYN" jdbcType="VARCHAR" property="conmcdDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from COMMONCODE_DETAIL
+    where CONMCD_NO = #{conmcdNo,jdbcType=VARCHAR}
+      and CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.CommoncodeDetailDefaultVO">
+    insert into COMMONCODE_DETAIL (CONMCD_NO, CONMC_NO, CONMCD_CODE, 
+      CONMCD_CON, CONMCD_DATE, CONMCD_DELYN
+      )
+    values (#{conmcdNo,jdbcType=VARCHAR}, #{conmcNo,jdbcType=VARCHAR}, #{conmcdCode,jdbcType=VARCHAR}, 
+      #{conmcdCon,jdbcType=VARCHAR}, #{conmcdDate,jdbcType=TIMESTAMP}, #{conmcdDelyn,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.CommoncodeDetailDefaultVO">
+    update COMMONCODE_DETAIL
+    set CONMCD_CODE = #{conmcdCode,jdbcType=VARCHAR},
+      CONMCD_CON = #{conmcdCon,jdbcType=VARCHAR},
+      CONMCD_DATE = #{conmcdDate,jdbcType=TIMESTAMP},
+      CONMCD_DELYN = #{conmcdDelyn,jdbcType=VARCHAR}
+    where CONMCD_NO = #{conmcdNo,jdbcType=VARCHAR}
+      and CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select CONMCD_NO, CONMC_NO, CONMCD_CODE, CONMCD_CON, CONMCD_DATE, CONMCD_DELYN
+    from COMMONCODE_DETAIL
+    where CONMCD_NO = #{conmcdNo,jdbcType=VARCHAR}
+      and CONMC_NO = #{conmcNo,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select CONMCD_NO, CONMC_NO, CONMCD_CODE, CONMCD_CON, CONMCD_DATE, CONMCD_DELYN
+    from COMMONCODE_DETAIL
+  </select>
+</mapper>

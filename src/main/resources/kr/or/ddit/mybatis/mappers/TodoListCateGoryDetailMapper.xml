@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.todolist.dao.TodoListCateGoryDetailMapper">
+	
+	<select id="selectTodoCateDetailList">
+	 select TDCATED_NO, TODOCATE_NO, TODO_NO
+     from TODOLIST_CATEGORY_DETAIL
+	
+	</select>
+	<select id="selectTodoCateDetail">
+	
+	
+	</select>
+	<insert id="insertTodoCateDetail">
+		 insert into TODOLIST_CATEGORY_DETAIL (TDCATED_NO, TODOCATE_NO, TODO_NO
+	      )
+	    values (#{tdcatedNo,jdbcType=NUMERIC}, #{todocateNo,jdbcType=NUMERIC}, #{todoNo,jdbcType=NUMERIC}
+	      )
+	
+	</insert>
+	<update id="updateTodoCateDetail">
+		update TODOLIST_CATEGORY_DETAIL
+	    set TODOCATE_NO = #{todocateNo,jdbcType=NUMERIC},
+	      TODO_NO = #{todoNo,jdbcType=NUMERIC}
+	    where TDCATED_NO = #{tdcatedNo,jdbcType=NUMERIC}
+	
+	</update>
+	<delete id="deleteTodoCateDetail">
+		delete from TODOLIST_CATEGORY_DETAIL
+	    where TDCATED_NO = #{tdcatedNo,jdbcType=NUMERIC}
+	
+	</delete>
+
+
+</mapper>

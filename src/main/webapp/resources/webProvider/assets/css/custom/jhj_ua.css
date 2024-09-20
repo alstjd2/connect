@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+
+.button-container {
+	    display: flex; /* flexbox 적용 */
+	    justify-content: space-between; /* 버튼들을 양쪽 끝으로 배치 */
+}

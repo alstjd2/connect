@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.groupware.attendance.dao.AttendanceMapper">
+	<resultMap id="attendMap" type="AttendanceVO"
+		autoMapping="true">
+		<id column="ATT_NO" jdbcType="NUMERIC" property="attNo" />
+		<id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+		<association property="employee" javaType="EmployeeVO"
+			autoMapping="true" />
+		<association property="position" javaType="PositionVO"
+			autoMapping="true" />
+		<association property="organization"
+			javaType="OrganizationVO" autoMapping="true" />
+	</resultMap>
+
+
+
+
+	<select id="selectTotalRecord" resultType="int">
+		SELECT
+		COUNT(ATT_NO)
+		FROM ATTENDANCE
+		<where>
+			EMP_NO = #{detailCondition.empNo}
+			<include refid="searchFrag" />
+		</where>
+	</select>
+
+	<select id="selectTotalRecordCom" resultType="int">
+		SELECT
+		COUNT(EMP_NO)
+		FROM ATTENDANCE
+		<where>
+			COM_NO = #{detailCondition.comNo}
+			<include refid="searchFragCom" />
+		</where>
+	</select>
+
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') =
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.month)">
+			#{detailCondition.month}
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isBlank(detailCondition.month)">
+			EXTRACT(MONTH FROM SYSDATE)
+		</if>
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.year)">
+			#{detailCondition.year}
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isBlank(detailCondition.year)">
+			EXTRACT(YEAR FROM SYSDATE)
+		</if>
+	</sql>
+
+	<sql id="searchFragCom">
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') =
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.month)">
+			#{detailCondition.month}
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isBlank(detailCondition.month)">
+			EXTRACT(MONTH FROM SYSDATE)
+		</if>
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.year)">
+			#{detailCondition.year}
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isBlank(detailCondition.year)">
+			EXTRACT(YEAR FROM SYSDATE)
+		</if>
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'DD') =
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.day)">
+			#{detailCondition.year}
+		</if>
+		<if
+			test="@org.apache.commons.lang3.StringUtils@isBlank(detailCondition.day)">
+			EXTRACT(DAY FROM SYSDATE)
+		</if>
+	</sql>
+
+
+	<select id="selectAttendanceWorkStatusList"
+		parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+		resultMap="attendMap">
+		WITH WorkTimes AS (
+		SELECT
+		work_status,
+		TO_CHAR(
+		TO_DATE('00:00:00', 'HH24:MI:SS') + NUMTODSINTERVAL(SUM(total_seconds), 'SECOND'),
+		'HH24:MI:SS'
+		) AS total_work_time,
+		SUM(total_seconds) AS total_seconds
+		FROM (
+		SELECT
+		ATT_NO,
+		EMP_NO,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_DATE,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT NULL THEN
+		(
+		EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+		)
+		ELSE
+		0
+		END AS
+		total_seconds,
+
+		CASE
+		WHEN att_endste = 'BB05140' AND att_startste =
+		'BB05110' THEN '정상 근무'
+		WHEN att_endste = 'BB05140' AND att_startste =
+		'BB05120' THEN '지각'
+		WHEN att_endste = 'BB05130' AND att_startste =
+		'BB05110' THEN '조퇴'
+		WHEN att_endste = 'BB05130' AND att_startste =
+		'BB05120' THEN '지각 및 조퇴'
+		ELSE '기타'
+		END AS work_status
+		FROM ATTENDANCE
+		WHERE EMP_NO = #{detailCondition.empNo}
+		<include refid="searchFrag" />
+		)
+		GROUP BY work_status
+		),
+		TotalWorkTime AS (
+		SELECT
+		SUM(total_seconds) AS total_seconds
+		FROM WorkTimes
+		)
+		SELECT
+		work_status,
+		total_work_time,
+		CASE
+		WHEN (SELECT total_seconds FROM TotalWorkTime) = 0 THEN 0
+		ELSE ROUND(
+		(total_seconds / (SELECT total_seconds FROM TotalWorkTime)) * 100,
+		2
+		)
+		END AS percentage
+		FROM WorkTimes
+		ORDER BY work_status
+	</select>
+	
+	
+	<select id="empWorkList" parameterType="map" resultMap="attendMap">
+		WITH WorkTimes AS (
+			    SELECT
+			        work_status,
+			        TO_CHAR(
+			            TO_DATE('00:00:00', 'HH24:MI:SS') + NUMTODSINTERVAL(SUM(total_seconds), 'SECOND'),
+			            'HH24:MI:SS'
+			        ) AS total_work_time,
+			        SUM(total_seconds) AS total_seconds
+			    FROM (
+			        SELECT
+			            ATT_NO,
+			            EMP_NO,
+			            ATT_START,
+			            ATT_END,
+			            ATT_STARTSTE,
+			            ATT_ENDSTE,
+			            ATT_DATE,
+			            CASE
+			                WHEN att_end IS NOT NULL AND att_start IS NOT NULL THEN
+			                    (
+			                        EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+			                        EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+			                        EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+			                        EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+			                    )
+			                ELSE
+			                    0
+			            END AS total_seconds,
+			            CASE
+			                WHEN att_endste = 'BB05140' AND att_startste = 'BB05110' THEN '정상 근무'
+			                WHEN att_endste = 'BB05140' AND att_startste = 'BB05120' THEN '지각'
+			                WHEN att_endste = 'BB05130' AND att_startste = 'BB05110' THEN '조퇴'
+			                WHEN att_endste = 'BB05130' AND att_startste = 'BB05120' THEN '지각 및 조퇴'
+			                ELSE '기타'
+			            END AS work_status
+			        FROM ATTENDANCE
+			        WHERE EMP_NO = #{empNo,jdbcType=NUMERIC}
+			        AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = COALESCE(
+			            TO_CHAR(TO_DATE(#{searchDate, jdbcType=VARCHAR}, 'YYYY-MM'), 'MM'),
+			            TO_CHAR(SYSDATE, 'MM')
+			        )
+			        AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') = COALESCE(
+			            TO_CHAR(TO_DATE(#{searchDate, jdbcType=VARCHAR}, 'YYYY-MM'), 'YYYY'),
+			            TO_CHAR(SYSDATE, 'YYYY')
+			        )
+			    )
+			    GROUP BY work_status
+			),
+			TotalWorkTime AS (
+			    SELECT
+			        SUM(total_seconds) AS total_seconds
+			    FROM WorkTimes
+			)
+			SELECT
+			    work_status,
+			    total_work_time,
+			    CASE
+			        WHEN (SELECT total_seconds FROM TotalWorkTime) = 0 THEN 0
+			        ELSE ROUND(
+			            (total_seconds / (SELECT total_seconds FROM TotalWorkTime)) * 100,
+			            2
+			        )
+			    END AS percentage
+			FROM WorkTimes
+			ORDER BY work_status
+
+	
+	
+	</select>
+	<select id="empAttendanceList" parameterType="int">
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY
+		TO_NUMBER(TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'),
+		'YYYY')) ASC,
+		TO_DATE(ATT_DATE, 'YY/MM/DD') DESC) AS RNUM,
+		ATT_NO
+		, EMP_NO
+		, ATT_START
+		, ATT_END
+		, ATT_STARTSTE
+		, ATT_ENDSTE
+		, ATT_DATE
+		,
+		CASE
+		WHEN att_end IS NOT
+		NULL AND att_start IS NOT NULL THEN
+		EXTRACT(
+		DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60 +
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		ELSE
+		NULL
+		END AS
+		total_seconds,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT NULL
+		THEN
+
+		ROUND(
+		(
+		EXTRACT(
+		DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) *
+		86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) *
+		3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60
+		+
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		) / 60
+		)
+		ELSE
+		NULL
+		END
+		AS total_minutes,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT
+		NULL THEN
+		TO_CHAR(
+		TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD
+		HH24:MI:SS') +
+		INTERVAL '1' SECOND * (
+		EXTRACT(
+		DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60 +
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		),
+		'HH24:MI:SS'
+		)
+		ELSE
+		NULL
+		END AS work_time
+
+		FROM ATTENDANCE
+		WHERE EMP_NO = #{empNo,jdbcType=NUMERIC}
+        AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+        AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+	
+	
+	</select>
+	
+	
+	<select id="searchempAttendance" parameterType="map" resultMap="attendMap">
+   SELECT
+    ROW_NUMBER() OVER (
+        ORDER BY
+            TO_NUMBER(TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY')) ASC,
+            TO_DATE(ATT_DATE, 'YY/MM/DD') DESC
+    ) AS RNUM,
+    ATT_NO,
+    EMP_NO,
+    ATT_START,
+    ATT_END,
+    ATT_STARTSTE,
+    ATT_ENDSTE,
+    ATT_DATE,
+    CASE
+        WHEN att_end IS NOT NULL AND att_start IS NOT NULL THEN
+            EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+            EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+            EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+            EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+        ELSE
+            NULL
+    END AS total_seconds,
+    CASE
+        WHEN att_end IS NOT NULL AND att_start IS NOT NULL THEN
+            ROUND((
+                EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                    TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+                EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                    TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+                EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                    TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+                EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                    TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+            ) / 60)
+        ELSE
+            NULL
+    END AS total_minutes,
+    CASE
+        WHEN att_end IS NOT NULL AND att_start IS NOT NULL THEN
+            TO_CHAR(
+                TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') +
+                INTERVAL '1' SECOND * (
+                    EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+                    EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+                    EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+                    EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+                        TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+                ),
+                'HH24:MI:SS'
+            )
+        ELSE
+            NULL
+    END AS work_time
+FROM ATTENDANCE
+WHERE EMP_NO = #{empNo,jdbcType=NUMERIC}
+AND (
+    (#{searchDate} IS NULL AND EXTRACT(MONTH FROM TO_DATE(ATT_DATE, 'YY/MM/DD')) = EXTRACT(MONTH FROM SYSDATE)
+    AND EXTRACT(YEAR FROM TO_DATE(ATT_DATE, 'YY/MM/DD')) = EXTRACT(YEAR FROM SYSDATE))
+    OR
+    (#{searchDate} IS NOT NULL AND EXTRACT(MONTH FROM TO_DATE(ATT_DATE, 'YY/MM/DD')) = EXTRACT(MONTH FROM TO_DATE(#{searchDate} || '-01', 'YYYY-MM-DD'))
+    AND EXTRACT(YEAR FROM TO_DATE(ATT_DATE, 'YY/MM/DD')) = EXTRACT(YEAR FROM TO_DATE(#{searchDate} || '-01', 'YYYY-MM-DD')))
+)
+
+
+</select>
+
+	
+
+	<select id="selectTodayAttendance" parameterType="int">
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY
+			TO_NUMBER(TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'),
+			'YYYY')) ASC,
+			TO_DATE(ATT_DATE, 'YY/MM/DD') DESC) AS RNUM,
+			ATT_NO
+			, EMP_NO
+			, ATT_START
+			, ATT_END
+			, ATT_STARTSTE
+			, ATT_ENDSTE
+			, ATT_DATE
+			,
+			CASE
+			WHEN att_end IS NOT
+			NULL AND att_start IS NOT NULL THEN
+			EXTRACT(
+			DAY FROM
+			(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 86400 +
+			EXTRACT(
+			HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 3600 +
+			EXTRACT(
+			MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 60 +
+			EXTRACT(
+			SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			)
+			ELSE
+			NULL
+			END AS
+			total_seconds,
+			CASE
+			WHEN att_end IS NOT NULL AND att_start IS NOT NULL
+			THEN
+			ROUND(
+			(
+			EXTRACT(
+			DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+			HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) *
+			86400 +
+			EXTRACT(
+			HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+			HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) *
+			3600 +
+			EXTRACT(
+			MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+			HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 60
+			+
+			EXTRACT(
+			SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			)
+			) / 60
+			)
+			ELSE
+			NULL
+			END
+			AS total_minutes,
+			CASE
+			WHEN att_end IS NOT NULL AND att_start IS NOT
+			NULL THEN
+			TO_CHAR(
+			TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD
+			HH24:MI:SS') +
+			INTERVAL '1' SECOND * (
+			EXTRACT(
+			DAY FROM
+			(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 86400 +
+			EXTRACT(
+			HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 3600 +
+			EXTRACT(
+			MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			) * 60 +
+			EXTRACT(
+			SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+			TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+			)
+			),
+			'HH24:MI:SS'
+			)
+			ELSE
+			NULL
+			END AS work_time
+				FROM ATTENDANCE
+				WHERE EMP_NO =	#{empNo,jdbcType=NUMERIC}
+				AND TO_CHAR(TO_DATE(NVL(ATT_START, '1900-01-01'),
+				  CASE
+				    WHEN ATT_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI:SS'
+				    ELSE 'YYYY-MM-DD'
+				  END
+				), 'YYYY') = EXTRACT(YEAR FROM SYSDATE)
+				AND TO_CHAR(TO_DATE(NVL(ATT_START, '1900-01-01'),
+				  CASE
+				    WHEN ATT_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI:SS'
+				    ELSE 'YYYY-MM-DD'
+				  END
+				), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+				AND TO_CHAR(TO_DATE(NVL(ATT_START, '1900-01-01'),
+				  CASE
+				    WHEN ATT_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI:SS'
+				    ELSE 'YYYY-MM-DD'
+				  END
+				), 'DD') = EXTRACT(DAY FROM SYSDATE)
+				ORDER BY TO_DATE(ATT_START,
+				  CASE
+				    WHEN ATT_START LIKE '%:%' THEN 'YYYY-MM-DD HH24:MI:SS'
+				    ELSE 'YYYY-MM-DD'
+				  END
+				) ASC
+	</select>
+
+
+	<select id="selectAttendanceList"
+		parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+		resultMap="attendMap">
+		WITH EMPATTLIST AS (
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY
+		TO_NUMBER(TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'),
+		'YYYY')) ASC,
+		TO_DATE(ATT_DATE, 'YY/MM/DD') DESC) AS RNUM,
+		ATT_NO
+		, EMP_NO
+		, ATT_START
+		, ATT_END
+		, ATT_STARTSTE
+		, ATT_ENDSTE
+		, ATT_DATE
+		,
+		CASE
+		WHEN att_end IS NOT
+		NULL AND att_start IS NOT NULL THEN
+		EXTRACT(
+		DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60 +
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		ELSE
+		NULL
+		END AS
+		total_seconds,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT NULL
+		THEN
+
+		ROUND(
+		(
+		EXTRACT(
+		DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) *
+		86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) *
+		3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60
+		+
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		) / 60
+		)
+		ELSE
+		NULL
+		END
+		AS total_minutes,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT
+		NULL THEN
+		TO_CHAR(
+		TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD
+		HH24:MI:SS') +
+		INTERVAL '1' SECOND * (
+		EXTRACT(
+		DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 86400 +
+		EXTRACT(
+		HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 3600 +
+		EXTRACT(
+		MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		) * 60 +
+		EXTRACT(
+		SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))
+		)
+		),
+		'HH24:MI:SS'
+		)
+		ELSE
+		NULL
+		END AS work_time
+
+		FROM ATTENDANCE
+		WHERE EMP_NO =
+		#{detailCondition.empNo}
+		<include refid="searchFrag" />
+		)SELECT *
+		FROM EMPATTLIST
+		WHERE RNUM BETWEEN #{firstRecord} AND
+		#{lastRecord}
+	</select>
+
+	<select id="selectAttendanceDepWorkStatus" parameterType="map"
+		resultMap="attendMap">
+		WITH WorkTimes AS (
+		SELECT
+		work_status,
+		TO_CHAR(
+		TO_DATE('00:00:00', 'HH24:MI:SS') +
+		NUMTODSINTERVAL(SUM(total_seconds), 'SECOND'),
+		'HH24:MI:SS'
+		) AS
+		total_work_time,
+		SUM(total_seconds) AS total_seconds,
+		COUNT(DISTINCT
+		EMP_NO) AS emp_count
+		FROM (
+		SELECT
+		ATT_NO,
+		ATTENDANCE.EMP_NO,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_DATE,
+		CASE
+		WHEN att_end IS NOT NULL
+		AND att_start IS NOT NULL THEN
+		(
+		EXTRACT(DAY FROM (TO_TIMESTAMP(att_end,
+		'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD
+		HH24:MI:SS'))) * 86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end,
+		'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD
+		HH24:MI:SS'))) * 3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end,
+		'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD
+		HH24:MI:SS'))) * 60 +
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end,
+		'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD
+		HH24:MI:SS')))
+		)
+		ELSE
+		0
+		END AS total_seconds,
+		CASE
+		WHEN att_endste =
+		'BB05140' AND att_startste = 'BB05110' THEN '정상 근무'
+		WHEN ATT_ENDSTE =
+		'BB05140' THEN '정상퇴근'
+		WHEN att_startste = 'BB05110' AND ATT_ENDSTE IS
+		NULL THEN '정상출근'
+		WHEN att_endste = 'BB05140' AND att_startste =
+		'BB05120' THEN '지각'
+		WHEN att_endste IS NULL AND ATT_STARTSTE =
+		'BB05120' THEN '지각'
+		WHEN att_endste = 'BB05130' AND att_startste =
+		'BB05110' THEN '조퇴'
+		WHEN att_endste = 'BB05130' AND att_startste =
+		'BB05120' THEN '지각 및 조퇴'
+		ELSE '기타'
+		END AS work_status
+		FROM ATTENDANCE
+		RIGHT OUTER JOIN EMPLOYEE ON (ATTENDANCE.EMP_NO = EMPLOYEE.EMP_NO)
+		WHERE EMPLOYEE.EMP_DEP = #{empDep,jdbcType=NUMERIC}
+		AND
+		(TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM
+		SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		EXTRACT(YEAR FROM
+		SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'),
+		'DD') = EXTRACT(DAY FROM
+		SYSDATE))
+		)
+		GROUP BY work_status
+		),
+		TotalEmpCount
+		AS (
+		SELECT
+		SUM(emp_count) AS total_emp_count
+		FROM WorkTimes
+		),
+		TotalDepartmentCount AS (
+		SELECT
+		COUNT(DISTINCT EMP_NO) AS emp_dep_count
+		FROM EMPLOYEE
+		WHERE EMP_DEP = #{empDep,jdbcType=NUMERIC}
+		)
+		SELECT
+		work_status,
+		total_work_time,
+		ROUND((emp_count / (SELECT total_emp_count
+		FROM TotalEmpCount)) * 100, 2) AS
+		percentage,
+		emp_count,
+		NULL AS
+		total_depCount,
+		NULL AS total_empCount,
+		NULL AS remind_empcount
+		FROM
+		WorkTimes
+		UNION ALL
+		SELECT
+		'총합' AS work_status,
+		NULL AS total_work_time,
+		NULL AS percentage,
+		(SELECT total_emp_count FROM TotalEmpCount) AS
+		emp_count,
+		(SELECT emp_dep_count FROM TotalDepartmentCount) AS
+		total_depCount,
+		(SELECT total_emp_count FROM TotalEmpCount) AS
+		total_empCount,
+		(SELECT emp_dep_count FROM TotalDepartmentCount) -
+		(SELECT total_emp_count
+		FROM TotalEmpCount) AS remind_empcount
+		FROM DUAL
+		ORDER BY work_status
+
+	</select>
+
+	<select id="selectDepAttendanceList" parameterType="map"
+		resultMap="attendMap">
+		SELECT
+		ROWNUM RNUM,
+		ATT_NO,
+		ATTENDANCE.EMP_NO,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_DATE,
+		EMPLOYEE.EMP_DEP ,
+		CASE
+		WHEN att_end IS
+		NOT NULL AND att_start IS NOT NULL THEN
+		EXTRACT(DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+		ELSE
+		NULL
+		END AS
+		total_seconds,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT NULL
+		THEN
+		ROUND(
+		(
+		EXTRACT(DAY FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) *
+		86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) *
+		3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD
+		HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60
+		+
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+		) / 60
+		)
+		ELSE
+		NULL
+		END
+		AS total_minutes,
+		CASE
+		WHEN att_end IS NOT NULL AND att_start IS NOT
+		NULL THEN
+		TO_CHAR(
+		TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD
+		HH24:MI:SS') +
+		INTERVAL '1' SECOND * (
+		EXTRACT(DAY FROM
+		(TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(att_end, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(att_start, 'YYYY-MM-DD HH24:MI:SS')))
+		),
+		'HH24:MI:SS'
+		)
+		ELSE
+		NULL
+		END AS work_time
+		FROM
+		ATTENDANCE INNER JOIN EMPLOYEE ON
+		(ATTENDANCE.EMP_NO = EMPLOYEE.EMP_NO)
+		WHERE
+		EMPLOYEE.EMP_DEP =
+		#{empDep,jdbcType=NUMERIC}
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'),
+		'MM') =
+		<if test="pMap neq null and pMap.month neq null">
+			#{pMap.month}
+		</if>
+		<if test="pMap eq null or pMap.month eq null">
+			EXTRACT(MONTH FROM SYSDATE)
+		</if>
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		<if test="pMap neq null and pMap.year neq null">
+			#{pMap.year}
+		</if>
+		<if test="pMap eq null or pMap.year eq null">
+			EXTRACT(YEAR FROM SYSDATE)
+		</if>
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'DD') =
+		<if test="pMap neq null and pMap.day neq null">
+			#{pMap.day}
+		</if>
+		<if test="pMap eq null or pMap.day eq null">
+			EXTRACT(DAY FROM SYSDATE)
+		</if>
+
+	</select>
+
+	<resultMap type="EmployeeVO" id="empMap" autoMapping="true">
+		<id property="empNo" jdbcType="NUMERIC" column="EMP_NO" />
+		<result column="POS_NM" jdbcType="VARCHAR"
+			property="empPosName" />
+		<result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+		<result column="ORG_DEP" jdbcType="VARCHAR"
+			property="empDepName" />
+		<result column="POSITION" jdbcType="VARCHAR"
+			property="empOneposName" />
+		<collection property="attendenceList" ofType="AttendanceVO"
+			autoMapping="true">
+			<result property="workStatus" jdbcType="VARCHAR"
+				column="WORK_STATUS" />
+			<result property="percentage" jdbcType="VARCHAR"
+				column="PERCENTAGE" />
+		</collection>
+	</resultMap>
+
+
+	<select id="selectAttDepWorkStatusList" parameterType="int"
+		resultMap="empMap">
+		WITH WorkTimes AS (
+		SELECT
+		AttendanceData.EMP_NO,
+		AttendanceData.EMP_NM,
+		POSITION.POS_NM,
+		AttendanceData.WORK_STATUS,
+		TO_CHAR(
+		TO_DATE('00:00:00', 'HH24:MI:SS') +
+		NUMTODSINTERVAL(SUM(AttendanceData.total_seconds),
+		'SECOND'),
+		'HH24:MI:SS'
+		) AS total_work_time,
+		SUM(AttendanceData.total_seconds) AS
+		total_seconds
+		FROM (
+		SELECT
+		ATTENDANCE.EMP_NO,
+		EMPLOYEE.EMP_NM,
+		EMPLOYEE.EMP_POS,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_DATE,
+		CASE
+		WHEN ATT_END IS NOT NULL AND ATT_START IS NOT NULL THEN
+		(
+		EXTRACT(DAY FROM (TO_TIMESTAMP(ATT_END, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(ATT_START, 'YYYY-MM-DD HH24:MI:SS'))) * 86400 +
+		EXTRACT(HOUR FROM (TO_TIMESTAMP(ATT_END, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(ATT_START, 'YYYY-MM-DD HH24:MI:SS'))) * 3600 +
+		EXTRACT(MINUTE FROM (TO_TIMESTAMP(ATT_END, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(ATT_START, 'YYYY-MM-DD HH24:MI:SS'))) * 60 +
+		EXTRACT(SECOND FROM (TO_TIMESTAMP(ATT_END, 'YYYY-MM-DD HH24:MI:SS') -
+		TO_TIMESTAMP(ATT_START, 'YYYY-MM-DD HH24:MI:SS')))
+		)
+		ELSE
+		0
+		END AS
+		total_seconds,
+		CASE
+		WHEN ATT_ENDSTE = 'BB05140' AND ATT_STARTSTE =
+		'BB05110' THEN '정상 근무'
+		WHEN ATT_ENDSTE = 'BB05140' AND ATT_STARTSTE =
+		'BB05120' THEN '지각'
+		WHEN ATT_ENDSTE = 'BB05130' AND ATT_STARTSTE =
+		'BB05110' THEN '조퇴'
+		WHEN ATT_ENDSTE = 'BB05130' AND ATT_STARTSTE =
+		'BB05120' THEN '지각 및 조퇴'
+		ELSE '기타'
+		END AS WORK_STATUS
+		FROM ATTENDANCE
+		LEFT JOIN EMPLOYEE ON ATTENDANCE.EMP_NO = EMPLOYEE.EMP_NO
+		WHERE
+		EMPLOYEE.EMP_DEP = #{empDep,jdbcType=NUMERIC}
+		AND
+		TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM
+		SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		EXTRACT(YEAR FROM
+		SYSDATE)
+		) AttendanceData
+		LEFT JOIN POSITION ON
+		AttendanceData.EMP_POS = POSITION.POS_NO
+		GROUP BY
+		AttendanceData.EMP_NO, AttendanceData.EMP_NM, POSITION.POS_NM,
+		AttendanceData.WORK_STATUS
+		),
+		TotalWorkTime AS (
+		SELECT
+		EMP_NO,
+		SUM(total_seconds) AS total_seconds
+		FROM WorkTimes
+		GROUP BY EMP_NO
+		)
+		SELECT
+		WorkTimes.EMP_NO,
+		WorkTimes.EMP_NM,
+		WorkTimes.POS_NM,
+		WorkTimes.work_status,
+		WorkTimes.total_work_time,
+		CASE
+		WHEN
+		TotalWorkTime.total_seconds = 0 THEN
+		0
+		ELSE
+		ROUND(
+		(WorkTimes.total_seconds / TotalWorkTime.total_seconds) * 100,
+		2
+		)
+		END AS
+		PERCENTAGE
+		FROM WorkTimes
+		JOIN TotalWorkTime ON WorkTimes.EMP_NO =
+		TotalWorkTime.EMP_NO
+		ORDER BY WorkTimes.EMP_NO, WorkTimes.WORK_STATUS
+	</select>
+
+
+	<select id="selectComAttendanceList"
+		parameterType="kr.or.ddit.commons.paging.PaginationInfo"
+		resultMap="empMap">
+		SELECT
+		EMP.COM_NO,
+		EMP.EMP_NO,
+		EMP.EMP_NM,
+		POS.POS_NM,
+		POSI.POS_NM,
+		ORG.ORG_DEP,
+		EMP.EMP_DEP,
+		ATT.ATT_NO,
+		ATT.ATT_START,
+		ATT.ATT_END,
+		ATT.ATT_STARTSTE,
+		ATT.ATT_ENDSTE,
+		ATT.ATT_IP,
+		ATT.ATT_DATE,
+		ORG.ORG_NO
+		FROM
+		EMPLOYEE EMP
+		LEFT OUTER JOIN
+		ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+		LEFT OUTER JOIN
+		POSITION POS ON EMP.EMP_POS = POS.POS_NO
+		INNER JOIN
+		POSITION POSI ON EMP.EMP_ONEPOS= POSI.POS_NO
+		LEFT OUTER JOIN
+		ATTENDANCE ATT ON EMP.EMP_NO = ATT.EMP_NO
+		AND (
+		ATT.ATT_DATE IS NULL OR
+		TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') =
+		EXTRACT(MONTH FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') =
+		EXTRACT(YEAR FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'DD') =
+		EXTRACT(DAY FROM SYSDATE)
+		)
+		WHERE
+		EMP.COM_NO = #{detailCondition.comNo}
+		AND EMP.EMP_DELYN = 'N'
+
+	</select>
+	<select id="selectComAttendanceList2" parameterType="int"
+		resultMap="empMap">
+
+		SELECT
+		RNUM,
+		COM_NO,
+		EMP_NO,
+		EMP_NM,
+		POS_NM,
+		POSITION,
+		ORG_DEP,
+		EMP_DEP,
+		ATT_NO,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_IP,
+		ATT_DATE,
+		ORG_NO
+		FROM (
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY CASE WHEN POS.POS_NO = 1 THEN 0 ELSE 1 END,
+		POS.POS_NO, EMP.EMP_NO) AS RNUM,
+		EMP.COM_NO,
+		EMP.EMP_NO,
+		EMP.EMP_NM,
+		POS.POS_NM,
+		POSI.POS_NM AS POSITION,
+		ORG.ORG_DEP,
+		EMP.EMP_DEP,
+		ATT.ATT_NO,
+		ATT.ATT_START,
+		ATT.ATT_END,
+		ATT.ATT_STARTSTE,
+		ATT.ATT_ENDSTE,
+		ATT.ATT_IP,
+		ATT.ATT_DATE,
+		ORG.ORG_NO
+		FROM
+		EMPLOYEE EMP
+		LEFT OUTER JOIN
+		ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+		LEFT OUTER JOIN
+		POSITION POS ON EMP.EMP_POS = POS.POS_NO
+		INNER JOIN
+		POSITION POSI ON EMP.EMP_ONEPOS = POSI.POS_NO
+		LEFT OUTER JOIN
+		ATTENDANCE ATT ON EMP.EMP_NO = ATT.EMP_NO
+		AND (
+		ATT.ATT_DATE IS NULL OR
+		TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM
+		SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'DD') = EXTRACT(DAY FROM
+		SYSDATE)
+		) AND (
+		ATT.ATT_DATE IS NULL OR
+		TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'YYYY') = EXTRACT(YEAR FROM
+		SYSDATE)
+		AND TO_CHAR(TO_DATE(ATT_DATE, 'YY/MM/DD'), 'DD') = EXTRACT(DAY FROM
+		SYSDATE)
+		)
+		WHERE
+		EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+		AND EMP.EMP_DELYN = 'N'
+		)
+		ORDER BY RNUM
+
+
+
+	</select>
+	<select id="searchAttendance" parameterType="map"
+		resultMap="empMap">
+		SELECT
+		RNUM,
+		COM_NO,
+		EMP_NO,
+		EMP_NM,
+		POS_NM,
+		POSITION,
+		ORG_DEP,
+		EMP_DEP,
+		ATT_NO,
+		ATT_START,
+		ATT_END,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_IP,
+		ATT_DATE,
+		ORG_NO
+		FROM (
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY CASE WHEN POS.POS_NO = 1 THEN 0 ELSE 1 END,
+		POS.POS_NO, EMP.EMP_NO) AS RNUM,
+		EMP.COM_NO,
+		EMP.EMP_NO,
+		EMP.EMP_NM,
+		POS.POS_NM,
+		POSI.POS_NM AS POSITION,
+		ORG.ORG_DEP,
+		EMP.EMP_DEP,
+		ATT.ATT_NO,
+		ATT.ATT_START,
+		ATT.ATT_END,
+		ATT.ATT_STARTSTE,
+		ATT.ATT_ENDSTE,
+		ATT.ATT_IP,
+		ATT.ATT_DATE,
+		ORG.ORG_NO
+		FROM
+		EMPLOYEE EMP
+		LEFT OUTER JOIN
+		ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+		LEFT OUTER JOIN
+		POSITION POS ON EMP.EMP_POS = POS.POS_NO
+		INNER JOIN
+		POSITION POSI ON EMP.EMP_ONEPOS = POSI.POS_NO
+		LEFT OUTER JOIN
+		ATTENDANCE ATT ON EMP.EMP_NO = ATT.EMP_NO
+		AND (
+		(#{searchDate} IS NULL AND TO_CHAR(TO_DATE(ATT.ATT_DATE, 'YY/MM/DD'), 'MM/DD/YYYY')
+		= TO_CHAR(SYSDATE, 'MM/DD/YYYY'))
+		OR
+		(#{searchDate} IS NOT NULL AND TO_CHAR(TO_DATE(ATT.ATT_DATE, 'YY/MM/DD'),
+		'MM/DD/YYYY') = TO_CHAR(TO_DATE(#{searchDate}, 'YYYY-MM-DD'),
+		'MM/DD/YYYY'))
+		)
+		WHERE
+		EMP.COM_NO = #{comNo}
+		AND EMP.EMP_DELYN = 'N'
+		AND (#{empNm} IS NULL OR EMP.EMP_NM LIKE '%' || #{empNm} || '%')
+		)
+		ORDER BY RNUM
+	</select>
+	<select id="selectAttendanceComWorkStatus" parameterType="int"
+		resultMap="empMap">
+		  WITH EmployeeAttendance AS (
+		    SELECT
+		        ROW_NUMBER() OVER (ORDER BY CASE WHEN POS.POS_NO = 1 THEN 0 ELSE 1 END,
+		        POS.POS_NO, EMP.EMP_NO) AS RNUM,
+		        EMP.COM_NO,
+		        EMP.EMP_NO,
+		        EMP.EMP_NM,
+		        POS.POS_NM,
+		        POSI.POS_NM AS POSITION,
+		        ORG.ORG_DEP,
+		        EMP.EMP_DEP,
+		        ATT.ATT_NO,
+		        ATT.ATT_START,
+		        ATT.ATT_END,
+		        ATT.ATT_STARTSTE,
+		        ATT.ATT_ENDSTE,
+		        ATT.ATT_IP,
+		        ATT.ATT_DATE,
+		        ORG.ORG_NO
+		    FROM
+		        EMPLOYEE EMP
+		    LEFT OUTER JOIN
+		        ORGANIZATION ORG ON EMP.EMP_DEP = ORG.ORG_NO
+		    LEFT OUTER JOIN
+		        POSITION POS ON EMP.EMP_POS = POS.POS_NO
+		    INNER JOIN
+		        POSITION POSI ON EMP.EMP_ONEPOS = POSI.POS_NO
+		    LEFT OUTER JOIN
+		        ATTENDANCE ATT ON EMP.EMP_NO = ATT.EMP_NO
+		        AND TO_CHAR(TO_DATE(ATT.ATT_DATE, 'YY-MM-DD'), 'MM') = EXTRACT(MONTH FROM SYSDATE)
+		        AND TO_CHAR(TO_DATE(ATT.ATT_DATE, 'YY-MM-DD'), 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+		    WHERE
+		        EMP.COM_NO = #{comNo,jdbcType=NUMERIC}
+		        AND EMP.EMP_DELYN = 'N'
+		        AND ATT.ATT_NO IS NOT NULL
+		),
+		WorkStatus AS (
+		    SELECT
+		        CASE
+		            WHEN ATT.ATT_ENDSTE = 'BB05140' AND ATT.ATT_STARTSTE = 'BB05110' THEN '정상 근무'
+		            WHEN ATT.ATT_STARTSTE = 'BB05110' AND ATT.ATT_ENDSTE IS NULL THEN '정상출근'
+		            WHEN ATT.ATT_ENDSTE = 'BB05140' AND ATT.ATT_STARTSTE = 'BB05120' THEN '지각'
+		            WHEN ATT.ATT_ENDSTE = 'BB05130' AND ATT.ATT_STARTSTE = 'BB05110' THEN '조퇴'
+		            WHEN ATT.ATT_ENDSTE = 'BB05130' AND ATT.ATT_STARTSTE = 'BB05120' THEN '지각 및 조퇴'
+		            WHEN ATT.ATT_STARTSTE = 'BB05120' AND ATT.ATT_ENDSTE IS NULL THEN '지각'
+		            ELSE '부재'
+		        END AS work_status,
+		        COUNT(*) AS count
+		    FROM
+		        EmployeeAttendance ATT
+		    GROUP BY
+		        CASE
+		            WHEN ATT.ATT_ENDSTE = 'BB05140' AND ATT.ATT_STARTSTE = 'BB05110' THEN '정상 근무'
+		            WHEN ATT.ATT_STARTSTE = 'BB05110' AND ATT.ATT_ENDSTE IS NULL THEN '정상출근'
+		            WHEN ATT.ATT_ENDSTE = 'BB05140' AND ATT.ATT_STARTSTE = 'BB05120' THEN '지각'
+		            WHEN ATT.ATT_ENDSTE = 'BB05130' AND ATT.ATT_STARTSTE = 'BB05110' THEN '조퇴'
+		            WHEN ATT.ATT_ENDSTE = 'BB05130' AND ATT.ATT_STARTSTE = 'BB05120' THEN '지각 및 조퇴'
+		            WHEN ATT.ATT_STARTSTE = 'BB05120' AND ATT.ATT_ENDSTE IS NULL THEN '지각'
+		            ELSE '부재'
+		        END
+		),
+		TotalStatus AS (
+		    SELECT SUM(count) AS total_count
+		    FROM WorkStatus
+		)
+		SELECT
+		    work_status,
+		    count,
+		    ROUND((count / (SELECT total_count FROM TotalStatus)) * 100, 2) AS percentage
+		FROM
+		    WorkStatus
+		ORDER BY
+		    CASE
+		        WHEN work_status = '정상 근무' THEN 1
+		        WHEN work_status = '정상출근' THEN 2
+		        WHEN work_status = '지각' THEN 3
+		        WHEN work_status = '조퇴' THEN 4
+		        WHEN work_status = '지각 및 조퇴' THEN 5
+		        WHEN work_status = '부재' THEN 6
+		        ELSE 7
+		    END
+
+	</select>
+
+
+	<select id="selectAttendance" parameterType="map"
+		resultMap="attendMap">
+		select ATT_NO, EMP_NO, ATT_START, ATT_END, ATT_STAE
+		from
+		ATTENDANCE
+		where ATT_NO = #{attNo,jdbcType=NUMERIC}
+		and EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+	</select>
+
+	<insert id="insertAttendance"
+		parameterType="kr.or.ddit.vo.AttendanceVO">
+		MERGE INTO ATTENDANCE
+		USING dual
+		ON (EMP_NO =
+		#{empNo,jdbcType=NUMERIC} AND ATT_DATE = TRUNC(SYSDATE))
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		ATT_END = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'),
+		ATT_ENDSTE = CASE
+		WHEN TO_CHAR(SYSDATE, 'HH24:MI') BETWEEN '09:01' AND
+		'17:59' THEN
+		'BB05130'
+		WHEN TO_CHAR(SYSDATE, 'HH24:MI') >= '18:00' THEN
+		'BB05140'
+		ELSE ATT_ENDSTE
+		END
+		WHEN NOT MATCHED THEN
+		INSERT (
+		ATT_NO,
+		EMP_NO,
+		ATT_START,
+		ATT_END,
+		ATT_DATE,
+		ATT_STARTSTE,
+		ATT_ENDSTE,
+		ATT_IP
+		)
+		VALUES (
+		ATT_SEQ.NEXTVAL,
+		#{empNo,jdbcType=NUMERIC},
+		TO_CHAR(SYSDATE,
+		'YYYY-MM-DD HH24:MI:SS'),
+		NULL,
+		TO_CHAR(SYSDATE,'YY-MM-DD'),
+		CASE
+		WHEN TO_CHAR(SYSDATE,
+		'HH24:MI') >= '09:01' THEN 'BB05120'
+		WHEN TO_CHAR(SYSDATE, 'HH24:MI')
+		BETWEEN '06:00' AND '09:01' THEN
+		'BB05110'
+		ELSE 'BB05110'
+		END,
+		NULL,
+		#{attIp,jdbcType=VARCHAR}
+		)
+
+	</insert>
+
+	<update id="updateAttendance"
+		parameterType="kr.or.ddit.vo.AttendanceVO">
+		update ATTENDANCE
+		set ATT_START =
+		#{attStart,jdbcType=TIMESTAMP},
+		ATT_END = #{attEnd,jdbcType=TIMESTAMP},
+		ATT_STAE = #{attStae,jdbcType=VARCHAR}
+		where ATT_NO =
+		#{attNo,jdbcType=NUMERIC}
+		and EMP_NO = #{empNo,jdbcType=NUMERIC}
+	</update>
+
+	<delete id="deleteAttendance" parameterType="map">
+		delete from
+		ATTENDANCE
+		where ATT_NO = #{attNo,jdbcType=NUMERIC}
+		and EMP_NO =
+		#{empNo,jdbcType=NUMERIC}
+	</delete>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.grboard.mapper.GrbImpMapper">
+  <resultMap id="GrBoardGubunVO" type="GrbImpVO">
+    <id column="grbImpNo" jdbcType="NUMERIC" property="grbImpNo" />
+    <result column="GRB_NO" jdbcType="NUMERIC" property="grbNo" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+  </resultMap>
+  
+  
+  <insert id="insertGrbImp" parameterType="GrbImpVO">
+    insert into GRBIMP (GRBIMP_NO, GRB_NO, EMP_NO
+      )
+    values (#{grbimpNo,jdbcType=NUMERIC}, #{grbNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}
+      )
+  </insert>
+  <select id="selectGrbImp" parameterType="GrbImpVO" resultMap="GrBoardGubunVO">
+    select GRBIMP_NO, GRB_NO, EMP_NO
+    from GRBIMP
+    where GRBIMP_NO = #{grbimpNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectGrbImpList" resultMap="GrBoardGubunVO">
+    select GRBIMP_NO, GRB_NO, EMP_NO
+    from GRBIMP
+  </select>
+  <update id="updateGrbImp" parameterType="GrbImpVO">
+    update GRBIMP
+    set GRB_NO = #{grbNo,jdbcType=NUMERIC},
+      EMP_NO = #{empNo,jdbcType=NUMERIC}
+    where GRBIMP_NO = #{grbimpNo,jdbcType=NUMERIC}
+  </update>
+  <delete id="deleteGrbImp" parameterType="GrbImpVO">
+    delete from GRBIMP
+    where GRBIMP_NO = #{grbimpNo,jdbcType=NUMERIC}
+  </delete>
+</mapper>

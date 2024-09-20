@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.offedu.dao.OffeduMapper">
+  <resultMap id="OffeduRMap" type="kr.or.ddit.vo.OffeduVO">
+    <id column="OFFEDU_NO" jdbcType="NUMERIC" property="offeduNo" />
+    <result column="PROMO_NO" jdbcType="NUMERIC" property="promoNo" />
+    <result column="OFFEDU_MEM_NM" jdbcType="NUMERIC" property="memNm" />
+    <result column="OFFEDU_COMNM" jdbcType="VARCHAR" property="offeduComnm" />
+    <result column="OFFEDU_OFFER_NUM" jdbcType="NUMERIC" property="offeduOfferNum" />
+  </resultMap>
+
+  <delete id="deleteOffedu" parameterType="int">
+    DELETE FROM OFFEDU
+    WHERE OFFEDU_NO = #{offeduNo,jdbcType=NUMERIC}
+  </delete>
+
+  <insert id="insertOffedu" parameterType="kr.or.ddit.vo.OffeduVO">
+    INSERT INTO OFFEDU
+	(
+	    OFFEDU_NO
+	    , PROMO_NO
+	    , OFFEDU_MEM_NM
+	    , OFFEDU_COMNM
+	    , OFFEDU_OFFER_NUM
+	)
+    VALUES
+    (
+    	OFFEDU_SEQ.NEXTVAL
+    	, #{promoNo,jdbcType=NUMERIC}
+    	, #{memNm,jdbcType=NUMERIC}
+    	, #{offeduComnm,jdbcType=VARCHAR}
+    	, #{offeduOfferNum,jdbcType=NUMERIC}
+    )
+  </insert>
+
+  <update id="updateOffeduDetail" parameterType="kr.or.ddit.vo.OffeduVO">
+    UPDATE OFFEDU
+    SET
+    	PROMO_NO = #{promoNo,jdbcType=NUMERIC},
+      	OFFEDU_MEM_NM = #{memNm,jdbcType=NUMERIC},
+      	OFFEDU_COMNM = #{offeduComnm,jdbcType=VARCHAR},
+      	OFFEDU_OFFER_NUM = #{offeduOfferNum,jdbcType=NUMERIC}
+    WHERE
+    	OFFEDU_NO = #{offeduNo,jdbcType=NUMERIC}
+  </update>
+
+  <select id="selectOffeduNum" parameterType="int" resultType="int">
+   	SELECT SUM(OFFEDU_OFFER_NUM) AS OFFEDU_OFFER_NUM
+	FROM OFFEDU
+	WHERE PROMO_NO  = #{promoNo,jdbcType=NUMERIC}
+  </select>
+
+
+  <select id="selectOffeduDetail" parameterType="int" resultMap="OffeduRMap">
+    SELECT
+	    OFFEDU_NO
+	  , PROMO_NO
+	  , OFFEDU_MEM_NM
+	  , OFFEDU_COMNM
+	  , OFFEDU_OFFER_NUM
+	FROM
+	    OFFEDU
+	    WHERE OFFEDU_NO = #{offeduNo,jdbcType=NUMERIC}
+  </select>
+
+  <select id="selectOffeduList" resultMap="OffeduRMap">
+    SELECT
+	    OFFEDU_NO
+	  , PROMO_NO
+	  , OFFEDU_MEM_NM
+	  , OFFEDU_COMNM
+	  , OFFEDU_OFFER_NUM
+	FROM
+	    OFFEDU
+  </select>
+  <select id="selectOffeduListDetail" parameterType="int"  resultMap="OffeduRMap">
+    SELECT
+	    OFFEDU_NO
+	  , PROMO_NO
+	  , OFFEDU_MEM_NM
+	  , OFFEDU_COMNM
+	  , OFFEDU_OFFER_NUM
+	FROM
+	    OFFEDU
+	    WHERE PROMO_NO = #{promoNo,jdbcType=NUMERIC}
+  </select>
+</mapper>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.groupemployee.dao.GroupEmployeeMapper">
+    <resultMap id="employeeWithProfileMap" type="EmployeeVO" autoMapping="true">
+	  <id property="empNo" column="EMP_NO" />
+	  <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+	</resultMap>
+
+	<resultMap id="atchFileMap" type="AtchFileVO"  autoMapping="true">
+	  <id property="atchFileId" column="ATCH_FILE_ID" />
+	  <collection property="fileDetails" ofType="AtchFileDetailVO" resultMap="atchFileDetailMap" />
+	</resultMap>
+
+	<resultMap id="atchFileDetailMap" type="AtchFileDetailVO" autoMapping="true">
+ 		 <id property="fileSn" column="FILE_SN" />
+	  <result property="streFileNm" column="STRE_FILE_NM" />
+	  <result property="orignlFileNm" column="ORIGNL_FILE_NM" />
+	  <result property="fileExtsn" column="FILE_EXTSN" />
+	  <result property="fileSize" column="FILE_SIZE" />
+	</resultMap>
+	
+    <resultMap type="GroupEmployeeVO" id="groupEmployeeMap" autoMapping="true">
+        <id property="grpNo" column="GRP_NO"/>
+        <id property="empNo" column="EMP_NO"/>
+        <association property="group" javaType="AdrGroupVO" autoMapping="true">
+        	<association property="employee" javaType="EmployeeVO" autoMapping="true">
+        		<!-- Company Association -->
+				    <association property="company" javaType="CompanyVO">
+				        <id property="comNo" column="COM_NO" />
+				        <result property="comNm" column="COM_NM" />
+				        <result property="COMPANY_NO" column="COMPANY_NO" />
+				        
+				        <!-- Organization List -->
+					    <collection property="organizationList" ofType="OrganizationVO">
+					        <id property="orgNo" column="ORG_NO" />
+					        <result property="orgDep" column="ORG_DEP" />
+					        <result property="orgUpdep" column="ORG_UPDEP" />
+					        <result property="orgLevel" column="ORG_LEVEL" />
+					        <result property="orgDf" column="ORG_DF" />
+					    </collection>
+					
+					    <!-- Position List -->
+					    <collection property="positionList" ofType="PositionVO">
+					        <id property="posNo" column="POS_NO" />
+					        <result property="posNm" column="POS_NM" />
+					        <result property="ONEPOSNM" column="ONEPOSNM" />
+					    </collection>
+				    </association>
+				
+				    <!-- AtchFile Association -->
+				    <association property="atchFile" javaType="AtchFileVO" resultMap="atchFileMap" />
+        	</association>
+        </association>
+    </resultMap>
+    
+    <select id="selectGroupEmployee" resultMap="groupEmployeeMap">
+
+		SELECT
+            ge.GRP_NO,
+            ge.EMP_NO,
+            g.GRP_NM,
+            g.GRP_CM,
+            g.GRP_DATE,
+            g.GRP_DELYN,
+            e.EMP_PROFILE,
+            e.EMP_NM,
+            e.EMP_AFF,
+            e.EMP_DEP,
+            e.EMP_POS,
+            e.EMP_ONEPOS,
+            e.EMP_COMTEL,
+            e.EMP_TEL,
+            e.EMP_COMMAIL,
+            e.EMP_MAIL,
+            e.EMP_JOINDATE,
+            e.EMP_BIR,
+            e.EMP_JOINDATE,
+            e.EMP_YEAR,
+            e.EMP_ID
+        FROM
+            GROUP_EMPLOYEE ge
+        JOIN
+            ADRGROUP g ON ge.GRP_NO = g.GRP_NO
+        JOIN
+            EMPLOYEE e ON ge.EMP_NO = e.EMP_NO
+        WHERE
+            ge.GRP_NO = #{grpNo} AND ge.EMP_NO = #{empNo}
+    </select>
+    
+   
+   <select id="selectGroupEmployeeList" resultMap="groupEmployeeMap">
+       WITH EmployeeDetails AS (
+    SELECT
+        E.EMP_NO,
+        E.COM_NO,
+        E.EMP_PROFILE,
+        E.EMP_NM,
+        E.EMP_AFF,
+        E.EMP_DEP,
+        E.EMP_POS,
+        E.EMP_ONEPOS,
+        E.EMP_COMTEL,
+        E.EMP_TEL,
+        E.EMP_COMMAIL,
+        E.EMP_MAIL,
+        E.EMP_BIR,
+        E.EMP_JOINDATE,
+        E.EMP_YEAR,
+        E.EMP_DELYN,
+        E.EMP_ROLE,
+        E.EMP_STATE,
+        C.COM_NO AS COMPANY_NO,
+        C.COM_NM,
+        O.ORG_NO,
+        O.ORG_DEP,
+        O.ORG_UPDEP,
+        O.ORG_LEVEL,
+        O.ORG_DF,
+        P.POS_NO,
+        P.POS_NM,
+        P2.POS_NM AS ONEPOSNM,
+        AF.ATCH_FILE_ID AS PROFILE_ATCH_FILE_ID, 
+        AF.CREATE_DT,
+        AF.USE_AT,
+        AFD.ATCH_FILE_ID AS DETAIL_ATCH_FILE_ID, 
+        AFD.FILE_SN,
+        AFD.FILE_STRE_COURS,
+        AFD.STRE_FILE_NM,
+        AFD.ORIGNL_FILE_NM,
+        AFD.FILE_EXTSN,
+        AFD.FILE_MIME,
+        AFD.FILE_SIZE,
+        AFD.FILE_FANCYSIZE,
+        AFD.FILE_CN,
+        AFD.FILE_DWNCNT
+    FROM
+        EMPLOYEE E
+    LEFT JOIN
+        ATCH_FILE AF ON E.EMP_PROFILE = AF.ATCH_FILE_ID
+    LEFT JOIN
+        ATCH_FILE_DETAIL AFD ON AF.ATCH_FILE_ID = AFD.ATCH_FILE_ID
+    LEFT JOIN
+        COMPANY C ON E.COM_NO = C.COM_NO
+    LEFT JOIN
+        ORGANIZATION O ON E.EMP_DEP = O.ORG_NO AND C.COM_NO = O.COM_NO
+    LEFT JOIN
+        POSITION P ON E.EMP_POS = P.POS_NO AND C.COM_NO = P.COM_NO
+    LEFT JOIN
+        POSITION P2 ON E.EMP_ONEPOS = P2.POS_NO AND C.COM_NO = P2.COM_NO
+    WHERE
+        E.EMP_DELYN = 'N'
+)
+
+SELECT
+    ge.GRP_NO,
+    ge.EMP_NO,
+    g.GRP_NM,
+    g.GRP_CM,
+    g.GRP_DATE,
+    g.GRP_DELYN,
+    ed.*
+FROM
+    GROUP_EMPLOYEE ge
+JOIN
+    ADRGROUP g ON ge.GRP_NO = g.GRP_NO
+JOIN
+    EmployeeDetails ed ON ge.EMP_NO = ed.EMP_NO
+WHERE
+    ge.GRP_NO = #{grpNo}
+
+    </select>
+    
+    <insert id="insertGroupEmployee">
+	    INSERT INTO 
+	    	GROUP_EMPLOYEE (
+	    		EMP_NO
+	    	, GRP_NO)
+	    VALUES (#{empNo,jdbcType=NUMERIC}
+	    	, #{grpNo,jdbcType=NUMERIC})
+    </insert>
+    
+     <delete id="deleteGroupEmployee">
+        DELETE FROM GROUP_EMPLOYEE
+        WHERE GRP_NO = #{grpNo,jdbcType=NUMERIC}
+    </delete>
+    
+    
+    
+</mapper>

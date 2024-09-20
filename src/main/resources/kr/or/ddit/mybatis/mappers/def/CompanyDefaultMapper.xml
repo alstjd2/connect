@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.CompanyDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.CompanyDefaultVO">
+    <id column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="MEM_NO" jdbcType="NUMERIC" property="memNo" />
+    <result column="COM_NM" jdbcType="VARCHAR" property="comNm" />
+    <result column="COM_BSNM" jdbcType="VARCHAR" property="comBsnm" />
+    <result column="COM_BSNO" jdbcType="VARCHAR" property="comBsno" />
+    <result column="COM_ADR" jdbcType="VARCHAR" property="comAdr" />
+    <result column="COM_TEL" jdbcType="VARCHAR" property="comTel" />
+    <result column="COM_CLOGO" jdbcType="NUMERIC" property="comClogo" />
+    <result column="COM_WLOGO" jdbcType="NUMERIC" property="comWlogo" />
+    <result column="COM_FAVICON" jdbcType="NUMERIC" property="comFavicon" />
+    <result column="COM_OG" jdbcType="NUMERIC" property="comOg" />
+    <result column="COM_CORNO" jdbcType="NUMERIC" property="comCorno" />
+    <result column="COM_GU" jdbcType="VARCHAR" property="comGu" />
+    <result column="COM_SAPR" jdbcType="NUMERIC" property="comSapr" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COMPANY
+    where COM_NO = #{comNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.CompanyDefaultVO">
+    insert into COMPANY (COM_NO, MEM_NO, COM_NM, 
+      COM_BSNM, COM_BSNO, COM_ADR, 
+      COM_TEL, COM_CLOGO, COM_WLOGO, 
+      COM_FAVICON, COM_OG, COM_CORNO, 
+      COM_GU, COM_SAPR)
+    values (#{comNo,jdbcType=NUMERIC}, #{memNo,jdbcType=NUMERIC}, #{comNm,jdbcType=VARCHAR}, 
+      #{comBsnm,jdbcType=VARCHAR}, #{comBsno,jdbcType=VARCHAR}, #{comAdr,jdbcType=VARCHAR}, 
+      #{comTel,jdbcType=VARCHAR}, #{comClogo,jdbcType=NUMERIC}, #{comWlogo,jdbcType=NUMERIC}, 
+      #{comFavicon,jdbcType=NUMERIC}, #{comOg,jdbcType=NUMERIC}, #{comCorno,jdbcType=NUMERIC}, 
+      #{comGu,jdbcType=VARCHAR}, #{comSapr,jdbcType=NUMERIC})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.CompanyDefaultVO">
+    update COMPANY
+    set MEM_NO = #{memNo,jdbcType=NUMERIC},
+      COM_NM = #{comNm,jdbcType=VARCHAR},
+      COM_BSNM = #{comBsnm,jdbcType=VARCHAR},
+      COM_BSNO = #{comBsno,jdbcType=VARCHAR},
+      COM_ADR = #{comAdr,jdbcType=VARCHAR},
+      COM_TEL = #{comTel,jdbcType=VARCHAR},
+      COM_CLOGO = #{comClogo,jdbcType=NUMERIC},
+      COM_WLOGO = #{comWlogo,jdbcType=NUMERIC},
+      COM_FAVICON = #{comFavicon,jdbcType=NUMERIC},
+      COM_OG = #{comOg,jdbcType=NUMERIC},
+      COM_CORNO = #{comCorno,jdbcType=NUMERIC},
+      COM_GU = #{comGu,jdbcType=VARCHAR},
+      COM_SAPR = #{comSapr,jdbcType=NUMERIC}
+    where COM_NO = #{comNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select COM_NO, MEM_NO, COM_NM, COM_BSNM, COM_BSNO, COM_ADR, COM_TEL, COM_CLOGO, COM_WLOGO, 
+    COM_FAVICON, COM_OG, COM_CORNO, COM_GU, COM_SAPR
+    from COMPANY
+    where COM_NO = #{comNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COM_NO, MEM_NO, COM_NM, COM_BSNM, COM_BSNO, COM_ADR, COM_TEL, COM_CLOGO, COM_WLOGO, 
+    COM_FAVICON, COM_OG, COM_CORNO, COM_GU, COM_SAPR
+    from COMPANY
+  </select>
+</mapper>

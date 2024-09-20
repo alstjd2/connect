@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.groupware.pmtDcmApp.dao.PmtDcmAppMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.PmtDcmAppVO">
+    <id column="PMT_DCM_APP_NO" jdbcType="NUMERIC" property="pmtDcmAppNo" />
+    <result column="PMT_DCM_APP_EMP_ID" jdbcType="NUMERIC" property="pmtDcmAppEmpId" />
+    <result column="PMT_DCM_STA_NO" jdbcType="VARCHAR" property="pmtDcmStaNo" />
+    <result column="PMT_DCM_APP_DATE" jdbcType="TIMESTAMP" property="pmtDcmAppDate" />
+    <result column="PMT_DCM_APP_CMT" jdbcType="VARCHAR" property="pmtDcmAppCmt" />
+    <result column="PMT_DCM_NO" jdbcType="NUMERIC" property="pmtDcmNo" />
+    <result column="PMT_DCM_APP_EMP_NM" jdbcType="VARCHAR" property="pmtDcmAppEmpNm" />
+    <result column="PMT_DCM_APP_EMP_POS" jdbcType="VARCHAR" property="pmtDcmAppEmpPos" />
+    <result column="PMT_DCM_APP_EMP_ONEPOS" jdbcType="VARCHAR" property="pmtDcmAppEmpOnepos" />
+    <result column="PMT_DCM_APP_TRUN" jdbcType="NUMERIC" property="pmtDcmAppTrun" />
+    <result column="PMT_DCM_APP_EMP_DEP" jdbcType="VARCHAR" property="pmtDcmAppEmpDep" />
+    <result column="PMT_DCM_APP_EMP_ONEPOS_NO" jdbcType="NUMERIC" property="pmtDcmAppEmpOneposNo" />
+    <association property="pmtDcm" javaType="PmtDcmVO" autoMapping="true"></association>
+  </resultMap>
+  <!-- 
+  <delete id="deletePmtDcmApp" parameterType="int">
+    delete from PMT_DCM_APP
+    where PMT_DCM_APP_NO = #{pmtDcmAppNo,jdbcType=NUMERIC}
+  </delete>
+  -->
+  <insert id="insertPmtDcmApp" parameterType="kr.or.ddit.vo.PmtDcmAppVO">
+	<selectKey order="BEFORE" resultType="int" keyProperty="pmtDcmAppNo">
+		SELECT PMTDCMAPP_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+    insert into PMT_DCM_APP (
+    	PMT_DCM_APP_NO
+		, PMT_DCM_APP_EMP_ID
+		, PMT_DCM_STA_NO
+		, PMT_DCM_APP_DATE
+		, PMT_DCM_APP_CMT
+		, PMT_DCM_APP_EMP_NM
+		, PMT_DCM_APP_EMP_POS
+		, PMT_DCM_APP_EMP_ONEPOS
+		, PMT_DCM_NO
+		, PMT_DCM_APP_TRUN
+		, PMT_DCM_APP_EMP_DEP
+		, PMT_DCM_APP_EMP_ONEPOS_NO
+    )
+    values (
+    	#{pmtDcmAppNo,jdbcType=NUMERIC}
+		, #{pmtDcmAppEmpId,jdbcType=NUMERIC}
+		, #{pmtDcmStaNo,jdbcType=VARCHAR}
+		, #{pmtDcmAppDate,jdbcType=DATE}
+		, #{pmtDcmAppCmt,jdbcType=VARCHAR}
+		, #{pmtDcmAppEmpNm,jdbcType=VARCHAR}
+		, #{pmtDcmAppEmpPos,jdbcType=VARCHAR}
+		, #{pmtDcmAppEmpOnepos,jdbcType=VARCHAR}
+		, #{pmtDcmNo,jdbcType=NUMERIC}
+		, #{pmtDcmAppTrun,jdbcType=NUMERIC}
+		, #{pmtDcmAppEmpDep,jdbcType=VARCHAR}
+		, #{pmtDcmAppEmpOneposNo,jdbcType=NUMERIC}
+    )
+  </insert>
+  <update id="updatePmtDcmApp" parameterType="kr.or.ddit.vo.PmtDcmAppVO">
+    update PMT_DCM_APP
+    set 
+      PMT_DCM_STA_NO = #{pmtDcmStaNo,jdbcType=VARCHAR},
+      PMT_DCM_APP_DATE = SYSDATE,
+      PMT_DCM_APP_CMT = #{pmtDcmAppCmt,jdbcType=VARCHAR}
+    where PMT_DCM_APP_NO = #{pmtDcmAppNo,jdbcType=NUMERIC}
+  </update>
+  <update id="updatePmtDcmAppLine" parameterType="kr.or.ddit.vo.PmtDcmAppVO">
+    update PMT_DCM_APP
+    set 
+      PMT_DCM_STA_NO = #{pmtDcmStaNo,jdbcType=VARCHAR}
+    where PMT_DCM_APP_NO = #{pmtDcmAppNo,jdbcType=NUMERIC}
+  </update>
+  
+  
+  <select id="selectPmtDcmApp" parameterType="int" resultMap="BaseResultMap">
+    select 
+		PMT_DCM_APP_NO
+		, PMT_DCM_APP_EMP_ID
+		, PMT_DCM_STA_NO
+		, PMT_DCM_APP_DATE
+		, PMT_DCM_APP_CMT
+		, PMT_DCM_APP_EMP_NM
+		, PMT_DCM_APP_EMP_POS
+		, PMT_DCM_APP_EMP_ONEPOS
+		, PMT_DCM_NO
+		, PMT_DCM_APP_TRUN
+		, PMT_DCM_APP_EMP_DEP
+		, PMT_DCM_APP_EMP_ONEPOS_NO
+    from PMT_DCM_APP
+    where PMT_DCM_APP_NO = #{pmtDcmAppNo,jdbcType=NUMERIC}
+  </select>
+   
+   
+  <select id="selectPmtDcmAppAll" parameterType="int" resultMap="BaseResultMap">
+    select 
+	    PMT_DCM_APP_NO
+		, PMT_DCM_APP_EMP_ID
+		, PMT_DCM_STA_NO
+		, PMT_DCM_APP_DATE
+		, PMT_DCM_APP_CMT
+		, PMT_DCM_APP_EMP_NM
+		, PMT_DCM_APP_EMP_POS
+		, PMT_DCM_APP_EMP_ONEPOS
+		, PMT_DCM_NO
+		, PMT_DCM_APP_TRUN
+		, PMT_DCM_APP_EMP_DEP
+		, PMT_DCM_APP_EMP_ONEPOS_NO
+    from PMT_DCM_APP
+    WHERE 
+	    PMT_DCM_NO = #{pmtDcmNo,jdbcType=NUMERIC}
+	ORDER BY 
+	    PMT_DCM_APP_TRUN
+  </select>
+  
+  
+</mapper>

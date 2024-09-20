@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.TodoListDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.TodoListDefaultVO">
+    <id column="TODO_NO" jdbcType="NUMERIC" property="todoNo" />
+    <id column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="TODO_CODE" jdbcType="VARCHAR" property="todoCode" />
+    <result column="TODO_TITLE" jdbcType="VARCHAR" property="todoTitle" />
+    <result column="TODO_CONTENT" jdbcType="VARCHAR" property="todoContent" />
+    <result column="TODO_DATE" jdbcType="TIMESTAMP" property="todoDate" />
+    <result column="TODO_STATE" jdbcType="VARCHAR" property="todoState" />
+    <result column="TODO_ATTACHFILE" jdbcType="NUMERIC" property="todoAttachfile" />
+    <result column="TODO_START" jdbcType="TIMESTAMP" property="todoStart" />
+    <result column="TODO_END" jdbcType="TIMESTAMP" property="todoEnd" />
+    <result column="TODO_ROOM" jdbcType="NUMERIC" property="todoRoom" />
+    <result column="TODO_CONNO" jdbcType="NUMERIC" property="todoConno" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from TODO_LIST
+    where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.TodoListDefaultVO">
+    insert into TODO_LIST (TODO_NO, EMP_NO, TODO_CODE, 
+      TODO_TITLE, TODO_CONTENT, TODO_DATE, 
+      TODO_STATE, TODO_ATTACHFILE, TODO_START, 
+      TODO_END, TODO_ROOM, TODO_CONNO
+      )
+    values (#{todoNo,jdbcType=NUMERIC}, #{empNo,jdbcType=NUMERIC}, #{todoCode,jdbcType=VARCHAR}, 
+      #{todoTitle,jdbcType=VARCHAR}, #{todoContent,jdbcType=VARCHAR}, #{todoDate,jdbcType=TIMESTAMP}, 
+      #{todoState,jdbcType=VARCHAR}, #{todoAttachfile,jdbcType=NUMERIC}, #{todoStart,jdbcType=TIMESTAMP}, 
+      #{todoEnd,jdbcType=TIMESTAMP}, #{todoRoom,jdbcType=NUMERIC}, #{todoConno,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.TodoListDefaultVO">
+    update TODO_LIST
+    set TODO_CODE = #{todoCode,jdbcType=VARCHAR},
+      TODO_TITLE = #{todoTitle,jdbcType=VARCHAR},
+      TODO_CONTENT = #{todoContent,jdbcType=VARCHAR},
+      TODO_DATE = #{todoDate,jdbcType=TIMESTAMP},
+      TODO_STATE = #{todoState,jdbcType=VARCHAR},
+      TODO_ATTACHFILE = #{todoAttachfile,jdbcType=NUMERIC},
+      TODO_START = #{todoStart,jdbcType=TIMESTAMP},
+      TODO_END = #{todoEnd,jdbcType=TIMESTAMP},
+      TODO_ROOM = #{todoRoom,jdbcType=NUMERIC},
+      TODO_CONNO = #{todoConno,jdbcType=NUMERIC}
+    where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select TODO_NO, EMP_NO, TODO_CODE, TODO_TITLE, TODO_CONTENT, TODO_DATE, TODO_STATE, 
+    TODO_ATTACHFILE, TODO_START, TODO_END, TODO_ROOM, TODO_CONNO
+    from TODO_LIST
+    where TODO_NO = #{todoNo,jdbcType=NUMERIC}
+      and EMP_NO = #{empNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select TODO_NO, EMP_NO, TODO_CODE, TODO_TITLE, TODO_CONTENT, TODO_DATE, TODO_STATE, 
+    TODO_ATTACHFILE, TODO_START, TODO_END, TODO_ROOM, TODO_CONNO
+    from TODO_LIST
+  </select>
+</mapper>

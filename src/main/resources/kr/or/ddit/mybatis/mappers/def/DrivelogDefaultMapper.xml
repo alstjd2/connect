@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.DrivelogDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.DrivelogDefaultVO">
+    <id column="DRIVELOG_NO" jdbcType="NUMERIC" property="drivelogNo" />
+    <result column="TDDIR_NO" jdbcType="NUMERIC" property="tddirNo" />
+    <result column="DRIVELOG_DATE" jdbcType="TIMESTAMP" property="drivelogDate" />
+    <result column="DRIVELOG_CON" jdbcType="VARCHAR" property="drivelogCon" />
+    <result column="EMP_NO" jdbcType="NUMERIC" property="empNo" />
+    <result column="DRIVELOG_STATE" jdbcType="VARCHAR" property="drivelogState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from DRIVELOG
+    where DRIVELOG_NO = #{drivelogNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.DrivelogDefaultVO">
+    insert into DRIVELOG (DRIVELOG_NO, TDDIR_NO, DRIVELOG_DATE, 
+      DRIVELOG_CON, EMP_NO, DRIVELOG_STATE
+      )
+    values (#{drivelogNo,jdbcType=NUMERIC}, #{tddirNo,jdbcType=NUMERIC}, #{drivelogDate,jdbcType=TIMESTAMP}, 
+      #{drivelogCon,jdbcType=VARCHAR}, #{empNo,jdbcType=NUMERIC}, #{drivelogState,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.DrivelogDefaultVO">
+    update DRIVELOG
+    set TDDIR_NO = #{tddirNo,jdbcType=NUMERIC},
+      DRIVELOG_DATE = #{drivelogDate,jdbcType=TIMESTAMP},
+      DRIVELOG_CON = #{drivelogCon,jdbcType=VARCHAR},
+      EMP_NO = #{empNo,jdbcType=NUMERIC},
+      DRIVELOG_STATE = #{drivelogState,jdbcType=VARCHAR}
+    where DRIVELOG_NO = #{drivelogNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select DRIVELOG_NO, TDDIR_NO, DRIVELOG_DATE, DRIVELOG_CON, EMP_NO, DRIVELOG_STATE
+    from DRIVELOG
+    where DRIVELOG_NO = #{drivelogNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select DRIVELOG_NO, TDDIR_NO, DRIVELOG_DATE, DRIVELOG_CON, EMP_NO, DRIVELOG_STATE
+    from DRIVELOG
+  </select>
+</mapper>

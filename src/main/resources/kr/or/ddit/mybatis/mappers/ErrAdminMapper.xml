@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.web.errboard.dao.ErrAdminMapper">
+  <resultMap id="ErrAdminVO" type="ErrAdminVO">
+    <id column="ERR_ADMIN_NO" jdbcType="NUMERIC" property="errAdminNo" />
+    <result column="ERR_NO" jdbcType="NUMERIC" property="errNo" />
+    <result column="ERR_CONTENT" jdbcType="VARCHAR" property="errContent" />
+  </resultMap>
+  <delete id="deleteErrAdmin" >
+    delete from ERR_ADMIN
+    where ERR_ADMIN_NO = #{errAdminNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insertErrAdmin" parameterType="map" useGeneratedKeys="true" keyProperty="errAdminNo" >
+    insert into ERR_ADMIN (
+      ERR_ADMIN_NO, 
+      ERR_NO,  
+      ERR_CONTENT
+      )
+    values ((SELECT NVL(MAX(ERR_ADMIN_NO)+1 ,1) ERR_ADMIN_NO
+	 FROM ERR_ADMIN), 
+      #{errNo},
+      #{errContent})
+  </insert>
+  
+  <update id="updateErrAdmin" parameterType="ErrAdminVO">
+    update ERR_ADMIN
+    set ERR_NO = #{errNo,jdbcType=NUMERIC},
+      ERR_PROGRESS = #{errProgress,jdbcType=VARCHAR},
+      ERR_CONTENT = #{errContent,jdbcType=VARCHAR}
+    where ERR_ADMIN_NO = #{errAdminNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectErrAdmin"  resultMap="ErrAdminVO">
+    select ERR_ADMIN_NO, ERR_NO,  ERR_CONTENT
+    from ERR_ADMIN
+    where ERR_ADMIN_NO = #{errAdminNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectErrAdminList" resultMap="ErrAdminVO">
+    select ERR_ADMIN_NO, ERR_NO,  ERR_CONTENT
+    from ERR_ADMIN
+  </select>
+</mapper>

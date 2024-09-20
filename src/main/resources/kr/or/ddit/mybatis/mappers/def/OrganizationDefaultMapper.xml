@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.def.mapper.OrganizationDefaultMapper">
+  <resultMap id="BaseResultMap" type="kr.or.ddit.vo.def.OrganizationDefaultVO">
+    <id column="ORG_NO" jdbcType="NUMERIC" property="orgNo" />
+    <result column="COM_NO" jdbcType="NUMERIC" property="comNo" />
+    <result column="ORG_DEP" jdbcType="VARCHAR" property="orgDep" />
+    <result column="ORG_UPDEP" jdbcType="VARCHAR" property="orgUpdep" />
+    <result column="ORG_LEVEL" jdbcType="VARCHAR" property="orgLevel" />
+    <result column="ORG_DF" jdbcType="VARCHAR" property="orgDf" />
+    <result column="ORG_DELYN" jdbcType="VARCHAR" property="orgDelyn" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ORGANIZATION
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="kr.or.ddit.vo.def.OrganizationDefaultVO">
+    insert into ORGANIZATION (ORG_NO, COM_NO, ORG_DEP, 
+      ORG_UPDEP, ORG_LEVEL, ORG_DF, 
+      ORG_DELYN)
+    values (#{orgNo,jdbcType=NUMERIC}, #{comNo,jdbcType=NUMERIC}, #{orgDep,jdbcType=VARCHAR}, 
+      #{orgUpdep,jdbcType=VARCHAR}, #{orgLevel,jdbcType=VARCHAR}, #{orgDf,jdbcType=VARCHAR}, 
+      #{orgDelyn,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="kr.or.ddit.vo.def.OrganizationDefaultVO">
+    update ORGANIZATION
+    set COM_NO = #{comNo,jdbcType=NUMERIC},
+      ORG_DEP = #{orgDep,jdbcType=VARCHAR},
+      ORG_UPDEP = #{orgUpdep,jdbcType=VARCHAR},
+      ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR},
+      ORG_DF = #{orgDf,jdbcType=VARCHAR},
+      ORG_DELYN = #{orgDelyn,jdbcType=VARCHAR}
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_DELYN
+    from ORGANIZATION
+    where ORG_NO = #{orgNo,jdbcType=NUMERIC}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ORG_NO, COM_NO, ORG_DEP, ORG_UPDEP, ORG_LEVEL, ORG_DF, ORG_DELYN
+    from ORGANIZATION
+  </select>
+</mapper>

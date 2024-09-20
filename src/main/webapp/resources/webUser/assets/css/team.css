@@ -1,0 +1,571 @@
+/*======================================
+	Team CSS
+========================================*/
+.team {
+    background-color: #e8f2fb;
+  }
+  
+  .team .title-line {
+    margin-bottom: 40px;
+  }
+  
+  .team .section-title {
+    margin-bottom: 50px;
+  }
+  
+  .team .single-team {
+    margin-top: 30px;
+    position: relative;
+    -webkit-transition: all 500ms ease;
+    transition: all 500ms ease;
+    display: inline-block;
+    overflow: hidden;
+    text-align: left;
+    background: transparent;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    -webkit-box-shadow: 0 32px 24px 0 rgba(22, 28, 45, 0.16);
+            box-shadow: 0 32px 24px 0 rgba(22, 28, 45, 0.16);
+  }
+  
+  .team .single-team .info-head {
+    background: transparent;
+    position: relative;
+    z-index: 2;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    padding: 25px;
+  }
+  
+  .team .single-team:hover .info-head:before {
+    opacity: 1;
+    visibility: visible;
+    height: 100%;
+  }
+  
+  .team .single-team:hover .info-head {
+    border-color: transparent;
+  }
+  
+  .single-team .image {
+    position: relative;
+    text-align: center;
+  }
+  
+  .single-team .image::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    height: 0;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#16a6df));
+    background: linear-gradient(transparent, #16a6df);
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .single-team .image img {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .single-team .image .social {
+    position: absolute;
+    left: 0;
+    bottom: -30px;
+    padding: 25px;
+    padding-bottom: 20px;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .single-team .image .social li {
+    display: inline-block;
+    margin-right: 15px;
+  }
+  
+  .single-team .image .social li:last-child {
+    margin-right: 0px;
+  }
+  
+  .single-team .image .social li a {
+    color: #fff;
+    display: block;
+    font-size: 23px;
+  }
+  
+  .single-team .image .social li a:hover {
+    opacity: 0.7;
+  }
+  
+  .single-team:hover .image::before {
+    opacity: 1;
+    visibility: visible;
+    height: 150px;
+  }
+  
+  .single-team:hover .social {
+    opacity: 1;
+    visibility: visible;
+    bottom: 0;
+  }
+  
+  .team .single-team .info-box {
+    text-align: left;
+  }
+  
+  .team .single-team .info-box .name {
+    display: block;
+    font-size: 17px;
+    color: #333;
+    margin-bottom: 3px;
+    text-transform: capitalize;
+  }
+  
+  .team .single-team .info-box .name a {
+    font-weight: 600;
+    color: #081828;
+    font-size: 17px;
+  }
+  
+  .team .single-team .info-box .name a:hover {
+    color: #16a6df;
+  }
+  
+  .team .single-team .info-box .designation {
+    color: #666;
+    font-size: 13px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+  
+  /* Team Details */
+  .team-details .image {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .team-details .image img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .team-details .content {
+    padding-left: 50px;
+  }
+  
+  .team-details .content .position {
+    color: #16a6df;
+    font-weight: 500;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .team-details .content .name {
+    font-size: 32px;
+    font-weight: 600;
+    color: #081828;
+  }
+  
+  .team-details .content .des {
+    display: block;
+    margin-top: 20px;
+  }
+  
+  .team-details .content .personal-info {
+    margin-top: 30px;
+  }
+  
+  .team-details .content .personal-info li {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .team-details .content .personal-info li:last-child {
+    margin: 0;
+  }
+  
+  .team-details .content .personal-info li span {
+    color: #081828;
+  }
+  
+  .team-details .content .personal-info li a {
+    color: #888;
+  }
+  
+  .team-details .content .personal-info li a:hover {
+    color: #16a6df;
+  }
+  
+  .team-details .content .social {
+    margin-top: 30px;
+  }
+  
+  .team-details .content .social li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .team-details .content .social li:last-child {
+    margin: 0;
+  }
+  
+  .team-details .content .social li a {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    background-color: #f4f4f4;
+    color: #081828;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+  }
+  
+  .team-details .content .social li a:hover {
+    background-color: #16a6df;
+    color: #fff;
+  }
+  
+  .team-details .details-info .heading {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-top: 60px;
+  }
+  
+  .team-details .details-info p {
+    margin: 20px 0;
+  }
+  
+  .team-details .team-contact-form {
+    padding: 50px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    margin-top: 60px;
+    -webkit-box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+            box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+  }
+  
+  .team-details .team-contact-form form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .team-details .team-contact-form form .form-group input {
+    height: 55px;
+    width: 100%;
+    background-color: #fff;
+    color: #081828;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 0px 20px;
+  }
+  
+  .team-details .team-contact-form form .form-group textarea {
+    height: 200px;
+    width: 100%;
+    background-color: #fff;
+    color: #081828;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 20px;
+  }
+  
+  .team-details .team-contact-form form .button {
+    text-align: center;
+  }
+  
+  .skill-main {
+    margin-top: 60px;
+  }
+  
+  .skill-main .single-skill {
+    margin-bottom: 50px;
+  }
+  
+  .skill-main .skill-title h4 {
+    color: #081828;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .skill-main .progress {
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background: #0046c017;
+    height: 10px;
+    border-radius: 10px;
+    overflow: visible;
+  }
+  
+  .skill-main .progress-bar {
+    position: relative;
+    background: #16a6df;
+    border: none;
+    text-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    border-radius: 10px;
+    overflow: visible;
+  }
+  
+  .skill-main .progress-bar span {
+    position: absolute;
+    right: -15px;
+    top: -45px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 11px;
+    background: #16a6df;
+    height: 35px;
+    width: 35px;
+    display: block;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 31px;
+  }
+  
+  .skill-main .progress-bar span::before {
+    position: absolute;
+    content: "";
+    right: 9px;
+    bottom: -13px;
+    border: 8px solid #16a6df;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+
+  /* Team Details */
+  .team-details .image {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .team-details .image img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .team-details .content {
+    padding-left: 50px;
+  }
+  
+  .team-details .content .position {
+    color: #16a6df;
+    font-weight: 500;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .team-details .content .name {
+    font-size: 32px;
+    font-weight: 600;
+    color: #081828;
+  }
+  
+  .team-details .content .des {
+    display: block;
+    margin-top: 20px;
+  }
+  
+  .team-details .content .personal-info {
+    margin-top: 30px;
+  }
+  
+  .team-details .content .personal-info li {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .team-details .content .personal-info li:last-child {
+    margin: 0;
+  }
+  
+  .team-details .content .personal-info li span {
+    color: #081828;
+  }
+  
+  .team-details .content .personal-info li a {
+    color: #888;
+  }
+  
+  .team-details .content .personal-info li a:hover {
+    color: #16a6df;
+  }
+  
+  .team-details .content .social {
+    margin-top: 30px;
+  }
+  
+  .team-details .content .social li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .team-details .content .social li:last-child {
+    margin: 0;
+  }
+  
+  .team-details .content .social li a {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    background-color: #f4f4f4;
+    color: #081828;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+  }
+  
+  .team-details .content .social li a:hover {
+    background-color: #16a6df;
+    color: #fff;
+  }
+  
+  .team-details .details-info .heading {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-top: 60px;
+  }
+  
+  .team-details .details-info p {
+    margin: 20px 0;
+  }
+  
+  .team-details .team-contact-form {
+    padding: 50px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    margin-top: 60px;
+    -webkit-box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+            box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+  }
+  
+  .team-details .team-contact-form form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .team-details .team-contact-form form .form-group input {
+    height: 55px;
+    width: 100%;
+    background-color: #fff;
+    color: #081828;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 0px 20px;
+  }
+  
+  .team-details .team-contact-form form .form-group textarea {
+    height: 200px;
+    width: 100%;
+    background-color: #fff;
+    color: #081828;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #eee;
+    font-size: 14px;
+    padding: 20px;
+  }
+  
+  .team-details .team-contact-form form .button {
+    text-align: center;
+  }
+  
+  .skill-main {
+    margin-top: 60px;
+  }
+  
+  .skill-main .single-skill {
+    margin-bottom: 50px;
+  }
+  
+  .skill-main .skill-title h4 {
+    color: #081828;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .skill-main .progress {
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background: #0046c017;
+    height: 10px;
+    border-radius: 10px;
+    overflow: visible;
+  }
+  
+  .skill-main .progress-bar {
+    position: relative;
+    background: #16a6df;
+    border: none;
+    text-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    border-radius: 10px;
+    overflow: visible;
+  }
+  
+  .skill-main .progress-bar span {
+    position: absolute;
+    right: -15px;
+    top: -45px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 11px;
+    background: #16a6df;
+    height: 35px;
+    width: 35px;
+    display: block;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 31px;
+  }
+  
+  .skill-main .progress-bar span::before {
+    position: absolute;
+    content: "";
+    right: 9px;
+    bottom: -13px;
+    border: 8px solid #16a6df;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
